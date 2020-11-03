@@ -37,7 +37,7 @@ public:
 				bAcctDelete(false), bAcctDeactivate(false), bAcctActivate(false),
 				bAcctListAll(false),bAcctPrintInfo(false),bCustCreate(false),
 				bCustUpdate(false),bCustDelete(false), bPrintCustInfo(false) {}
-	virtual ~Employee();
+	~Employee();
 
 	void cap_AcctCreate(bool value) {bAcctCreate = value;}
 	void cap_AcctUpdate(bool value) {bAcctUpdate = value;}

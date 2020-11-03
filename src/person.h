@@ -31,7 +31,7 @@ public:
 		m_password = pass;
 	}
 
-	virtual ~Person();
+	~Person();
 
 	void setFirstName(string name) {
 		m_firstName = name;
