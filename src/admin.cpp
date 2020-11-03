@@ -6,5 +6,18 @@
  */
 #include "admin.h"
 
+bool Admin::createAdmin(Admin *admin) {
+	return false;
+}
 
+bool Admin::updateAdmin(Admin *admin) {
+	return false;
+}
 
+bool Admin::deleteAdmin(Admin *admin) {
+	return false;
+}
+
+void Admin::printAllAdmins() {
+
+}
