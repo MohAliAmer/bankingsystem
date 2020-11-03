@@ -22,7 +22,7 @@ private:
 	string m_password;
 
 public:
-	Person():m_id(0), m_lastName(""), m_firstName(""), m_password(""), m_nationalId("") {}
+	Person():m_id(0),m_firstName(""), m_lastName(""), m_nationalId(""), m_password("") {}
 	Person(int personId, string fname, string lname, string pass, string natid) {
 		m_id = personId;
 		m_firstName = fname;
