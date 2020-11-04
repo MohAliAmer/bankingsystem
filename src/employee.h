@@ -30,14 +30,15 @@ private:
 	bool bCustCreate;
 	bool bCustUpdate;
 	bool bCustDelete;
-	bool bPrintCustInfo;
+	bool bCustListAll;
+	bool bCustPrintInfo;
 
 public:
 	Employee() : bLocked(true), bAcctCreate(false),bAcctUpdate(false),
 				bAcctDelete(false), bAcctDeactivate(false), bAcctActivate(false),
 				bAcctListAll(false),bAcctPrintInfo(false),bCustCreate(false),
-				bCustUpdate(false),bCustDelete(false), bPrintCustInfo(false) {}
-	~Employee();
+				bCustUpdate(false),bCustDelete(false), bCustListAll(false), bCustPrintInfo(false) {}
+	virtual ~Employee() = default;
 
 	void cap_AcctCreate(bool value) {bAcctCreate = value;}
 	void cap_AcctUpdate(bool value) {bAcctUpdate = value;}
@@ -45,10 +46,12 @@ public:
 	void cap_AcctDeactivate(bool value) {bAcctDeactivate = value;}
 	void cap_AcctActivate(bool value) {bAcctActivate = value;}
 	void cap_AcctListAll(bool value) {bAcctListAll = value;}
-	void cap_AcctPrintInfo(bool value) {bPrintCustInfo = value;}
+	void cap_AcctPrintInfo(bool value) {bAcctPrintInfo = value;}
 	void cap_custCreate(bool value) {bCustCreate = value;}
 	void cap_custUpdate(bool value) {bCustUpdate = value;}
 	void cap_custDelete(bool value) {bCustDelete = value;}
+	void cap_custPrintInfo(bool value) {bCustPrintInfo = value;}
+	void cap_cust_ListAll(bool value) {bCustListAll = value;}
 	void lock() {bLocked = true;}
 	void unlock() {bLocked = false;}
 
@@ -57,8 +60,13 @@ public:
 	bool canDeleteAccount() {return bAcctDelete;}
 	bool canDeactivateAccount() {return bAcctDeactivate;}
 	bool canActivateAccount() {return bAcctActivate;}
-	bool canListAllAccounts() {return bAcctCreate;}
-	bool canPrintCustomerInfo() {return bAcctCreate;}
+	bool canListAllAccounts() {return bAcctListAll;}
+	bool canPrintAccountInfo() {return bAcctPrintInfo;}
+	bool canPrintCustomerInfo() {return bCustPrintInfo;}
+	bool canListAllCustomers() {return bCustListAll;}
+	bool canCreateCustomer() {return bCustCreate;}
+	bool canUpdateCustomer() {return bCustUpdate;}
+	bool canDeleteCustomer() {return bCustDelete;}
 	bool isLocked() {return bLocked;}
 
 	bool createAccount(Account *acct);
@@ -69,7 +77,7 @@ public:
 	bool createCustomer(Customer *customer);
 	bool updateCustomer(Customer *customer);
 	bool deleteCustomer(Customer *customer);
-
+	void printAllCustomers();
 	void printCustInfo(Customer *cust);
 
 };

@@ -21,6 +21,7 @@ public:
 
  	void setAccount(Account *acct) {m_account = acct;}
 	Account* getAccount() {return this->m_account;}
+	void printCustomerInfo();
 
 };
 
