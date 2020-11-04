@@ -11,9 +11,9 @@
 using namespace std;
 
 void Session::setUserType() {
-	if (typeid(*m_user) == typeid(Customer))  m_userType = CUSTOMER;
+	if (typeid(*m_user) == typeid(Customer))      m_userType = CUSTOMER;
 	else if (typeid(*m_user) == typeid(Employee)) m_userType = EMPLOYEE;
-	else if (typeid(*m_user) == typeid(Admin)) m_userType = ADMIN;
+	else if (typeid(*m_user) == typeid(Admin))    m_userType = ADMIN;
 	else m_userType = UNKNOWN;
 }
 
