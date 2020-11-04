@@ -16,9 +16,14 @@ using namespace std;
 
 int main(){
 	cout << "Starting project" << endl;
-	Admin *admin1 = new Admin();
-	cout << admin1->canCreateAccount() << endl;
-	admin1->cap_AcctCreate(true);
-	cout << admin1->canCreateAccount() << endl;
+	Customer *cust = new Customer();
+	Account *acct = new Account();
+	acct->lock();
+	acct->setBalance(10000);
+
+	cust->setAccount(acct);
+	cout << cust->getAccount()->isLocked() << endl;
+
+
 	return 0;
 }

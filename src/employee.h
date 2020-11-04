@@ -72,7 +72,6 @@ public:
 
 	void printCustInfo(Customer *cust);
 
-
 };
 
 

@@ -15,12 +15,12 @@
 class Customer : public Person{
 
 private:
-	Account m_account;
+	Account *m_account;
 
 public:
 
- 	void setAccount(Account acct) {m_account = acct;}
-	Account getAccount() {return this->m_account;}
+ 	void setAccount(Account *acct) {m_account = acct;}
+	Account* getAccount() {return this->m_account;}
 
 };
 

@@ -20,13 +20,15 @@ public:
 	Account() : bLocked(true), m_balance(0) {}
 	~Account();
 	void lock(){bLocked = true;}
+	void unlock(){bLocked = false;}
+	bool isLocked() {return bLocked;}
 	void operator = (const Account &acct) {
 		this->bLocked = acct.bLocked;
 		this->m_balance = acct.m_balance;
 	}
-	void unlock(){bLocked = false;}
 	double getBalance() {return m_balance;}
 	void setBalance(double newBalance) {m_balance = newBalance;}
+
 
 };
 
