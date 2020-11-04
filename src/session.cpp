@@ -52,31 +52,33 @@ void Session::setSessionCapabilities() {
 		m_capabilities.push_back(CUSTOMER_PRINT_OWN_INFO);
 		break;
 	}
+
 	case EMPLOYEE:
 	{
-		if (dynamic_cast<Employee*>(m_user)->canCreateAccount()) m_capabilities.push_back(ACCOUNT_CREATE);
-		if (dynamic_cast<Employee*>(m_user)->canUpdateAccount()) m_capabilities.push_back(ACCOUNT_UPDATE);
-		if (dynamic_cast<Employee*>(m_user)->canDeleteAccount()) m_capabilities.push_back(ACCOUNT_DELETE);
-		if (dynamic_cast<Employee*>(m_user)->canActivateAccount()) m_capabilities.push_back(ACCOUNT_ACTIVATE);
+		if (dynamic_cast<Employee*>(m_user)->canCreateAccount())     m_capabilities.push_back(ACCOUNT_CREATE);
+		if (dynamic_cast<Employee*>(m_user)->canUpdateAccount())     m_capabilities.push_back(ACCOUNT_UPDATE);
+		if (dynamic_cast<Employee*>(m_user)->canDeleteAccount())     m_capabilities.push_back(ACCOUNT_DELETE);
+		if (dynamic_cast<Employee*>(m_user)->canActivateAccount())   m_capabilities.push_back(ACCOUNT_ACTIVATE);
 		if (dynamic_cast<Employee*>(m_user)->canDeactivateAccount()) m_capabilities.push_back(ACCOUNT_DEACTIVATE);
-		if (dynamic_cast<Employee*>(m_user)->canListAllAccounts()) m_capabilities.push_back(ACCOUNT_LIST_ALL);
-		if (dynamic_cast<Employee*>(m_user)->canPrintAccountInfo()) m_capabilities.push_back(ACCOUNT_PRINT_INFO);
+		if (dynamic_cast<Employee*>(m_user)->canListAllAccounts())   m_capabilities.push_back(ACCOUNT_LIST_ALL);
+		if (dynamic_cast<Employee*>(m_user)->canPrintAccountInfo())  m_capabilities.push_back(ACCOUNT_PRINT_INFO);
 		if (dynamic_cast<Employee*>(m_user)->canPrintCustomerInfo()) m_capabilities.push_back(CUSTOMER_PRINT_INFO);
-		if (dynamic_cast<Employee*>(m_user)->canCreateCustomer()) m_capabilities.push_back(CUSTOMER_CREATE);
-		if (dynamic_cast<Employee*>(m_user)->canUpdateCustomer()) m_capabilities.push_back(CUSTOMER_UPDATE);
-		if (dynamic_cast<Employee*>(m_user)->canDeleteCustomer()) m_capabilities.push_back(CUSTOMER_DELETE);
-		if (dynamic_cast<Employee*>(m_user)->canListAllCustomers()) m_capabilities.push_back(CUSTOMER_LIST_ALL);
+		if (dynamic_cast<Employee*>(m_user)->canCreateCustomer())    m_capabilities.push_back(CUSTOMER_CREATE);
+		if (dynamic_cast<Employee*>(m_user)->canUpdateCustomer())    m_capabilities.push_back(CUSTOMER_UPDATE);
+		if (dynamic_cast<Employee*>(m_user)->canDeleteCustomer())    m_capabilities.push_back(CUSTOMER_DELETE);
+		if (dynamic_cast<Employee*>(m_user)->canListAllCustomers())  m_capabilities.push_back(CUSTOMER_LIST_ALL);
 		break;
 	}
+
 	case ADMIN:
 	{
-		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin()) m_capabilities.push_back(ADMIN_CREATE);
-		if (dynamic_cast<Admin*>(m_user)->canUpdateAdmin()) m_capabilities.push_back(ADMIN_UPDATE);
-		if (dynamic_cast<Admin*>(m_user)->canDeleteAdmin()) m_capabilities.push_back(ADMIN_DELETE);
-		if (dynamic_cast<Admin*>(m_user)->canActivateAdmin()) m_capabilities.push_back(ADMIN_ACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin())     m_capabilities.push_back(ADMIN_CREATE);
+		if (dynamic_cast<Admin*>(m_user)->canUpdateAdmin())     m_capabilities.push_back(ADMIN_UPDATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeleteAdmin())     m_capabilities.push_back(ADMIN_DELETE);
+		if (dynamic_cast<Admin*>(m_user)->canActivateAdmin())   m_capabilities.push_back(ADMIN_ACTIVATE);
 		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin()) m_capabilities.push_back(ADMIN_DEACTIVATE);
-		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo()) m_capabilities.push_back(ADMIN_PRINT_INFO);
-		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin()) m_capabilities.push_back(ADMIN_LIST_ALL);
+		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())  m_capabilities.push_back(ADMIN_PRINT_INFO);
+		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())    m_capabilities.push_back(ADMIN_LIST_ALL);
 		break;
 	}
 	default:
