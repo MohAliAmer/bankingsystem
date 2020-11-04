@@ -35,14 +35,14 @@ public:
 	}
 	~Admin();
 	void cap_AdminCreate(bool value) {bAdminCreate = value;}
-	void cap_AdminUpdate(bool value) {bAdminCreate = value;}
-	void cap_AdminDelete(bool value) {bAdminCreate = value;}
-	void cap_AdminListAll(bool value) {bAdminCreate = value;}
+	void cap_AdminUpdate(bool value) {bAdminUpdate = value;}
+	void cap_AdminDelete(bool value) {bAdminDelete = value;}
+	void cap_AdminListAll(bool value) {bAdminListAll = value;}
 
 	bool canCreateAdmin() {return bAdminCreate;}
-	bool canUpdateAdmin() {return bAdminCreate;}
-	bool canDeleteAdmin() {return bAdminCreate;}
-	bool canListAllAdmin() {return bAdminCreate;}
+	bool canUpdateAdmin() {return bAdminUpdate;}
+	bool canDeleteAdmin() {return bAdminDelete;}
+	bool canListAllAdmin() {return bAdminListAll;}
 
 	bool createAdmin(Admin *admin);
 	bool updateAdmin(Admin *admin);
