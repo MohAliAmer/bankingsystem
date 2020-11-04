@@ -87,3 +87,80 @@ void Session::setSessionCapabilities() {
 	}
 
 }
+
+void Session::printCapabilities() {
+	for (vector<int>::iterator it = m_capabilities.begin(); it != m_capabilities.end() ; it++) {
+		switch (*it) {
+		case ACCOUNT_CREATE:
+			m_capabilitiesLabels.push_back("Create Account");
+			break;
+		case ACCOUNT_DELETE:
+			m_capabilitiesLabels.push_back("Delete Account");
+			break;
+		case ACCOUNT_UPDATE:
+			m_capabilitiesLabels.push_back("Update Account");
+			break;
+		case ACCOUNT_ACTIVATE:
+			m_capabilitiesLabels.push_back("Activate Account");
+			break;
+		case ACCOUNT_DEACTIVATE:
+			m_capabilitiesLabels.push_back("Deactivate Account");
+			break;
+		case ACCOUNT_LIST_ALL:
+			m_capabilitiesLabels.push_back("List All Accounts");
+			break;
+		case ACCOUNT_PRINT_INFO:
+			m_capabilitiesLabels.push_back("Print Account Information");
+			break;
+		case CUSTOMER_CREATE:
+			m_capabilitiesLabels.push_back("Create a new Customer");
+			break;
+		case CUSTOMER_UPDATE:
+			m_capabilitiesLabels.push_back("Update Existing Customer");
+			break;
+		case CUSTOMER_DELETE:
+			m_capabilitiesLabels.push_back("Delete Customer");
+			break;
+		case CUSTOMER_PRINT_INFO:
+			m_capabilitiesLabels.push_back("Print Customer Information");
+			break;
+		case CUSTOMER_PRINT_OWN_INFO:
+			m_capabilitiesLabels.push_back("Print my customer Information");
+			break;
+		case CUSTOMER_LIST_ALL:
+			m_capabilitiesLabels.push_back("List All Customers");
+			break;
+		case CUSTOMER_TRANSFER_TO_ACCOUNT:
+			m_capabilitiesLabels.push_back("Transfer money to another Account");
+			break;
+		case ADMIN_CREATE:
+			m_capabilitiesLabels.push_back("Create Administrator");
+			break;
+		case ADMIN_UPDATE:
+			m_capabilitiesLabels.push_back("Update Administrator");
+			break;
+		case ADMIN_DELETE:
+			m_capabilitiesLabels.push_back("Delete Administrator");
+			break;
+		case ADMIN_PRINT_INFO:
+			m_capabilitiesLabels.push_back("Print Administrator Information");
+			break;
+		case ADMIN_LIST_ALL:
+			m_capabilitiesLabels.push_back("List All Administrators");
+			break;
+		case ADMIN_ACTIVATE:
+			m_capabilitiesLabels.push_back("Activate Administrator");
+			break;
+		case ADMIN_DEACTIVATE:
+			m_capabilitiesLabels.push_back("Deactivate Administrator");
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end() ; it++) {
+		cout << *it << endl;
+	}
+}

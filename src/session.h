@@ -27,6 +27,7 @@ private:
 	bool bIsLoggedIn;
 	int m_userType;
 	vector<int> m_capabilities;
+	vector<string> m_capabilitiesLabels;
 
 	enum {
 		UNDEFINED,
@@ -76,7 +77,7 @@ public:
 	void setSessionCapabilities();
 	void tmpSetUser(Person *p) {m_user = p;}
 	vector<int> tmpGetCaps() {return m_capabilities;}
-
+	void printCapabilities();
 };
 
 

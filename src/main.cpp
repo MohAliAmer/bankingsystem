@@ -29,15 +29,10 @@ int main(){
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
 	Session *s = new Session();
-	s->tmpSetUser(cust);
+	s->tmpSetUser(emp);
 
 	s->setSessionCapabilities();
-
-	vector<int> aa = s->tmpGetCaps();
-
-	for (vector<int>::iterator it = aa.begin(); it != aa.end() ; it++) {
-		cout << *it << endl;
-	}
+	s->printCapabilities();
 
 	return 0;
 }
