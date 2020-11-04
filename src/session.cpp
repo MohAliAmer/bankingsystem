@@ -50,6 +50,7 @@ void Session::setSessionCapabilities() {
 	case CUSTOMER:
 	{
 		m_capabilities.push_back(CUSTOMER_PRINT_OWN_INFO);
+		m_capabilities.push_back(CUSTOMER_TRANSFER_TO_ACCOUNT);
 		break;
 	}
 

@@ -29,7 +29,7 @@ int main(){
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
 	Session *s = new Session();
-	s->tmpSetUser(emp);
+	s->tmpSetUser(cust);
 
 	s->setSessionCapabilities();
 
