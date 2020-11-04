@@ -7,9 +7,6 @@
 
 #include "session.h"
 
-#include <iostream>
-using namespace std;
-
 void Session::setUserType() {
 	if (typeid(*m_user) == typeid(Customer))      m_userType = CUSTOMER;
 	else if (typeid(*m_user) == typeid(Employee)) m_userType = EMPLOYEE;
@@ -85,7 +82,6 @@ void Session::setSessionCapabilities() {
 	default:
 		break;
 	}
-
 }
 
 void Session::printCapabilities() {
@@ -157,10 +153,5 @@ void Session::printCapabilities() {
 		default:
 			break;
 		}
-	}
-
-
-	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end() ; it++) {
-		cout << *it << endl;
 	}
 }

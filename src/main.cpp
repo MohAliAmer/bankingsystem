@@ -17,7 +17,6 @@
 using namespace std;
 
 int main(){
-	cout << "Starting project" << endl;
 	Customer *cust = new Customer();
 	Account *acct = new Account();
 	acct->lock();
