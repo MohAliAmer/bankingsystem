@@ -20,7 +20,8 @@ private:
 
 
 public:
-	Admin() : bAdminCreate(false),bAdminUpdate(false), bAdminDelete(false), bAdminListAll(false)  {
+	Admin() : bAdminCreate(false),bAdminUpdate(false),
+				bAdminDelete(false), bAdminListAll(false)  {
 		Employee::cap_AcctActivate(true);
 		Employee::cap_AcctCreate(true);
 		Employee::cap_AcctDeactivate(true);
@@ -34,14 +35,14 @@ public:
 		Employee::lock();
 	}
 	~Admin();
-	void cap_AdminCreate(bool value) {bAdminCreate = value;}
-	void cap_AdminUpdate(bool value) {bAdminUpdate = value;}
-	void cap_AdminDelete(bool value) {bAdminDelete = value;}
+	void cap_AdminCreate(bool value)  {bAdminCreate = value;}
+	void cap_AdminUpdate(bool value)  {bAdminUpdate = value;}
+	void cap_AdminDelete(bool value)  {bAdminDelete = value;}
 	void cap_AdminListAll(bool value) {bAdminListAll = value;}
 
-	bool canCreateAdmin() {return bAdminCreate;}
-	bool canUpdateAdmin() {return bAdminUpdate;}
-	bool canDeleteAdmin() {return bAdminDelete;}
+	bool canCreateAdmin()  {return bAdminCreate;}
+	bool canUpdateAdmin()  {return bAdminUpdate;}
+	bool canDeleteAdmin()  {return bAdminDelete;}
 	bool canListAllAdmin() {return bAdminListAll;}
 
 	bool createAdmin(Admin *admin);
