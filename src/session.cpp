@@ -70,13 +70,13 @@ void Session::setSessionCapabilities() {
 
 	case ADMIN:
 	{
-		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin())     m_capabilities.push_back(ADMIN_CREATE);
-		if (dynamic_cast<Admin*>(m_user)->canUpdateAdmin())     m_capabilities.push_back(ADMIN_UPDATE);
-		if (dynamic_cast<Admin*>(m_user)->canDeleteAdmin())     m_capabilities.push_back(ADMIN_DELETE);
-		if (dynamic_cast<Admin*>(m_user)->canActivateAdmin())   m_capabilities.push_back(ADMIN_ACTIVATE);
-		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin()) m_capabilities.push_back(ADMIN_DEACTIVATE);
-		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())  m_capabilities.push_back(ADMIN_PRINT_INFO);
-		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())    m_capabilities.push_back(ADMIN_LIST_ALL);
+		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin())       m_capabilities.push_back(ADMIN_CREATE);
+		if (dynamic_cast<Admin*>(m_user)->canUpdateAdmin())       m_capabilities.push_back(ADMIN_UPDATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeleteAdmin())       m_capabilities.push_back(ADMIN_DELETE);
+		if (dynamic_cast<Admin*>(m_user)->canActivateAdmin())     m_capabilities.push_back(ADMIN_ACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin())   m_capabilities.push_back(ADMIN_DEACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())    m_capabilities.push_back(ADMIN_PRINT_INFO);
+		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())      m_capabilities.push_back(ADMIN_LIST_ALL);
 		if (dynamic_cast<Admin*>(m_user)->canCreateAccount())     m_capabilities.push_back(ACCOUNT_CREATE);
 		if (dynamic_cast<Admin*>(m_user)->canUpdateAccount())     m_capabilities.push_back(ACCOUNT_UPDATE);
 		if (dynamic_cast<Admin*>(m_user)->canDeleteAccount())     m_capabilities.push_back(ACCOUNT_DELETE);

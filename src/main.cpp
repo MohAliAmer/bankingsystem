@@ -31,6 +31,9 @@ int main(){
 	Session *s = new Session();
 	s->tmpSetUser(adm);
 
+	adm->cap_AdminCreate(true);
+	adm->cap_AdminUpdate(true);
+
 	s->setSessionCapabilities();
 	s->printCapabilities();
 
