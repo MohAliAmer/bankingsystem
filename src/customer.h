@@ -19,6 +19,8 @@ private:
 
 public:
 
+	Customer() : m_account(nullptr) {}
+	virtual ~Customer() = default;
  	void setAccount(Account *acct) {m_account = acct;}
 	Account* getAccount() {return this->m_account;}
 	void printCustomerInfo();

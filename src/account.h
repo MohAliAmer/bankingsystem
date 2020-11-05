@@ -22,9 +22,10 @@ public:
 	void lock(){bLocked = true;}
 	void unlock(){bLocked = false;}
 	bool isLocked() {return bLocked;}
-	void operator = (const Account &acct) {
+	Account* operator = (const Account &acct) {
 		this->bLocked = acct.bLocked;
 		this->m_balance = acct.m_balance;
+		return this;
 	}
 	double getBalance() {return m_balance;}
 	void setBalance(double newBalance) {m_balance = newBalance;}

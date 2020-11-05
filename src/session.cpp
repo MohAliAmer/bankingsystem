@@ -14,7 +14,7 @@ void Session::setUserType() {
 	else m_userType = UNKNOWN;
 }
 
-Person* Session::login(string username, string password) {
+Person* Session::login(const string username, const string password) {
 	return nullptr;
 }
 
@@ -25,7 +25,7 @@ Person* Session::login(int userid, string password) {
 void Session::logout() {
 }
 
-string Session::encrypt(string word) {
+string Session::encrypt(const string word) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
@@ -85,7 +85,7 @@ void Session::setSessionCapabilities() {
 }
 
 void Session::printCapabilities() {
-	for (vector<int>::iterator it = m_capabilities.begin(); it != m_capabilities.end() ; it++) {
+	for (vector<int>::iterator it = m_capabilities.begin(); it != m_capabilities.end() ; ++it) {
 		switch (*it) {
 		case ACCOUNT_CREATE:
 			m_capabilitiesLabels.push_back("Create Account");

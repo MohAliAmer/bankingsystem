@@ -70,13 +70,12 @@ public:
 	Session() :  m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {}
 	~Session();
 
-	Person* login(string username, string password);
-	Person* login(int userid, string password);
+	Person* login(const string username, const string password);
+	Person* login(const int userid, const string password);
 	void logout();
-	string encrypt(string word);
+	string encrypt(const string word);
 	void setSessionCapabilities();
 	void tmpSetUser(Person *p) {m_user = p;}
-	vector<int> tmpGetCaps() {return m_capabilities;}
 	void printCapabilities();
 };
 
