@@ -8,6 +8,7 @@
 #ifndef SRC_SESSION_H_
 #define SRC_SESSION_H_
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <typeinfo>

@@ -37,6 +37,8 @@ public:
 		Employee::cap_custCreate(true);
 		Employee::cap_custDelete(true);
 		Employee::cap_custUpdate(true);
+		Employee::cap_custPrintInfo(true);
+		Employee::cap_cust_ListAll(true);
 		Employee::lock();
 	}
 	virtual ~Admin() = default;

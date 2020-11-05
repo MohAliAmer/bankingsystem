@@ -19,6 +19,7 @@ using namespace std;
 int main(){
 	Customer *cust = new Customer();
 	Account *acct = new Account();
+	Admin *adm = new Admin();
 	acct->lock();
 	acct->setBalance(10000);
 	cust->setAccount(acct);
@@ -28,7 +29,7 @@ int main(){
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
 	Session *s = new Session();
-	s->tmpSetUser(emp);
+	s->tmpSetUser(adm);
 
 	s->setSessionCapabilities();
 	s->printCapabilities();

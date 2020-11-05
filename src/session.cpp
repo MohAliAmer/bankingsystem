@@ -77,6 +77,19 @@ void Session::setSessionCapabilities() {
 		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin()) m_capabilities.push_back(ADMIN_DEACTIVATE);
 		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())  m_capabilities.push_back(ADMIN_PRINT_INFO);
 		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())    m_capabilities.push_back(ADMIN_LIST_ALL);
+		if (dynamic_cast<Admin*>(m_user)->canCreateAccount())     m_capabilities.push_back(ACCOUNT_CREATE);
+		if (dynamic_cast<Admin*>(m_user)->canUpdateAccount())     m_capabilities.push_back(ACCOUNT_UPDATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeleteAccount())     m_capabilities.push_back(ACCOUNT_DELETE);
+		if (dynamic_cast<Admin*>(m_user)->canActivateAccount())   m_capabilities.push_back(ACCOUNT_ACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeactivateAccount()) m_capabilities.push_back(ACCOUNT_DEACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canListAllAccounts())   m_capabilities.push_back(ACCOUNT_LIST_ALL);
+		if (dynamic_cast<Admin*>(m_user)->canPrintAccountInfo())  m_capabilities.push_back(ACCOUNT_PRINT_INFO);
+		if (dynamic_cast<Admin*>(m_user)->canPrintCustomerInfo()) m_capabilities.push_back(CUSTOMER_PRINT_INFO);
+		if (dynamic_cast<Admin*>(m_user)->canCreateCustomer())    m_capabilities.push_back(CUSTOMER_CREATE);
+		if (dynamic_cast<Admin*>(m_user)->canUpdateCustomer())    m_capabilities.push_back(CUSTOMER_UPDATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeleteCustomer())    m_capabilities.push_back(CUSTOMER_DELETE);
+		if (dynamic_cast<Admin*>(m_user)->canListAllCustomers())  m_capabilities.push_back(CUSTOMER_LIST_ALL);
+
 		break;
 	}
 	default:
@@ -153,5 +166,8 @@ void Session::printCapabilities() {
 		default:
 			break;
 		}
+	}
+	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){
+		cout << *it << endl;
 	}
 }
