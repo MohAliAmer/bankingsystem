@@ -74,6 +74,7 @@ private:
 	};
 
 	void setUserType();
+	string encrypt(const string word);
 
 public:
 	Session() :  m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {}
@@ -82,7 +83,8 @@ public:
 	Person* login(const string username, const string password);
 	Person* login(const int userid, const string password);
 	void logout();
-	string encrypt(const string word);
+	bool changePassword(Person *p, const string newpassword);
+
 	void setSessionCapabilities();
 	void tmpSetUser(Person *p) {m_user = p;} // TODO: remove me after
 	void printCapabilities();

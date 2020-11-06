@@ -20,6 +20,7 @@ int main(){
 	Customer *cust = new Customer();
 	Account *acct = new Account();
 	Admin *adm = new Admin();
+
 	acct->lock();
 	acct->setBalance(10000);
 	cust->tmpSetAccount(acct);
@@ -37,7 +38,7 @@ int main(){
 	s->setSessionCapabilities();
 	s->printCapabilities();
 
-	cout << cust->getAccount()->getBalance() << endl;
+	//cout << cust->getAccount()->getBalance() << endl;
 
 	return 0;
 }

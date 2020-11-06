@@ -34,10 +34,10 @@ private:
 	bool bCustPrintInfo;
 
 public:
-	Employee() : bLocked(true), bAcctCreate(false),bAcctUpdate(false),
-				bAcctDelete(false), bAcctDeactivate(false), bAcctActivate(false),
-				bAcctListAll(false),bAcctPrintInfo(false),bCustCreate(false),
-				bCustUpdate(false),bCustDelete(false), bCustListAll(false), bCustPrintInfo(false) {}
+	Employee() : bLocked(true), bAcctCreate(true),bAcctUpdate(true),
+				bAcctDelete(true), bAcctDeactivate(true), bAcctActivate(true),
+				bAcctListAll(false),bAcctPrintInfo(true),bCustCreate(true),
+				bCustUpdate(true),bCustDelete(true), bCustListAll(false), bCustPrintInfo(true) {}
 	virtual ~Employee() = default;
 
 	void cap_AcctCreate(bool value) {bAcctCreate = value;}
@@ -77,8 +77,11 @@ public:
 	bool createCustomer(Customer *customer);
 	bool updateCustomer(Customer *customer);
 	bool deleteCustomer(Customer *customer);
+	bool transfer(Account *from, Account *to, const int sum);
+	bool deposit(Account *acct, const int sum);
 	void printAllCustomers();
 	void printCustInfo(Customer *cust);
+	void printAcctInfo(Account *acct);
 
 };
 
