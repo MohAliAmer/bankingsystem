@@ -12,7 +12,7 @@
 #include "employee.h"
 #include "account.h"
 #include "customer.h"
-
+#include "database.h"
 #include <typeinfo>
 
 using namespace std;
@@ -40,6 +40,10 @@ int main(){
 	s->printCapabilities();
 
 	//cout << cust->getAccount()->getBalance() << endl;
+
+
+	Database *db = new Database();
+	db->createAccountsTable();
 
 	return 0;
 }

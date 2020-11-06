@@ -27,6 +27,11 @@ private:
 public:
 	Database();
 	~Database();
+	void initDB();
+
+	bool createAccountsTable();
+	bool createPersonsTable();
+
 	bool insertAccount(Account *acct);
 	bool updateAcount(Account *acct);
 	bool deleteAccount(Account *acct);

@@ -22,6 +22,8 @@ public:
 
 	Customer() : m_account(nullptr) {}
 	virtual ~Customer() = default;
+	bool deposite(const int sum);
+	bool transfer(Account *acct, const int sum);
 
 	Account* getAccount() {return this->m_account;}
 	void tmpSetAccount(Account *acct) {setAccount(acct);} // TODO: remove me after
@@ -29,5 +31,6 @@ public:
 
 };
 
-
 #endif /* SRC_CUSTOMER_H_ */
+
+
