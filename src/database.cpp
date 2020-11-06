@@ -68,7 +68,7 @@ bool Database::createPersonsTable() {
 	string sql;
 
 	sql = "CREATE TABLE IF NOT EXISTS PERSONS(" \
-			"ID INT PRIMARY KEY     NOT NULL,"   \
+			"ID INT PRIMARY KEY     NOT NULL,"  \
 			"BALANCE         INT    NOT NULL);";
 
 	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);

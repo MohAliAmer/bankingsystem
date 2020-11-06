@@ -30,6 +30,8 @@ private:
 	bool bCustCreate;
 	bool bCustUpdate;
 	bool bCustDelete;
+	bool bCustActivate;
+	bool bCustDeactivate;
 	bool bCustListAll;
 	bool bCustPrintInfo;
 
@@ -37,7 +39,8 @@ public:
 	Employee() : bLocked(true), bAcctCreate(true),bAcctUpdate(true),
 				bAcctDelete(true), bAcctDeactivate(true), bAcctActivate(true),
 				bAcctListAll(false),bAcctPrintInfo(true),bCustCreate(true),
-				bCustUpdate(true),bCustDelete(true), bCustListAll(false), bCustPrintInfo(true) {}
+				bCustUpdate(true),bCustDelete(true),bCustActivate(true),bCustDeactivate(true),
+				bCustListAll(false), bCustPrintInfo(true) {}
 	virtual ~Employee() = default;
 
 	void cap_AcctCreate(bool value) {bAcctCreate = value;}
@@ -50,6 +53,8 @@ public:
 	void cap_custCreate(bool value) {bCustCreate = value;}
 	void cap_custUpdate(bool value) {bCustUpdate = value;}
 	void cap_custDelete(bool value) {bCustDelete = value;}
+	void cap_custActivate(bool value) {bCustActivate = value;}
+	void cap_custDeactivate(bool value) {bCustDeactivate = value;}
 	void cap_custPrintInfo(bool value) {bCustPrintInfo = value;}
 	void cap_cust_ListAll(bool value) {bCustListAll = value;}
 	void lock() {bLocked = true;}
@@ -67,6 +72,8 @@ public:
 	bool canCreateCustomer() {return bCustCreate;}
 	bool canUpdateCustomer() {return bCustUpdate;}
 	bool canDeleteCustomer() {return bCustDelete;}
+	bool canActivateCustomer() {return bCustActivate;}
+	bool canDeactivateCustomer() {return bCustDeactivate;}
 	bool isLocked() {return bLocked;}
 
 	bool createAccount(Account *acct);
