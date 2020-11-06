@@ -49,6 +49,14 @@ private:
 		CUSTOMER_LIST_ALL,
 		CUSTOMER_TRANSFER_TO_ACCOUNT,
 
+		EMPLOYEE_CREATE,
+		EMPLOYEE_UPDATE,
+		EMPLOYEE_DELETE,
+		EMPLOYEE_PRINT_INFO,
+		EMPLOYEE_LIST_ALL,
+		EMPLOYEE_ACTIVATE,
+		EMPLOYEE_DEACTIVATE,
+
 		ADMIN_CREATE,
 		ADMIN_UPDATE,
 		ADMIN_DELETE,
@@ -76,7 +84,7 @@ public:
 	void logout();
 	string encrypt(const string word);
 	void setSessionCapabilities();
-	void tmpSetUser(Person *p) {m_user = p;}
+	void tmpSetUser(Person *p) {m_user = p;} // TODO: remove me after
 	void printCapabilities();
 };
 

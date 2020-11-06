@@ -16,13 +16,15 @@ class Customer : public Person{
 
 private:
 	Account *m_account;
+	void setAccount(Account *acct) {m_account = acct;}
 
 public:
 
 	Customer() : m_account(nullptr) {}
 	virtual ~Customer() = default;
- 	void setAccount(Account *acct) {m_account = acct;}
+
 	Account* getAccount() {return this->m_account;}
+	void tmpSetAccount(Account *acct) {setAccount(acct);} // TODO: remove me after
 	void printCustomerInfo();
 
 };

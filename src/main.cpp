@@ -22,7 +22,7 @@ int main(){
 	Admin *adm = new Admin();
 	acct->lock();
 	acct->setBalance(10000);
-	cust->setAccount(acct);
+	cust->tmpSetAccount(acct);
 
 	Employee *emp = new Employee();
 	emp->cap_AcctActivate(true);

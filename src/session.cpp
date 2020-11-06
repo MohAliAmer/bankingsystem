@@ -77,6 +77,15 @@ void Session::setSessionCapabilities() {
 		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin())   m_capabilities.push_back(ADMIN_DEACTIVATE);
 		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())    m_capabilities.push_back(ADMIN_PRINT_INFO);
 		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())      m_capabilities.push_back(ADMIN_LIST_ALL);
+
+		if (dynamic_cast<Admin*>(m_user)->canCreateEmployee())       m_capabilities.push_back(EMPLOYEE_CREATE);
+		if (dynamic_cast<Admin*>(m_user)->canUpdateEmployee())       m_capabilities.push_back(EMPLOYEE_UPDATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeleteEmployee())       m_capabilities.push_back(EMPLOYEE_DELETE);
+		if (dynamic_cast<Admin*>(m_user)->canActivateEmployee())     m_capabilities.push_back(EMPLOYEE_ACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canDeactivateEmployee())   m_capabilities.push_back(EMPLOYEE_DEACTIVATE);
+		if (dynamic_cast<Admin*>(m_user)->canPrintEmployeeInfo())    m_capabilities.push_back(EMPLOYEE_PRINT_INFO);
+		if (dynamic_cast<Admin*>(m_user)->canListAllEmployee())      m_capabilities.push_back(EMPLOYEE_LIST_ALL);
+
 		if (dynamic_cast<Admin*>(m_user)->canCreateAccount())     m_capabilities.push_back(ACCOUNT_CREATE);
 		if (dynamic_cast<Admin*>(m_user)->canUpdateAccount())     m_capabilities.push_back(ACCOUNT_UPDATE);
 		if (dynamic_cast<Admin*>(m_user)->canDeleteAccount())     m_capabilities.push_back(ACCOUNT_DELETE);
@@ -89,7 +98,6 @@ void Session::setSessionCapabilities() {
 		if (dynamic_cast<Admin*>(m_user)->canUpdateCustomer())    m_capabilities.push_back(CUSTOMER_UPDATE);
 		if (dynamic_cast<Admin*>(m_user)->canDeleteCustomer())    m_capabilities.push_back(CUSTOMER_DELETE);
 		if (dynamic_cast<Admin*>(m_user)->canListAllCustomers())  m_capabilities.push_back(CUSTOMER_LIST_ALL);
-
 		break;
 	}
 	default:
@@ -163,11 +171,33 @@ void Session::printCapabilities() {
 		case ADMIN_DEACTIVATE:
 			m_capabilitiesLabels.push_back("Deactivate Administrator");
 			break;
+		case EMPLOYEE_CREATE:
+			m_capabilitiesLabels.push_back("Create Employee");
+			break;
+		case EMPLOYEE_UPDATE:
+			m_capabilitiesLabels.push_back("Update Employee");
+			break;
+		case EMPLOYEE_DELETE:
+			m_capabilitiesLabels.push_back("Delete Employee");
+			break;
+		case EMPLOYEE_PRINT_INFO:
+			m_capabilitiesLabels.push_back("Print Employee Information");
+			break;
+		case EMPLOYEE_LIST_ALL:
+			m_capabilitiesLabels.push_back("List All Employees");
+			break;
+		case EMPLOYEE_ACTIVATE:
+			m_capabilitiesLabels.push_back("Activate Employee");
+			break;
+		case EMPLOYEE_DEACTIVATE:
+			m_capabilitiesLabels.push_back("Deactivate Employee");
+			break;
+
 		default:
 			break;
 		}
 	}
-	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){
+	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){ // TODO: remove me after
 		cout << *it << endl;
 	}
 }

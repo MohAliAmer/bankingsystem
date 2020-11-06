@@ -21,12 +21,24 @@ private:
 	bool bAdminActivate;
 	bool bAdminDeactivate;
 
+	bool bEmployeeCreate;
+	bool bEmployeeUpdate;
+	bool bEmployeeDelete;
+	bool bEmployeePrintInfo;
+	bool bEmployeeListAll;
+	bool bEmployeeActivate;
+	bool bEmployeeDeactivate;
+
 
 public:
 	Admin() : bAdminCreate(false),bAdminUpdate(false),
 				bAdminDelete(false), bAdminListAll(false),
 				bAdminPrintInfo(false),bAdminActivate(false),
-				bAdminDeactivate(false) {
+				bAdminDeactivate(false),
+				bEmployeeCreate(true), bEmployeeUpdate(true),bEmployeeDelete(true),
+				bEmployeePrintInfo(true),bEmployeeListAll(true),bEmployeeActivate(true),
+				bEmployeeDeactivate(true)
+				{
 		Employee::cap_AcctActivate(true);
 		Employee::cap_AcctCreate(true);
 		Employee::cap_AcctDeactivate(true);
@@ -57,6 +69,15 @@ public:
 	bool canDeactivateAdmin(){return bAdminDeactivate;}
 	bool canListAllAdmin()   {return bAdminListAll;}
 	bool canPrintAdminInfo() {return bAdminPrintInfo;}
+
+	bool canCreateEmployee() {return bEmployeeCreate;}
+	bool canUpdateEmployee() {return bEmployeeUpdate;}
+	bool canDeleteEmployee() {return bEmployeeDelete;}
+	bool canPrintEmployeeInfo() {return bEmployeePrintInfo;}
+	bool canListAllEmployee() {return bEmployeeListAll;}
+	bool canActivateEmployee() {return bEmployeeActivate;}
+	bool canDeactivateEmployee() {return bEmployeeDeactivate;}
+
 
 	bool createAdmin(Admin *admin);
 	bool updateAdmin(Admin *admin);
