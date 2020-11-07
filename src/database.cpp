@@ -48,6 +48,7 @@ bool Database::createAccountsTable() {
 
 	sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS(" \
 			"ID 			 INT    PRIMARY KEY NOT NULL,"   \
+			"LOCKED		 BOOLEAN    NOT NULL," \
 			"BALANCE         INT    NOT NULL);";
 
 	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
@@ -95,7 +96,54 @@ bool Database::createPersonsTable() {
 }
 
 bool Database::insertAccount(Account *acct) {
-	return false;
+	const char *zErrMsg;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt;
+
+	sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?);";
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare insert statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, acct->getId());
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 2, acct->isLocked() );
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 3, acct->getBalance() );
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+
+	rc = sqlite3_step(stmt);
+	if(SQLITE_DONE != rc) {
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		return false;
+	}
+
+	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+
+	return true;
 }
 
 bool Database::deleteAccount(Account *acct) {
@@ -157,7 +205,7 @@ bool Database::insertPerson(Person *p) {
 
 	rc = sqlite3_bind_text(stmt, 5, p->getNationalId().c_str(), p->getNationalId().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
-		fprintf(stderr, "Error binding value in insert (%i): %s\n", rc, sqlite3_errmsg(db));
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
 	}

@@ -37,8 +37,10 @@ int main(){
 	//adm->unlock();
 
 
+	acct->setId(122);
 	acct->lock();
 	acct->setBalance(10000);
+
 	cust->tmpSetAccount(acct);
 
 	Employee *emp = new Employee();
@@ -59,6 +61,7 @@ int main(){
 	db->createAccountsTable();
 	db->createPersonsTable();
 	db->insertPerson(adm);
+	db->insertAccount(acct);
 
 
 	return 0;
