@@ -1,5 +1,5 @@
 /*
- * clerk.h
+ * customer.h
  *
  *  Created on: Oct 19, 2020
  *      Author: amira
@@ -26,8 +26,8 @@ public:
 	void unlock() {Person::bLocked = false;}
 	bool isLocked(){return Person::bLocked;}
 	bool deposite(const int sum);
+	bool withdraw(const int sum);
 	bool transfer(Account *acct, const int sum);
-
 
 	Account* getAccount() {return this->m_account;}
 	void tmpSetAccount(Account *acct) {setAccount(acct);} // TODO: remove me after

@@ -8,6 +8,7 @@
 #ifndef SRC_DATABASE_H_
 #define SRC_DATABASE_H_
 
+#include <vector>
 #include <sqlite3.h>
 #include "account.h"
 #include "person.h"
@@ -40,6 +41,7 @@ public:
 	bool insertPerson(Person *p);
 	bool deletePerson(Person *p);
 	Person* retrievePerson(const string username);
+	int computeUserCaps(Person *p);
 
 
 };

@@ -2,7 +2,7 @@
  * employee.h
  *
  *  Created on: Nov 3, 2020
- *      Author: khaled
+ *      Author: Amira
  */
 
 #ifndef SRC_EMPLOYEE_H_
@@ -42,20 +42,20 @@ public:
 				bCustListAll(false), bCustPrintInfo(true) {}
 	virtual ~Employee() = default;
 
-	void cap_AcctCreate(bool value) {bAcctCreate = value;}
-	void cap_AcctUpdate(bool value) {bAcctUpdate = value;}
-	void cap_AcctDelete(bool value) {bAcctDelete = value;}
-	void cap_AcctDeactivate(bool value) {bAcctDeactivate = value;}
-	void cap_AcctActivate(bool value) {bAcctActivate = value;}
-	void cap_AcctListAll(bool value) {bAcctListAll = value;}
-	void cap_AcctPrintInfo(bool value) {bAcctPrintInfo = value;}
+	void cap_acctCreate(bool value) {bAcctCreate = value;}
+	void cap_acctUpdate(bool value) {bAcctUpdate = value;}
+	void cap_acctDelete(bool value) {bAcctDelete = value;}
+	void cap_acctDeactivate(bool value) {bAcctDeactivate = value;}
+	void cap_acctActivate(bool value) {bAcctActivate = value;}
+	void cap_acctListAll(bool value) {bAcctListAll = value;}
+	void cap_acctPrintInfo(bool value) {bAcctPrintInfo = value;}
 	void cap_custCreate(bool value) {bCustCreate = value;}
 	void cap_custUpdate(bool value) {bCustUpdate = value;}
 	void cap_custDelete(bool value) {bCustDelete = value;}
 	void cap_custActivate(bool value) {bCustActivate = value;}
 	void cap_custDeactivate(bool value) {bCustDeactivate = value;}
 	void cap_custPrintInfo(bool value) {bCustPrintInfo = value;}
-	void cap_cust_ListAll(bool value) {bCustListAll = value;}
+	void cap_custListAll(bool value) {bCustListAll = value;}
 	void lock() {Person::bLocked = true;}
 	void unlock() {Person::bLocked = false;}
 

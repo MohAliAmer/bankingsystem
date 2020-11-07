@@ -28,9 +28,10 @@ private:
 	Person *m_user;
 	bool bIsLoggedIn;
 	int m_userType;
-	vector<int> m_capabilities;
+	//vector<int> m_capabilities;
 	vector<string> m_capabilitiesLabels;
 	void setUserType();
+	void setSessionCapabilities();
 
 public:
 	Session() :  m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {}
@@ -86,8 +87,11 @@ public:
 	void logout();
 	bool changePassword(Person *p, const string newpassword);
 	string encrypt(const string word);
-	void setSessionCapabilities();
-	void setSessionUser(Person *p) {m_user = p;}
+
+	void setSessionUser(Person *p) {
+		m_user = p;
+		setSessionCapabilities();
+	}
 
 };
 

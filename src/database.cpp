@@ -197,7 +197,41 @@ bool Database::deleteAccount(Account *acct) {
 }
 
 Account* Database::retrieveAccount(const int account_id) {
-	return nullptr;
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int accountid = 0;
+	int lockstatus = 0;
+	int balance = 0;
+
+	sql = "SELECT * from ACCOUNTS WHERE ID = ?";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, account_id);
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		accountid = sqlite3_column_int(stmt, 0);
+		lockstatus = sqlite3_column_int(stmt, 1);
+		balance = sqlite3_column_int(stmt, 2);
+	}
+
+	Account *acct = new Account();
+	acct->setId(accountid);
+	acct->setBalance(balance);
+	lockstatus ? acct->lock() : acct->unlock();
+
+	return acct;
 }
 
 bool Database::insertPerson(Person *p) {
@@ -277,7 +311,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 9, p->getCaps() );
+	rc = sqlite3_bind_int64(stmt, 9, computeUserCaps(p) );
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
@@ -354,10 +388,17 @@ Person* Database::retrievePerson(const string username) {
 	int rc;
 	string sql;
 	sqlite3_stmt *stmt = nullptr;
-	Person *person = nullptr;
+	int userid = 0;
+	string uname = "";
+	string fname = "";
+	string lname = "";
+	string natid = "";
+	string password = "";
+	int usertype = 0;
+	int lockstatus = 0;
+    int caps = 0;
 
 	sql = "SELECT * from PERSONS WHERE USERNAME = ?";
-
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if(SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
@@ -372,22 +413,252 @@ Person* Database::retrievePerson(const string username) {
 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
-			person = new Person();
-	        person->setId(sqlite3_column_int(stmt, USERID));
-	        person->setUserName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, USERNAME))));
-	        person->setFirstName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, FIRSTNAME))));
-	        person->setLastName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, LASTNAME))));
-	        person->setNationalId(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, NATIONALID))));
-	        person->setPassword(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, PASSWORD))));
-	        person->setUserType(sqlite3_column_int(stmt, USERTYPE));
-	        if (sqlite3_column_int(stmt, USERLOCK) == 1)
-	        	person->lock();
-	        else
-	        	person->unlock();
-	        person->setCaps(sqlite3_column_int(stmt, USERCAPS));
-	        // TODO: switch user type then set caps
+		userid = sqlite3_column_int(stmt, USERID);
+		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, USERNAME)));
+		fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, FIRSTNAME)));
+		lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, LASTNAME)));
+		natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, NATIONALID)));
+		password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, PASSWORD)));
+		usertype = sqlite3_column_int(stmt, USERTYPE);
+		lockstatus = sqlite3_column_int(stmt, USERLOCK);
+		caps = sqlite3_column_int(stmt, USERCAPS);
 	}
 
-	return person;
+	if (usertype == Session::CUSTOMER) {
+		Customer *person = new Customer();
+		person->setId(userid);
+		person->setUserName(uname);
+		person->setFirstName(fname);
+		person->setLastName(lname);
+		person->setNationalId(natid);
+		person->setPassword(password);
+		person->setUserType(usertype);
+		lockstatus ? person->lock() : person->unlock();
+		person->setCaps(caps);
+		return person;
+	}
+
+	else if (usertype == Session::EMPLOYEE) {
+		Employee *person = new Employee();
+		person->setId(userid);
+		person->setUserName(uname);
+		person->setFirstName(fname);
+		person->setLastName(lname);
+		person->setNationalId(natid);
+		person->setPassword(password);
+		person->setUserType(usertype);
+		lockstatus ? person->lock() : person->unlock();
+		person->setCaps(caps);
+		person->cap_acctCreate(caps & Session::ACCOUNT_CREATE);
+		person->cap_acctUpdate(caps & Session::ACCOUNT_UPDATE);
+		person->cap_acctDelete(caps & Session::ACCOUNT_DELETE);
+		person->cap_acctActivate(caps & Session::ACCOUNT_ACTIVATE);
+		person->cap_acctDeactivate(caps & Session::ACCOUNT_DEACTIVATE);
+		person->cap_acctPrintInfo(caps & Session::ACCOUNT_PRINT_INFO);
+		person->cap_acctListAll(caps & Session::ACCOUNT_LIST_ALL);
+		person->cap_custCreate(caps & Session::CUSTOMER_CREATE);
+		person->cap_custUpdate(caps & Session::CUSTOMER_UPDATE);
+		person->cap_custDelete(caps & Session::CUSTOMER_DELETE);
+		person->cap_custActivate(caps & Session::CUSTOMER_ACTIVATE);
+		person->cap_custDeactivate(caps & Session::CUSTOMER_DEACTIVATE);
+		person->cap_custPrintInfo(caps & Session::CUSTOMER_PRINT_INFO);
+		person->cap_custListAll(caps & Session::CUSTOMER_LIST_ALL);
+
+		return person;
+	}
+
+	else if (usertype == Session::ADMIN) {
+		Admin *person = new Admin();
+		person->setId(userid);
+		person->setUserName(uname);
+		person->setFirstName(fname);
+		person->setLastName(lname);
+		person->setNationalId(natid);
+		person->setPassword(password);
+		person->setUserType(usertype);
+		lockstatus ? person->lock() : person->unlock();
+		person->setCaps(caps);
+		person->cap_acctCreate(caps & Session::ACCOUNT_CREATE);
+		person->cap_acctUpdate(caps & Session::ACCOUNT_UPDATE);
+		person->cap_acctDelete(caps & Session::ACCOUNT_DELETE);
+		person->cap_acctActivate(caps & Session::ACCOUNT_ACTIVATE);
+		person->cap_acctDeactivate(caps & Session::ACCOUNT_DEACTIVATE);
+		person->cap_acctPrintInfo(caps & Session::ACCOUNT_PRINT_INFO);
+		person->cap_acctListAll(caps & Session::ACCOUNT_LIST_ALL);
+
+		person->cap_custCreate(caps & Session::CUSTOMER_CREATE);
+		person->cap_custUpdate(caps & Session::CUSTOMER_UPDATE);
+		person->cap_custDelete(caps & Session::CUSTOMER_DELETE);
+		person->cap_custActivate(caps & Session::CUSTOMER_ACTIVATE);
+		person->cap_custDeactivate(caps & Session::CUSTOMER_DEACTIVATE);
+		person->cap_custPrintInfo(caps & Session::CUSTOMER_PRINT_INFO);
+		person->cap_custListAll(caps & Session::CUSTOMER_LIST_ALL);
+
+		person->cap_AdminCreate(caps & Session::ADMIN_CREATE);
+		person->cap_AdminUpdate(caps & Session::ADMIN_UPDATE);
+		person->cap_AdminDelete(caps & Session::ADMIN_DELETE);
+		person->cap_AdminActivate(caps & Session::ADMIN_ACTIVATE);
+		person->cap_AdminDeactivate(caps & Session::ADMIN_DEACTIVATE);
+		person->cap_AdminPrintInfo(caps & Session::ADMIN_PRINT_INFO);
+		person->cap_AdminListAll(caps & Session::ADMIN_LIST_ALL);
+
+		return person;
+	}
+
+	return nullptr;
 }
 
+int Database::computeUserCaps(Person *p) {
+
+	int usertype = setUserType(p);
+	vector<int> allcaps;
+	int usercaps = 0;
+
+	switch (usertype) {
+	case Session::CUSTOMER:
+		allcaps.push_back(Session::CUSTOMER_PRINT_OWN_INFO);
+		allcaps.push_back(Session::CUSTOMER_TRANSFER_TO_ACCOUNT);
+		break;
+
+	case Session::EMPLOYEE:
+	    if (dynamic_cast<Employee*>(p)->canCreateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_CREATE);
+		}
+ 		if (dynamic_cast<Employee*>(p)->canUpdateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_UPDATE);
+ 		}
+		if (dynamic_cast<Employee*>(p)->canDeleteAccount()) {
+			allcaps.push_back(Session::ACCOUNT_DELETE);
+		}
+		if (dynamic_cast<Employee*>(p)->canActivateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canDeactivateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canListAllAccounts()) {
+			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
+		}
+		if (dynamic_cast<Employee*>(p)->canPrintAccountInfo()) {
+			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
+		}
+		if (dynamic_cast<Employee*>(p)->canCreateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_CREATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canUpdateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_UPDATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canDeleteCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_DELETE);
+		}
+		if (dynamic_cast<Employee*>(p)->canActivateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canDeactivateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
+		}
+		if (dynamic_cast<Employee*>(p)->canListAllCustomers()) {
+			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
+		}
+		if (dynamic_cast<Employee*>(p)->canPrintCustomerInfo()) {
+			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
+		}
+		break;
+
+	case Session::ADMIN:
+		if (dynamic_cast<Admin*>(p)->canCreateAdmin()) {
+			allcaps.push_back(Session::ADMIN_CREATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canUpdateAdmin()) {
+			allcaps.push_back(Session::ADMIN_UPDATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeleteAdmin()) {
+			allcaps.push_back(Session::ADMIN_DELETE);
+		}
+		if (dynamic_cast<Admin*>(p)->canActivateAdmin()) {
+			allcaps.push_back(Session::ADMIN_ACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeactivateAdmin()) {
+			allcaps.push_back(Session::ADMIN_DEACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canPrintAdminInfo()) {
+			allcaps.push_back(Session::ADMIN_PRINT_INFO);
+		}
+		if (dynamic_cast<Admin*>(p)->canListAllAdmin()) {
+			allcaps.push_back(Session::ADMIN_LIST_ALL);
+		}
+
+		if (dynamic_cast<Admin*>(p)->canCreateEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_CREATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canUpdateEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_UPDATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeleteEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_DELETE);
+		}
+		if (dynamic_cast<Admin*>(p)->canActivateEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_ACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeactivateEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_DEACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canPrintEmployeeInfo()) {
+			allcaps.push_back(Session::EMPLOYEE_PRINT_INFO);
+		}
+		if (dynamic_cast<Admin*>(p)->canListAllEmployee()) {
+			allcaps.push_back(Session::EMPLOYEE_LIST_ALL);
+		}
+
+		if (dynamic_cast<Admin*>(p)->canCreateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_CREATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canUpdateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_UPDATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeleteAccount()) {
+			allcaps.push_back(Session::ACCOUNT_DELETE);
+		}
+		if (dynamic_cast<Admin*>(p)->canActivateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeactivateAccount()) {
+			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canListAllAccounts()) {
+			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
+		}
+		if (dynamic_cast<Admin*>(p)->canPrintAccountInfo()) {
+			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
+		}
+
+		if (dynamic_cast<Admin*>(p)->canCreateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_CREATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canUpdateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_UPDATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeleteCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_DELETE);
+		}
+		if (dynamic_cast<Admin*>(p)->canActivateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canDeactivateCustomer()) {
+			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
+		}
+		if (dynamic_cast<Admin*>(p)->canListAllCustomers()) {
+			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
+		}
+		if (dynamic_cast<Admin*>(p)->canPrintCustomerInfo()) {
+			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
+		}
+		break;
+	}
+
+	for (vector<int>::iterator it = allcaps.begin() ; it != allcaps.end() ; ++it) {
+		usercaps |= *it;
+	}
+
+	return usercaps;
+}

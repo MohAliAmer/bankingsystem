@@ -38,20 +38,20 @@ public:
 				bEmployeePrintInfo(true),bEmployeeListAll(true),bEmployeeActivate(true),
 				bEmployeeDeactivate(true)
 				{
-		Employee::cap_AcctActivate(true);
-		Employee::cap_AcctCreate(true);
-		Employee::cap_AcctDeactivate(true);
-		Employee::cap_AcctDelete(true);
-		Employee::cap_AcctListAll(true);
-		Employee::cap_AcctPrintInfo(true);
-		Employee::cap_AcctUpdate(true);
+		Employee::cap_acctActivate(true);
+		Employee::cap_acctCreate(true);
+		Employee::cap_acctDeactivate(true);
+		Employee::cap_acctDelete(true);
+		Employee::cap_acctListAll(true);
+		Employee::cap_acctPrintInfo(true);
+		Employee::cap_acctUpdate(true);
 		Employee::cap_custCreate(true);
 		Employee::cap_custDelete(true);
 		Employee::cap_custUpdate(true);
 		Employee::cap_custActivate(true);
 		Employee::cap_custDeactivate(true);
 		Employee::cap_custPrintInfo(true);
-		Employee::cap_cust_ListAll(true);
+		Employee::cap_custListAll(true);
 		Employee::lock();
 	}
 	virtual ~Admin() = default;
