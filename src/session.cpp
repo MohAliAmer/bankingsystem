@@ -116,9 +116,10 @@ void Session::setSessionCapabilities() {
 		usercaps |= *it;
 	}
 	m_user->setCaps(usercaps);
+	populateCapabilityLabels();
 }
 
-void Session::printCapabilities() { // FIXME: change the name
+void Session::populateCapabilityLabels() { // FIXME: change the name
 	for (vector<int>::iterator it = m_capabilities.begin(); it != m_capabilities.end() ; ++it) {
 		switch (*it) {
 		case ACCOUNT_CREATE:

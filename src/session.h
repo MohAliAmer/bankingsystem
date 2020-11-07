@@ -32,6 +32,7 @@ private:
 	vector<string> m_capabilitiesLabels;
 
 	void setUserType();
+	void populateCapabilityLabels();
 
 public:
 	Session() :  m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {}
@@ -89,7 +90,7 @@ public:
 	string encrypt(const string word);
 	void setSessionCapabilities();
 	void tmpSetUser(Person *p) {m_user = p;} // TODO: remove me after
-	void printCapabilities();
+
 };
 
 

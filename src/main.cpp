@@ -54,7 +54,6 @@ int main(){
 
 
 	s->setSessionCapabilities();
-	s->printCapabilities();
 
 	//cout << cust->getAccount()->getBalance() << endl;
 
