@@ -9,6 +9,7 @@
 #include <string>
 #include <string.h>
 #include "database.h"
+#include "session.h"
 #include <assert.h>
 
 using namespace std;
@@ -327,7 +328,8 @@ bool Database::deletePerson(Person *p) {
 	return true;
 }
 
-Person* Database::retrievePerson(const string username) {
+Person* Database::retrievePerson(const string username) { // TODO: Setting user capabilities should be set here
+
 	return nullptr;
 }
 

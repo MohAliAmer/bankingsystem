@@ -8,10 +8,14 @@
 #include "session.h"
 
 void Session::setUserType() {
-	if (typeid(*m_user) == typeid(Customer))      m_userType = CUSTOMER;
-	else if (typeid(*m_user) == typeid(Employee)) m_userType = EMPLOYEE;
-	else if (typeid(*m_user) == typeid(Admin))    m_userType = ADMIN;
-	else m_userType = UNKNOWN;
+	if (typeid(*m_user) == typeid(Customer))
+		m_userType = CUSTOMER;
+	else if (typeid(*m_user) == typeid(Employee))
+		m_userType = EMPLOYEE;
+	else if (typeid(*m_user) == typeid(Admin))
+		m_userType = ADMIN;
+	else
+		m_userType = UNKNOWN;
 }
 
 Person* Session::login(const string username, const string password) {

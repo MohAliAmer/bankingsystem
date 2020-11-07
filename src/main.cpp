@@ -61,5 +61,7 @@ int main(){
 	db->insertAccount(acct);
 	//db->deleteAccount(acct);
 
+	cout << Session::CUSTOMER_ACTIVATE << endl;
+
 	return 0;
 }
