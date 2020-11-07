@@ -48,7 +48,7 @@ int main(){
 	cust->tmpSetAccount(acct);
 
 	Employee *emp = new Employee();
-	emp->unlock();
+	//emp->unlock();
 	emp->setId(2);
 	emp->setUserName("amohamed");
 	emp->setFirstName("Amira");
@@ -58,8 +58,6 @@ int main(){
 	emp->cap_AcctActivate(true);
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
-
-
 
 	s->setSessionUser(emp);
 	s->setSessionCapabilities();
@@ -75,7 +73,7 @@ int main(){
 
 	//cout << Session::CUSTOMER_ACTIVATE << endl;
 
-	Person *p = db->retrievePerson("kmoussa");
-	cout << p->getCaps();
+	Person *p = db->retrievePerson("amohamed");
+	cout << p->isLocked();
 	return 0;
 }

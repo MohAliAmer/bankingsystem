@@ -12,6 +12,16 @@
 #include "session.h"
 #include <assert.h>
 
+#define USERID 0
+#define USERNAME 1
+#define FIRSTNAME 2
+#define LASTNAME 3
+#define NATIONALID 4
+#define PASSWORD 5
+#define USERTYPE 6
+#define USERLOCK 7
+#define USERCAPS 8
+
 using namespace std;
 
 static int callback(void *data, int argc, char **argv, char **azColName) {
@@ -338,7 +348,7 @@ int Database::setUserType(Person *p) {
 		return Session::UNKNOWN;
 }
 
-Person* Database::retrievePerson(const string username) { // TODO: Setting user capabilities should be set here
+Person* Database::retrievePerson(const string username) {
 
 	const char *zErrMsg = nullptr;
 	int rc;
@@ -363,18 +373,18 @@ Person* Database::retrievePerson(const string username) { // TODO: Setting user 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
 			person = new Person();
-	        person->setId(sqlite3_column_int(stmt, 0));
-	        person->setUserName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))));
-	        person->setFirstName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))));
-	        person->setLastName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))));
-	        person->setNationalId(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))));
-	        person->setPassword(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))));
-	        person->setUserType(sqlite3_column_int(stmt, 6));
-	        if (sqlite3_column_int(stmt, 7) == 1)
+	        person->setId(sqlite3_column_int(stmt, USERID));
+	        person->setUserName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, USERNAME))));
+	        person->setFirstName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, FIRSTNAME))));
+	        person->setLastName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, LASTNAME))));
+	        person->setNationalId(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, NATIONALID))));
+	        person->setPassword(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, PASSWORD))));
+	        person->setUserType(sqlite3_column_int(stmt, USERTYPE));
+	        if (sqlite3_column_int(stmt, USERLOCK) == 1)
 	        	person->lock();
 	        else
 	        	person->unlock();
-	        person->setCaps(sqlite3_column_int(stmt, 8));
+	        person->setCaps(sqlite3_column_int(stmt, USERCAPS));
 	        // TODO: switch user type then set caps
 	}
 
