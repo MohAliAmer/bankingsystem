@@ -72,7 +72,7 @@ bool Database::createPersonsTable() {
 
 	sql = "CREATE TABLE IF NOT EXISTS PERSONS(" \
 	      "ID               INT     NOT NULL," \
-	      "USERNAME         TEXT    NOT NULL," \
+	      "USERNAME         TEXT    NOT NULL UNIQUE," \
 	      "FIRSTNAME        TEXT    NOT NULL," \
 	      "LASTNAME         TEXT    NOT NULL," \
 	      "NATIONALID       TEXT    NOT NULL," \
@@ -80,7 +80,7 @@ bool Database::createPersonsTable() {
 	      "TYPE             INT     NOT NULL,"  \
 	      "LOCKED           BOOLEAN NOT NULL," \
 	      "CAPS             INT     NOT NULL,"
-	      "PRIMARY KEY (ID, USERNAME));";
+	      "PRIMARY KEY (ID));";
 
 	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
 
