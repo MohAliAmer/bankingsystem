@@ -34,6 +34,7 @@ int main(){
 	adm->cap_AdminCreate(true);
 	adm->cap_AdminUpdate(true);
 	adm->setCaps(4000);
+	//adm->unlock();
 
 
 	acct->lock();

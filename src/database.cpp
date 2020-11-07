@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <string.h>
 #include "database.h"
 #include <assert.h>
 
@@ -133,39 +134,35 @@ bool Database::insertPerson(Person *p) {
 	}
 
 
-	cout << p->getPassword().c_str() << endl;
-	cout << p->getPassword().length() << endl;
-
-
-	rc = sqlite3_bind_text(stmt, 2, p->getUserName().c_str(), p->getUserName().length(), NULL);
+	rc = sqlite3_bind_text(stmt, 2, p->getUserName().c_str(), p->getUserName().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 3, p->getFirstName().c_str(), p->getFirstName().length(), NULL);
+	rc = sqlite3_bind_text(stmt, 3, p->getFirstName().c_str(), p->getFirstName().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 4, p->getLastName().c_str(), p->getLastName().length(), NULL);
+	rc = sqlite3_bind_text(stmt, 4, p->getLastName().c_str(), p->getLastName().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 5, p->getNationalId().c_str(), p->getNationalId().length(), NULL);
+	rc = sqlite3_bind_text(stmt, 5, p->getNationalId().c_str(), p->getNationalId().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		fprintf(stderr, "Error binding value in insert (%i): %s\n", rc, sqlite3_errmsg(db));
 		sqlite3_close(db);
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 6, p->getPassword().c_str(), p->getPassword().length(), NULL);
+	rc = sqlite3_bind_text(stmt, 6, p->getPassword().c_str(), p->getPassword().length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
@@ -179,7 +176,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 8, p->getUserType() );
+	rc = sqlite3_bind_int64(stmt, 8, p->isLocked() );
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
