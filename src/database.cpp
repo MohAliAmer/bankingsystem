@@ -77,7 +77,7 @@ bool Database::createPersonsTable() {
 	      "NATIONALID       TEXT    NOT NULL," \
 	      "PASSWORD         TEXT    NOT NULL," \
 	      "TYPE             INT     NOT NULL,"  \
-	      "LOCKED           BOOLEAN NOT NULL," \
+	      "LOCKED           INT     NOT NULL," \
 	      "CAPS             INT     NOT NULL,"
 	      "PRIMARY KEY (ID));";
 
@@ -253,7 +253,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 7, p->getUserType() );
+	rc = sqlite3_bind_int64(stmt, 7, setUserType(p) );
 	if(SQLITE_OK != rc) {
 		fprintf(stderr, "Error binding value in insert (%i): %s\n", rc, sqlite3_errmsg(db));
 		sqlite3_close(db);
@@ -269,7 +269,7 @@ bool Database::insertPerson(Person *p) {
 
 	rc = sqlite3_bind_int64(stmt, 9, p->getCaps() );
 	if(SQLITE_OK != rc) {
-		fprintf(stderr, "Error binding value in insert (%i): %s\n", rc, sqlite3_errmsg(db));
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
 	}
@@ -327,8 +327,57 @@ bool Database::deletePerson(Person *p) {
 	return true;
 }
 
+int Database::setUserType(Person *p) {
+	if (typeid(*p) == typeid(Customer))
+		return Session::CUSTOMER;
+	else if (typeid(*p) == typeid(Employee))
+		return Session::EMPLOYEE;
+	else if (typeid(*p) == typeid(Admin))
+		return Session::ADMIN;
+	else
+		return Session::UNKNOWN;
+}
+
 Person* Database::retrievePerson(const string username) { // TODO: Setting user capabilities should be set here
 
-	return nullptr;
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	Person *person = nullptr;
+
+	sql = "SELECT * from PERSONS WHERE USERNAME = ?";
+
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+	}
+
+	rc = sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), SQLITE_TRANSIENT);
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+			person = new Person();
+	        person->setId(sqlite3_column_int(stmt, 0));
+	        person->setUserName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))));
+	        person->setFirstName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))));
+	        person->setLastName(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))));
+	        person->setNationalId(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))));
+	        person->setPassword(string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))));
+	        person->setUserType(sqlite3_column_int(stmt, 6));
+	        if (sqlite3_column_int(stmt, 7) == 1)
+	        	person->lock();
+	        else
+	        	person->unlock();
+	        person->setCaps(sqlite3_column_int(stmt, 8));
+	        // TODO: switch user type then set caps
+	}
+
+	return person;
 }
 

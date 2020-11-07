@@ -38,7 +38,7 @@ int main(){
 	adm->cap_custCreate(false);
 	adm->cap_custDelete(true);
 	adm->cap_EmployeeCreate(false);
-	adm->setCaps(4000);
+	//adm->setCaps(4000);
 	//adm->unlock();
 
 	acct->setId(122);
@@ -48,11 +48,20 @@ int main(){
 	cust->tmpSetAccount(acct);
 
 	Employee *emp = new Employee();
+	emp->unlock();
+	emp->setId(2);
+	emp->setUserName("amohamed");
+	emp->setFirstName("Amira");
+	emp->setLastName("Mohamed");
+	emp->setNationalId("888877779999");
+	emp->setPassword(s->encrypt("test"));
 	emp->cap_AcctActivate(true);
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
 
-	s->setSessionUser(adm);
+
+
+	s->setSessionUser(emp);
 	s->setSessionCapabilities();
 
 	//cout << cust->getAccount()->getBalance() << endl;
@@ -60,11 +69,13 @@ int main(){
 	Database *db = new Database();
 	db->createAccountsTable();
 	db->createPersonsTable();
-	db->insertPerson(adm);
+	db->insertPerson(emp);
 	db->insertAccount(acct);
 	//db->deleteAccount(acct);
 
 	//cout << Session::CUSTOMER_ACTIVATE << endl;
 
+	Person *p = db->retrievePerson("kmoussa");
+	cout << p->getCaps();
 	return 0;
 }

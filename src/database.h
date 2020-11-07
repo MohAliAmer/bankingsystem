@@ -24,6 +24,7 @@ class Database {
 private:
 	sqlite3 *db;
 
+	int setUserType(Person *p);
 public:
 	Database();
 	~Database();
