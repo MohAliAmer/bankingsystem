@@ -30,7 +30,6 @@ private:
 	int m_userType;
 	vector<int> m_capabilities;
 	vector<string> m_capabilitiesLabels;
-
 	void setUserType();
 	void populateCapabilityLabels();
 
@@ -89,7 +88,7 @@ public:
 	bool changePassword(Person *p, const string newpassword);
 	string encrypt(const string word);
 	void setSessionCapabilities();
-	void tmpSetUser(Person *p) {m_user = p;} // TODO: remove me after
+	void setSessionUser(Person *p) {m_user = p;}
 
 };
 

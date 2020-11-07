@@ -38,7 +38,6 @@ int main(){
 	adm->setCaps(4000);
 	//adm->unlock();
 
-
 	acct->setId(122);
 	acct->lock();
 	acct->setBalance(10000);
@@ -50,24 +49,17 @@ int main(){
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
 
-	s->tmpSetUser(adm);
-
-
+	s->setSessionUser(adm);
 	s->setSessionCapabilities();
 
 	//cout << cust->getAccount()->getBalance() << endl;
-
 
 	Database *db = new Database();
 	db->createAccountsTable();
 	db->createPersonsTable();
 	db->insertPerson(adm);
 	db->insertAccount(acct);
-
 	//db->deleteAccount(acct);
-
-	cout << adm->getCaps() << endl;
-
 
 	return 0;
 }
