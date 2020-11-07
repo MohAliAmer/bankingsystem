@@ -33,16 +33,13 @@ public:
 	bool createPersonsTable();
 
 	bool insertAccount(Account *acct);
-	bool updateAcount(Account *acct);
 	bool deleteAccount(Account *acct);
 	Account* retrieveAccount(const int account_id);
 
 	bool insertPerson(Person *p);
-	bool updatePerson(Person *p);
 	bool deletePerson();
-	Person* retrievePerson(const int person_id);
 	Person* retrievePerson(const string username);
-	Person* retrievePerson(const int person_id, const string username);
+
 
 };
 

@@ -12,7 +12,6 @@
 
 class Admin : public Employee {
 private:
-
 	bool bAdminCreate;
 	bool bAdminUpdate;
 	bool bAdminDelete;
@@ -72,25 +71,32 @@ public:
 	bool canListAllAdmin()   {return bAdminListAll;}
 	bool canPrintAdminInfo() {return bAdminPrintInfo;}
 
-	bool canCreateEmployee() {return bEmployeeCreate;}
-	bool canUpdateEmployee() {return bEmployeeUpdate;}
-	bool canDeleteEmployee() {return bEmployeeDelete;}
-	bool canPrintEmployeeInfo() {return bEmployeePrintInfo;}
-	bool canListAllEmployee() {return bEmployeeListAll;}
-	bool canActivateEmployee() {return bEmployeeActivate;}
+	bool canCreateEmployee()     {return bEmployeeCreate;}
+	bool canUpdateEmployee()     {return bEmployeeUpdate;}
+	bool canDeleteEmployee()     {return bEmployeeDelete;}
+	bool canPrintEmployeeInfo()  {return bEmployeePrintInfo;}
+	bool canListAllEmployee()    {return bEmployeeListAll;}
+	bool canActivateEmployee()   {return bEmployeeActivate;}
 	bool canDeactivateEmployee() {return bEmployeeDeactivate;}
-
 
 	bool createAdmin(Admin *admin);
 	bool updateAdmin(Admin *admin);
 	bool deleteAdmin(Admin *admin);
+	bool activateAdmin(Admin *admin);
+	bool deactivateAdmin(Admin *admin);
+	void printAdminInfo(Admin *admin);
+
 	bool createEmployee(Employee *emp);
 	bool updateEmployee(Employee *emp);
 	bool deleteEmployee(Employee *emp);
+	bool activateEmployee(Employee *emp);
+	bool deactivateEmployee(Employee *emp);
 	void printEmployeeInfo(Employee *emp);
-	void printAdminInfo(Admin *admin);
+
 
 	void printAllAdmins();
+	void printAllEmployees();
+
 
 };
 

@@ -18,7 +18,6 @@
 class Employee : public Person {
 
 private:
-	bool bLocked;
 	bool bAcctCreate;
 	bool bAcctUpdate;
 	bool bAcctDelete;
@@ -36,7 +35,7 @@ private:
 	bool bCustPrintInfo;
 
 public:
-	Employee() : bLocked(true), bAcctCreate(true),bAcctUpdate(true),
+	Employee() : bAcctCreate(true),bAcctUpdate(true),
 				bAcctDelete(true), bAcctDeactivate(true), bAcctActivate(true),
 				bAcctListAll(false),bAcctPrintInfo(true),bCustCreate(true),
 				bCustUpdate(true),bCustDelete(true),bCustActivate(true),bCustDeactivate(true),
@@ -57,8 +56,8 @@ public:
 	void cap_custDeactivate(bool value) {bCustDeactivate = value;}
 	void cap_custPrintInfo(bool value) {bCustPrintInfo = value;}
 	void cap_cust_ListAll(bool value) {bCustListAll = value;}
-	void lock() {bLocked = true;}
-	void unlock() {bLocked = false;}
+	void lock() {Person::bLocked = true;}
+	void unlock() {Person::bLocked = false;}
 
 	bool canCreateAccount() {return bAcctCreate;}
 	bool canUpdateAccount() {return bAcctUpdate;}
@@ -74,7 +73,6 @@ public:
 	bool canDeleteCustomer() {return bCustDelete;}
 	bool canActivateCustomer() {return bCustActivate;}
 	bool canDeactivateCustomer() {return bCustDeactivate;}
-	bool isLocked() {return bLocked;}
 
 	bool createAccount(Account *acct);
 	bool deleteAccount(Account *acct);
@@ -90,8 +88,7 @@ public:
 	void printCustInfo(Customer *cust);
 	void printAcctInfo(Account *acct);
 
+
 };
-
-
 
 #endif /* SRC_EMPLOYEE_H_ */

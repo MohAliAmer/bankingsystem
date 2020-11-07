@@ -21,6 +21,20 @@ int main(){
 	Customer *cust = new Customer();
 	Account *acct = new Account();
 	Admin *adm = new Admin();
+	Session *s = new Session();
+
+	adm->setId(1);
+	adm->setUserName("kmoussa");
+	adm->setFirstName("Khaled");
+	adm->setLastName("Moussa");
+	adm->setNationalId("45455767878");
+	adm->setPassword(s->encrypt("abc123"));
+	adm->cap_AdminActivate(true);
+	adm->cap_AdminDelete(true);
+	adm->cap_AdminCreate(true);
+	adm->cap_AdminUpdate(true);
+	adm->setCaps(4000);
+
 
 	acct->lock();
 	acct->setBalance(10000);
@@ -30,11 +44,9 @@ int main(){
 	emp->cap_AcctActivate(true);
 	emp->cap_AcctDeactivate(true);
 	emp->cap_AcctCreate(true);
-	Session *s = new Session();
+
 	s->tmpSetUser(adm);
 
-	adm->cap_AdminCreate(true);
-	adm->cap_AdminUpdate(true);
 
 	s->setSessionCapabilities();
 	s->printCapabilities();
@@ -44,6 +56,9 @@ int main(){
 
 	Database *db = new Database();
 	db->createAccountsTable();
+	db->createPersonsTable();
+	db->insertPerson(adm);
+
 
 	return 0;
 }
