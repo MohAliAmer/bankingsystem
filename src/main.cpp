@@ -29,10 +29,12 @@ int main(){
 	adm->setLastName("Moussa");
 	adm->setNationalId("45455767878");
 	adm->setPassword(s->encrypt("abc123"));
-	adm->cap_AdminActivate(true);
+	adm->cap_AdminPrintInfo(true);
+	adm->cap_AdminActivate(false);
 	adm->cap_AdminDelete(true);
 	adm->cap_AdminCreate(true);
 	adm->cap_AdminUpdate(true);
+	adm->cap_custCreate(false);
 	adm->setCaps(4000);
 	//adm->unlock();
 
@@ -63,7 +65,10 @@ int main(){
 	db->insertPerson(adm);
 	db->insertAccount(acct);
 
-	db->deleteAccount(acct);
+	//db->deleteAccount(acct);
+
+	cout << adm->getCaps() << endl;
+
 
 	return 0;
 }

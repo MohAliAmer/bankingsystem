@@ -42,6 +42,7 @@ string Session::encrypt(const string word) {
 
 void Session::setSessionCapabilities() {
 
+	int usercaps = 0;
 	setUserType();
 	switch (m_userType) {
 	case CUSTOMER:
@@ -110,6 +111,11 @@ void Session::setSessionCapabilities() {
 	default:
 		break;
 	}
+
+	for (vector<int>::iterator it = m_capabilities.begin() ; it != m_capabilities.end() ; ++it) {
+		usercaps |= *it;
+	}
+	m_user->setCaps(usercaps);
 }
 
 void Session::printCapabilities() { // FIXME: change the name
