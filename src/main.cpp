@@ -29,12 +29,15 @@ int main(){
 	adm->setLastName("Moussa");
 	adm->setNationalId("45455767878");
 	adm->setPassword(s->encrypt("abc123"));
-	adm->cap_AdminPrintInfo(true);
+	adm->cap_AdminPrintInfo(false);
 	adm->cap_AdminActivate(false);
-	adm->cap_AdminDelete(true);
-	adm->cap_AdminCreate(true);
-	adm->cap_AdminUpdate(true);
+	adm->cap_AdminDeactivate(false);
+	adm->cap_AdminDelete(false);
+	adm->cap_AdminCreate(false);
+	adm->cap_AdminUpdate(false);
 	adm->cap_custCreate(false);
+	adm->cap_custDelete(true);
+	adm->cap_EmployeeCreate(false);
 	adm->setCaps(4000);
 	//adm->unlock();
 
@@ -61,7 +64,7 @@ int main(){
 	db->insertAccount(acct);
 	//db->deleteAccount(acct);
 
-	cout << Session::CUSTOMER_ACTIVATE << endl;
+	//cout << Session::CUSTOMER_ACTIVATE << endl;
 
 	return 0;
 }

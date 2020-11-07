@@ -63,6 +63,15 @@ public:
 	void cap_AdminActivate(bool value)  {bAdminActivate = value;}
 	void cap_AdminDeactivate(bool value){bAdminDeactivate = value;}
 
+	void cap_EmployeeCreate(bool value)    {bEmployeeCreate = value;}
+	void cap_EmployeeUpdate(bool value)    {bEmployeeUpdate = value;}
+	void cap_EmployeeDelete(bool value)    {bEmployeeDelete = value;}
+	void cap_EmployeeListAll(bool value)   {bEmployeeListAll = value;}
+	void cap_EmployeePrintInfo(bool value) {bEmployeePrintInfo = value;}
+	void cap_EmployeeActivate(bool value)  {bEmployeeActivate = value;}
+	void cap_EmployeeDeactivate(bool value){bEmployeeDeactivate = value;}
+
+
 	bool canCreateAdmin()    {return bAdminCreate;}
 	bool canUpdateAdmin()    {return bAdminUpdate;}
 	bool canDeleteAdmin()    {return bAdminDelete;}

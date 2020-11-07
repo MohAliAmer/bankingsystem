@@ -23,7 +23,6 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
    return 0;
 }
 
-
 Database::Database() : db(nullptr) {
 	initDB();
 }
