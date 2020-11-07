@@ -37,7 +37,7 @@ public:
 	Account* retrieveAccount(const int account_id);
 
 	bool insertPerson(Person *p);
-	bool deletePerson();
+	bool deletePerson(Person *p);
 	Person* retrievePerson(const string username);
 
 

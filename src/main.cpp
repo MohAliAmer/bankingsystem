@@ -63,6 +63,7 @@ int main(){
 	db->insertPerson(adm);
 	db->insertAccount(acct);
 
+	db->deleteAccount(acct);
 
 	return 0;
 }

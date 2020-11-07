@@ -19,7 +19,7 @@ private:
 
 public:
 	Account() : bLocked(true), m_id(0), m_balance(0) {}
-	~Account();
+	virtual ~Account() = default;
 	void lock(){bLocked = true;}
 	void unlock(){bLocked = false;}
 	bool isLocked() {return bLocked;}

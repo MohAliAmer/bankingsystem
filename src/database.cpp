@@ -37,7 +37,6 @@ void Database::initDB() {
 
 	if(rc) {
 		cerr << "Error opening the future bank database: " << sqlite3_errmsg(db) << endl;
-		//exit -1;
 	}
 }
 
@@ -96,6 +95,7 @@ bool Database::createPersonsTable() {
 }
 
 bool Database::insertAccount(Account *acct) {
+
 	const char *zErrMsg;
 	int rc;
 	string sql;
@@ -147,7 +147,43 @@ bool Database::insertAccount(Account *acct) {
 }
 
 bool Database::deleteAccount(Account *acct) {
-	return false;
+
+	const char *zErrMsg;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt;
+
+	sql = "DELETE FROM ACCOUNTS WHERE ID = ?;";
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if (SQLITE_OK != rc) {
+		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
+				<< " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, acct->getId() );
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in delete " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_step(stmt);
+	if(SQLITE_DONE != rc) {
+		cerr <<  "Error binding value in delete " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		return false;
+	}
+
+	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+
+	delete acct;
+
+	return true;
 }
 
 Account* Database::retrieveAccount(const int account_id) {
@@ -250,8 +286,45 @@ bool Database::insertPerson(Person *p) {
 	return true;
 }
 
-bool Database::deletePerson() {
-	return false;
+bool Database::deletePerson(Person *p) {
+
+	const char *zErrMsg;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt;
+
+	sql = "DELETE FROM PERSONS WHERE USERNAME = ?;";
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if (SQLITE_OK != rc) {
+		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
+				<< " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+
+	rc = sqlite3_bind_text(stmt, 1, p->getUserName().c_str(), p->getUserName().length(), SQLITE_TRANSIENT);
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in delete " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_step(stmt);
+	if(SQLITE_DONE != rc) {
+		cerr <<  "Error binding value in delete " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		return false;
+	}
+
+	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+
+	delete p;
+
+	return true;
 }
 
 Person* Database::retrievePerson(const string username) {
