@@ -24,15 +24,6 @@
 
 using namespace std;
 
-static int callback(void *data, int argc, char **argv, char **azColName) {
-   int i;
-   for(i = 0; i<argc; i++) {
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
-   return 0;
-}
-
 Database::Database() : db(nullptr) {
 	if (initDB()) {
 		if (!createAccountsTable()) {
@@ -77,7 +68,7 @@ bool Database::createAccountsTable() {
 			"LOCKED		 BOOLEAN    NOT NULL," \
 			"BALANCE         INT    NOT NULL);";
 
-	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);///////////////////////
 
 	if (rc != SQLITE_OK) {
 		cerr <<  "SQL error: " << zErrMsg << endl;
@@ -108,7 +99,7 @@ bool Database::createPersonsTable() {
 	      "CAPS             INT     NOT NULL,"
 	      "PRIMARY KEY (ID));";
 
-	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
 
 	if (rc != SQLITE_OK) {
 		cerr <<  "SQL error: " << zErrMsg << endl;
