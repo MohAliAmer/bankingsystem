@@ -41,6 +41,25 @@ int main(){
 	adm->cap_EmployeeCreate(false);
 	adm->unlock();
 
+	Admin *farida = new Admin();
+	farida->setId(4);
+	farida->setUserName("fmoussa");
+	farida->setFirstName("Farida");
+	farida->setLastName("Moussa");
+	farida->setNationalId("908908324");
+	farida->setPassword(s->encrypt("xyz123"));
+	farida->cap_AdminPrintInfo(true);
+	farida->cap_AdminActivate(true);
+	farida->cap_AdminDeactivate(true);
+	farida->cap_AdminDelete(true);
+	farida->cap_AdminCreate(true);
+	farida->cap_AdminUpdate(true);
+	farida->cap_custCreate(true);
+	farida->cap_custDelete(true);
+	farida->cap_acctCreate(true);
+	farida->cap_EmployeeCreate(true);
+	farida->unlock();
+
 	acct->setId(122);
 	acct->lock();
 	acct->setBalance(10000);
@@ -59,7 +78,6 @@ int main(){
 	emp->cap_acctDeactivate(true);
 	emp->cap_acctCreate(true);
 
-
 	Customer *adam = new Customer();
 	adam->lock();
 	adam->setId(3);
@@ -69,43 +87,46 @@ int main(){
 	adam->setNationalId("1212121");
 	adam->setPassword(s->encrypt("mypassword"));
 
-
 	s->setSessionUser(adm);
-	//s->setSessionCapabilities();
-
-	//cout << cust->getAccount()->getBalance() << endl;
 
 	Database *db = new Database();
 	db->createAccountsTable();
 	db->createPersonsTable();
 	db->insertPerson(adm);
+	db->insertPerson(farida);
 	db->insertPerson(emp);
 	db->insertAccount(acct);
 	db->insertPerson(adam);
 	//db->deleteAccount(acct);
 
-	//cout << Session::CUSTOMER_ACTIVATE << endl;
+	Person *p;
+	Admin *tmpA;
+	Employee *tmpE;
+	Customer  *tmpC;
 
-	Person *p = db->retrievePerson("amohamed");
-	cout << dynamic_cast<Employee*>(p)->isLocked() << endl;
-	cout << p->getFirstName() << endl;
-	cout << p->getCaps()<<endl;
+	p = db->retrievePerson("amohamed");
+	tmpE = dynamic_cast<Employee*>(p);
+	cout << tmpE->isLocked() << endl;
+	cout << tmpE->getFirstName() << endl;
+	cout << tmpE->getCaps()<<endl;
 
-	Person *q = db->retrievePerson("kmoussa");
-	cout << dynamic_cast<Admin*>(q)->isLocked() << endl;
-	cout << q->getFirstName() << endl;
-	cout << q->getCaps()<<endl;
+	p = db->retrievePerson("kmoussa");
+	tmpA = dynamic_cast<Admin*>(p);
+	cout << tmpA->isLocked() << tmpA->getUserType() << endl;
+	cout << tmpA->getFirstName() << endl;
+	cout << tmpA->getCaps()<<endl;
 
+	p = db->retrievePerson("amoussa");
+	tmpC = dynamic_cast<Customer*>(p);
+	cout << tmpC->isLocked() << endl;
+	cout << tmpC->getFirstName() << endl;
+	cout << tmpC->getCaps()<<endl;
 
-
-	Person *m = db->retrievePerson("amoussa");
-	cout << dynamic_cast<Customer*>(m)->isLocked() << endl;
-	cout << m->getFirstName() << endl;
-	cout << m->getCaps()<<endl;
-
-
-	Account *aa = db->retrieveAccount(122);
-	cout << "Account balance = " << aa->getBalance() << endl;
+	p = db->retrievePerson("fmoussa");
+	tmpA = dynamic_cast<Admin*>(p);
+	cout << dynamic_cast<Admin*>(tmpA)->isLocked() << endl;
+	cout << tmpA->getFirstName() << endl;
+	cout << tmpA->getCaps()<<endl;
 
 	return 0;
 }
