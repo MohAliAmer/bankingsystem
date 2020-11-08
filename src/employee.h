@@ -74,20 +74,6 @@ public:
 	bool canActivateCustomer() {return bCustActivate;}
 	bool canDeactivateCustomer() {return bCustDeactivate;}
 
-	bool createAccount(Account *acct);
-	bool deleteAccount(Account *acct);
-	bool updateAccount(Account *acct);
-	bool deactivateAccount(Account *acct);
-	bool activateAccount(Account *acct);
-	bool createCustomer(Customer *customer);
-	bool updateCustomer(Customer *customer);
-	bool deleteCustomer(Customer *customer);
-	bool transfer(Account *from, Account *to, const int sum);
-	bool deposit(Account *acct, const int sum);
-	void printAllCustomers();
-	void printCustInfo(Customer *cust);
-	void printAcctInfo(Account *acct);
-
 
 };
 

@@ -15,6 +15,12 @@ Session::~Session() {
 	delete m_db;
 }
 
+bool Session::isAuthorized(int priv) {
+	if (m_user->getCaps() & priv)
+		return true;
+	return false;
+}
+
 void Session::setUserType() {
 	if (typeid(*m_user) == typeid(Customer))
 		m_userType = CUSTOMER;
@@ -204,4 +210,126 @@ void Session::setSessionCapabilities() {
 
 }
 
+bool Session::withdraw(const int sum) {
+	return false;
+}
 
+bool Session::transfer(Account *acct, const int sum) {
+	return false;
+}
+
+bool Session::printCustomerInfo() {
+	if (!isAuthorized(Session::CUSTOMER_PRINT_INFO))
+		return false;
+
+	return false;
+
+}
+
+bool Session::createAccount(Account *acct) {
+	return false;
+}
+
+bool Session::deleteAccount(Account *acct) {
+	return false;
+}
+
+bool Session::updateAccount(Account *acct) {
+	return false;
+}
+
+bool Session::deactivateAccount(Account *acct) {
+	return false;
+}
+
+bool Session::activateAccount(Account *acct) {
+	return false;
+}
+
+bool Session::createCustomer(Customer *customer) {
+	return false;
+}
+
+bool Session::updateCustomer(Customer *customer) {
+	return false;
+}
+
+bool Session::deleteCustomer(Customer *customer) {
+	return false;
+}
+
+bool Session::transfer(Account *from, Account *to, const int sum) {
+	return false;
+}
+
+bool Session::deposit(Account *acct, const int sum) {
+	return false;
+}
+
+bool Session::printAllCustomers() {
+	return false;
+}
+
+bool Session::printCustInfo(Customer *cust) {
+	return false;
+}
+
+bool Session::printAcctInfo(Account *acct) {
+	return false;
+}
+
+bool Session::createAdmin(Admin *admin) {
+	return false;
+}
+
+bool Session::updateAdmin(Admin *admin) {
+	return false;
+}
+
+bool Session::deleteAdmin(Admin *admin) {
+	return false;
+}
+
+bool Session::activateAdmin(Admin *admin) {
+	return false;
+}
+
+bool Session::deactivateAdmin(Admin *admin) {
+	return false;
+}
+
+bool Session::printAdminInfo(Admin *admin) {
+	return false;
+}
+
+bool Session::createEmployee(Employee *emp) {
+	return false;
+}
+
+bool Session::updateEmployee(Employee *emp) {
+	return false;
+}
+
+bool Session::deleteEmployee(Employee *emp) {
+	return false;
+}
+
+bool Session::activateEmployee(Employee *emp) {
+	return false;
+}
+
+bool Session::deactivateEmployee(Employee *emp) {
+	return false;
+}
+
+bool Session::printEmployeeInfo(Employee *emp) {
+	return false;
+}
+
+bool Session::printAllAdmins() {
+	return false;
+}
+
+bool Session::printAllEmployees() {
+	return false;
+}

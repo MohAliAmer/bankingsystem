@@ -88,25 +88,6 @@ public:
 	bool canActivateEmployee()   {return bEmployeeActivate;}
 	bool canDeactivateEmployee() {return bEmployeeDeactivate;}
 
-	bool createAdmin(Admin *admin);
-	bool updateAdmin(Admin *admin);
-	bool deleteAdmin(Admin *admin);
-	bool activateAdmin(Admin *admin);
-	bool deactivateAdmin(Admin *admin);
-	void printAdminInfo(Admin *admin);
-
-	bool createEmployee(Employee *emp);
-	bool updateEmployee(Employee *emp);
-	bool deleteEmployee(Employee *emp);
-	bool activateEmployee(Employee *emp);
-	bool deactivateEmployee(Employee *emp);
-	void printEmployeeInfo(Employee *emp);
-
-
-	void printAllAdmins();
-	void printAllEmployees();
-
-
 };
 
 

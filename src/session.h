@@ -31,7 +31,9 @@ private:
 	vector<string> m_capabilitiesLabels;
 	void setUserType();
 	void setSessionCapabilities();
+	bool isAuthorized(int priv);
 	Database *m_db;
+
 
 public:
 	Session();
@@ -85,12 +87,49 @@ public:
 	Person* login(const string username, const string password);
 	void logout();
 	bool changePassword(Person *p, const string newpassword);
-	string encrypt(const string word);
+	string encrypt(const string word); // TODO: Private me later
 
 	void setSessionUser(Person *p) {
 		m_user = p;
 		setSessionCapabilities();
 	}
+
+	// Customer methods
+	bool withdraw(const int sum);
+	bool transfer(Account *acct, const int sum);
+	bool printCustomerInfo();
+
+
+	// Employee methods
+	bool createAccount(Account *acct);
+	bool deleteAccount(Account *acct);
+	bool updateAccount(Account *acct);
+	bool deactivateAccount(Account *acct);
+	bool activateAccount(Account *acct);
+	bool createCustomer(Customer *customer);
+	bool updateCustomer(Customer *customer);
+	bool deleteCustomer(Customer *customer);
+	bool transfer(Account *from, Account *to, const int sum);
+	bool deposit(Account *acct, const int sum);
+	bool printAllCustomers();
+	bool printCustInfo(Customer *cust);
+	bool printAcctInfo(Account *acct);
+
+	// Admin methods
+	bool createAdmin(Admin *admin);
+	bool updateAdmin(Admin *admin);
+	bool deleteAdmin(Admin *admin);
+	bool activateAdmin(Admin *admin);
+	bool deactivateAdmin(Admin *admin);
+	bool printAdminInfo(Admin *admin);
+	bool createEmployee(Employee *emp);
+	bool updateEmployee(Employee *emp);
+	bool deleteEmployee(Employee *emp);
+	bool activateEmployee(Employee *emp);
+	bool deactivateEmployee(Employee *emp);
+	bool printEmployeeInfo(Employee *emp);
+	bool printAllAdmins();
+	bool printAllEmployees();
 
 };
 
