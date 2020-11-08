@@ -228,12 +228,14 @@ Account* Database::retrieveAccount(const int account_id) {
 	if(SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
+		return nullptr;
 	}
 
 	rc = sqlite3_bind_int64(stmt, 1, account_id);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
+		return nullptr;
 	}
 
 	int step = sqlite3_step(stmt);
@@ -420,12 +422,14 @@ Person* Database::retrievePerson(const string username) {
 	if(SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
+		return nullptr;
 	}
 
 	rc = sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), SQLITE_TRANSIENT);
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
+		return nullptr;
 	}
 
 	int step = sqlite3_step(stmt);

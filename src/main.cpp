@@ -134,10 +134,16 @@ int main(){
 	cout << tmpA->getCaps()<<endl;
 	cout << "Can Create Admins " << tmpA->canCreateAdmin() << endl;
 
+	delete acct;
+	delete adm;
+	delete emp;
+	delete adam;
+	delete farida;
 	delete s;
 	delete tmpA;
 	delete tmpE;
 	delete tmpC;
+	delete p;
 	delete db;
 
 

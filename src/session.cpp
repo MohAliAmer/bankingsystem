@@ -7,6 +7,14 @@
 
 #include "session.h"
 
+Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {
+	m_db = new Database();
+}
+
+Session::~Session() {
+	delete m_db;
+}
+
 void Session::setUserType() {
 	if (typeid(*m_user) == typeid(Customer))
 		m_userType = CUSTOMER;
@@ -23,10 +31,6 @@ Person* Session::login(const string username, const string password) {
 }
 
 void Session::logout() {
-}
-
-Session::~Session() {
-
 }
 
 bool Session::changePassword(Person *p, const string newpassword) {
@@ -51,17 +55,15 @@ string Session::encrypt(const string word) {
 void Session::setSessionCapabilities() {
 
 	setUserType();
+
 	switch (m_userType) {
 
 	case CUSTOMER:
-	{
 		m_capabilitiesLabels.push_back("Print my customer Information");
 		m_capabilitiesLabels.push_back("Transfer money to another Account");
 		break;
-	}
 
 	case EMPLOYEE:
-	{
 		if (dynamic_cast<Employee*>(m_user)->canCreateAccount())
 			m_capabilitiesLabels.push_back("Create Account");
 
@@ -104,9 +106,8 @@ void Session::setSessionCapabilities() {
 		if (dynamic_cast<Employee*>(m_user)->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print Customer Information");
 		break;
-	}
 
-	case ADMIN: {
+	case ADMIN:
 		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin())
 			m_capabilitiesLabels.push_back("Create Administrator");
 
@@ -191,15 +192,16 @@ void Session::setSessionCapabilities() {
 		if (dynamic_cast<Admin*>(m_user)->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print my customer Information");
 		break;
-	}
+
 	default:
 		break;
 	}
-/*
-	for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){ // TODO: remove me after
-		cout << *it << endl;
-	}
-*/
+	/*
+	 for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){ // TODO: remove me after
+	 cout << *it << endl;
+	 }
+	 */
 
 }
+
 

@@ -18,7 +18,7 @@
 #include "employee.h"
 #include "admin.h"
 #include "person.h"
-//#include "database.h"
+#include "database.h"
 
 using namespace std;
 
@@ -31,9 +31,10 @@ private:
 	vector<string> m_capabilitiesLabels;
 	void setUserType();
 	void setSessionCapabilities();
+	Database *m_db;
 
 public:
-	Session() :  m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {}
+	Session();
 	~Session();
 
 	enum {
