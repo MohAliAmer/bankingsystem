@@ -13,6 +13,7 @@ Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {
 
 Session::~Session() {
 	delete m_db;
+	delete m_user;
 }
 
 bool Session::isAuthorized(int priv) {
@@ -227,34 +228,50 @@ bool Session::printCustomerInfo() {
 }
 
 bool Session::createAccount(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_CREATE))
+		return false;
 	return false;
 }
 
 bool Session::deleteAccount(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_DELETE))
+		return false;
 	return false;
 }
 
 bool Session::updateAccount(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_UPDATE))
+		return false;
 	return false;
 }
 
 bool Session::deactivateAccount(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_DEACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::activateAccount(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_ACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::createCustomer(Customer *customer) {
+	if (!isAuthorized(Session::CUSTOMER_CREATE))
+		return false;
 	return false;
 }
 
 bool Session::updateCustomer(Customer *customer) {
+	if (!isAuthorized(Session::CUSTOMER_UPDATE))
+		return false;
 	return false;
 }
 
 bool Session::deleteCustomer(Customer *customer) {
+	if (!isAuthorized(Session::CUSTOMER_DELETE))
+		return false;
 	return false;
 }
 
@@ -266,70 +283,104 @@ bool Session::deposit(Account *acct, const int sum) {
 	return false;
 }
 
-bool Session::printAllCustomers() {
+bool Session::ListAllCustomers() {
+	if (!isAuthorized(Session::CUSTOMER_LIST_ALL))
+		return false;
 	return false;
 }
 
 bool Session::printCustInfo(Customer *cust) {
+	if (!isAuthorized(Session::CUSTOMER_PRINT_INFO))
+		return false;
 	return false;
 }
 
 bool Session::printAcctInfo(Account *acct) {
+	if (!isAuthorized(Session::ACCOUNT_PRINT_INFO))
+		return false;
 	return false;
 }
 
 bool Session::createAdmin(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_CREATE))
+		return false;
 	return false;
 }
 
 bool Session::updateAdmin(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_UPDATE))
+		return false;
 	return false;
 }
 
 bool Session::deleteAdmin(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_DELETE))
+		return false;
 	return false;
 }
 
 bool Session::activateAdmin(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_ACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::deactivateAdmin(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_DEACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::printAdminInfo(Admin *admin) {
+	if (!isAuthorized(Session::ADMIN_PRINT_INFO))
+		return false;
 	return false;
 }
 
 bool Session::createEmployee(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_CREATE))
+		return false;
 	return false;
 }
 
 bool Session::updateEmployee(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_UPDATE))
+		return false;
 	return false;
 }
 
 bool Session::deleteEmployee(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_DELETE))
+		return false;
 	return false;
 }
 
 bool Session::activateEmployee(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_ACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::deactivateEmployee(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_DEACTIVATE))
+		return false;
 	return false;
 }
 
 bool Session::printEmployeeInfo(Employee *emp) {
+	if (!isAuthorized(Session::EMPLOYEE_PRINT_INFO))
+		return false;
 	return false;
 }
 
-bool Session::printAllAdmins() {
+bool Session::ListAllAdmins() {
+	if (!isAuthorized(Session::ADMIN_LIST_ALL))
+		return false;
 	return false;
 }
 
-bool Session::printAllEmployees() {
+bool Session::ListAllEmployees() {
+	if (!isAuthorized(Session::EMPLOYEE_LIST_ALL))
+		return false;
 	return false;
 }

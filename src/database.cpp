@@ -532,139 +532,144 @@ int Database::computeUserCaps(Person *p) {
 		allcaps.push_back(Session::CUSTOMER_TRANSFER_TO_ACCOUNT);
 		break;
 
-	case Session::EMPLOYEE:
-	    if (dynamic_cast<Employee*>(p)->canCreateAccount()) {
+	case Session::EMPLOYEE: {
+		Employee *emp = dynamic_cast<Employee*>(p);
+		if (emp->canCreateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_CREATE);
 		}
- 		if (dynamic_cast<Employee*>(p)->canUpdateAccount()) {
+		if (emp->canUpdateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_UPDATE);
- 		}
-		if (dynamic_cast<Employee*>(p)->canDeleteAccount()) {
+		}
+		if (emp->canDeleteAccount()) {
 			allcaps.push_back(Session::ACCOUNT_DELETE);
 		}
-		if (dynamic_cast<Employee*>(p)->canActivateAccount()) {
+		if (emp->canActivateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canDeactivateAccount()) {
+		if (emp->canDeactivateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canListAllAccounts()) {
+		if (emp->canListAllAccounts()) {
 			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
 		}
-		if (dynamic_cast<Employee*>(p)->canPrintAccountInfo()) {
+		if (emp->canPrintAccountInfo()) {
 			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
 		}
-		if (dynamic_cast<Employee*>(p)->canCreateCustomer()) {
+		if (emp->canCreateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_CREATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canUpdateCustomer()) {
+		if (emp->canUpdateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_UPDATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canDeleteCustomer()) {
+		if (emp->canDeleteCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_DELETE);
 		}
-		if (dynamic_cast<Employee*>(p)->canActivateCustomer()) {
+		if (emp->canActivateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canDeactivateCustomer()) {
+		if (emp->canDeactivateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
 		}
-		if (dynamic_cast<Employee*>(p)->canListAllCustomers()) {
+		if (emp->canListAllCustomers()) {
 			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
 		}
-		if (dynamic_cast<Employee*>(p)->canPrintCustomerInfo()) {
+		if (emp->canPrintCustomerInfo()) {
 			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
 		}
 		break;
-
-	case Session::ADMIN:
-		if (dynamic_cast<Admin*>(p)->canCreateAdmin()) {
+	}
+	case Session::ADMIN: {
+		Admin *adm = dynamic_cast<Admin*>(p);
+		if (adm->canCreateAdmin()) {
 			allcaps.push_back(Session::ADMIN_CREATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canUpdateAdmin()) {
+		if (adm->canUpdateAdmin()) {
 			allcaps.push_back(Session::ADMIN_UPDATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeleteAdmin()) {
+		if (adm->canDeleteAdmin()) {
 			allcaps.push_back(Session::ADMIN_DELETE);
 		}
-		if (dynamic_cast<Admin*>(p)->canActivateAdmin()) {
+		if (adm->canActivateAdmin()) {
 			allcaps.push_back(Session::ADMIN_ACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeactivateAdmin()) {
+		if (adm->canDeactivateAdmin()) {
 			allcaps.push_back(Session::ADMIN_DEACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canPrintAdminInfo()) {
+		if (adm->canPrintAdminInfo()) {
 			allcaps.push_back(Session::ADMIN_PRINT_INFO);
 		}
-		if (dynamic_cast<Admin*>(p)->canListAllAdmin()) {
+		if (adm->canListAllAdmin()) {
 			allcaps.push_back(Session::ADMIN_LIST_ALL);
 		}
 
-		if (dynamic_cast<Admin*>(p)->canCreateEmployee()) {
+		if (adm->canCreateEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_CREATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canUpdateEmployee()) {
+		if (adm->canUpdateEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_UPDATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeleteEmployee()) {
+		if (adm->canDeleteEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_DELETE);
 		}
-		if (dynamic_cast<Admin*>(p)->canActivateEmployee()) {
+		if (adm->canActivateEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_ACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeactivateEmployee()) {
+		if (adm->canDeactivateEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_DEACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canPrintEmployeeInfo()) {
+		if (adm->canPrintEmployeeInfo()) {
 			allcaps.push_back(Session::EMPLOYEE_PRINT_INFO);
 		}
-		if (dynamic_cast<Admin*>(p)->canListAllEmployee()) {
+		if (adm->canListAllEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_LIST_ALL);
 		}
 
-		if (dynamic_cast<Admin*>(p)->canCreateAccount()) {
+		if (adm->canCreateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_CREATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canUpdateAccount()) {
+		if (adm->canUpdateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_UPDATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeleteAccount()) {
+		if (adm->canDeleteAccount()) {
 			allcaps.push_back(Session::ACCOUNT_DELETE);
 		}
-		if (dynamic_cast<Admin*>(p)->canActivateAccount()) {
+		if (adm->canActivateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeactivateAccount()) {
+		if (adm->canDeactivateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canListAllAccounts()) {
+		if (adm->canListAllAccounts()) {
 			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
 		}
-		if (dynamic_cast<Admin*>(p)->canPrintAccountInfo()) {
+		if (adm->canPrintAccountInfo()) {
 			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
 		}
 
-		if (dynamic_cast<Admin*>(p)->canCreateCustomer()) {
+		if (adm->canCreateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_CREATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canUpdateCustomer()) {
+		if (adm->canUpdateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_UPDATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeleteCustomer()) {
+		if (adm->canDeleteCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_DELETE);
 		}
-		if (dynamic_cast<Admin*>(p)->canActivateCustomer()) {
+		if (adm->canActivateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canDeactivateCustomer()) {
+		if (adm->canDeactivateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
 		}
-		if (dynamic_cast<Admin*>(p)->canListAllCustomers()) {
+		if (adm->canListAllCustomers()) {
 			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
 		}
-		if (dynamic_cast<Admin*>(p)->canPrintCustomerInfo()) {
+		if (adm->canPrintCustomerInfo()) {
 			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
 		}
+		break;
+	}
+	default:
 		break;
 	}
 

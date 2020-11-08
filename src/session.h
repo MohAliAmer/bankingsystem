@@ -26,14 +26,13 @@ class Session {
 
 private:
 	Person *m_user;
+	Database *m_db;
 	bool bIsLoggedIn;
 	int m_userType;
 	vector<string> m_capabilitiesLabels;
 	void setUserType();
 	void setSessionCapabilities();
 	bool isAuthorized(int priv);
-	Database *m_db;
-
 
 public:
 	Session();
@@ -111,7 +110,7 @@ public:
 	bool deleteCustomer(Customer *customer);
 	bool transfer(Account *from, Account *to, const int sum);
 	bool deposit(Account *acct, const int sum);
-	bool printAllCustomers();
+	bool ListAllCustomers();
 	bool printCustInfo(Customer *cust);
 	bool printAcctInfo(Account *acct);
 
@@ -128,11 +127,10 @@ public:
 	bool activateEmployee(Employee *emp);
 	bool deactivateEmployee(Employee *emp);
 	bool printEmployeeInfo(Employee *emp);
-	bool printAllAdmins();
-	bool printAllEmployees();
+	bool ListAllAdmins();
+	bool ListAllEmployees();
 
 };
-
 
 
 #endif /* SRC_SESSION_H_ */
