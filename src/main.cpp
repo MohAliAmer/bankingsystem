@@ -18,7 +18,6 @@
 using namespace std;
 
 int main(){
-	Customer *cust = new Customer();
 	Account *acct = new Account();
 	Admin *adm = new Admin();
 	Session *s = new Session();
@@ -60,12 +59,6 @@ int main(){
 	farida->cap_EmployeeCreate(true);
 	farida->unlock();
 
-	acct->setId(122);
-	acct->lock();
-	acct->setBalance(10000);
-
-	cust->tmpSetAccount(acct);
-
 	Employee *emp = new Employee();
 	emp->lock();
 	emp->setId(2);
@@ -79,73 +72,70 @@ int main(){
 	emp->cap_acctCreate(true);
 
 	Customer *adam = new Customer();
-	adam->lock();
+	adam->unlock();
 	adam->setId(3);
 	adam->setUserName("amoussa");
 	adam->setFirstName("Adam");
 	adam->setLastName("Moussa");
 	adam->setNationalId("1212121");
 	adam->setPassword(s->encrypt("mypassword"));
+	adam->setAccount(acct);
 
-	s->setSessionUser(adm);
+
+	Customer *rokaia = new Customer();
+	rokaia->unlock();
+	rokaia->setId(4);
+	rokaia->setUserName("rmoussa");
+	rokaia->setFirstName("Rokaia");
+	rokaia->setLastName("Moussa");
+	rokaia->setNationalId("222233333444");
+	rokaia->setPassword(s->encrypt("testpass"));
+	Account *rokaiaaccount = new Account();
+	rokaiaaccount->setId(123);
+	rokaiaaccount->setBalance(0);
+	rokaiaaccount->setCustomerId(rokaia->getId());
+	rokaiaaccount->unlock();
+	rokaia->setAccount(rokaiaaccount);
+
+	acct->setId(122);
+	acct->unlock();
+	acct->setBalance(10000);
+	acct->setCustomerId(adam->getId());
 
 	Database *db = new Database();
-	db->insertPerson(adm);
-	db->insertPerson(farida);
-	db->insertPerson(emp);
-	db->insertAccount(acct);
 	db->insertPerson(adam);
+	db->insertAccount(acct);
+	db->insertPerson(rokaia);
+	db->insertAccount(rokaiaaccount);
 
-	Person *p;
-	Admin *tmpA;
-	Employee *tmpE;
-	Customer  *tmpC;
 
-	p = db->retrievePerson("amohamed");
-	tmpE = dynamic_cast<Employee*>(p);
-	cout << tmpE->isLocked() << endl;
-	cout << tmpE->getFirstName() << " " << tmpE->getLastName() << endl;
-	cout << tmpE->getCaps()<<endl;
-	cout << "Can Create Customers " << tmpE->canCreateCustomer() << endl;
+	s->login("amoussa", "mypassword");
+	if (s->isLoggedIn()) {
+		cout << "Successfull login" << endl;
+		if (s->deposit(5600))
+			cout << "Depost success" << endl;
+		else
+			cerr << "Deposit failed" << endl;
 
-	cout << endl;
+		if (s->withdraw(300))
+			cout << "Withdraw success" << endl;
+		else
+			cerr << "Withdraw failed" << endl;
 
-	p = db->retrievePerson("kmoussa");
-	tmpA = dynamic_cast<Admin*>(p);
-	cout << tmpA->isLocked() << endl;
-	cout << tmpA->getFirstName() << " " << tmpA->getLastName() << endl;
-	cout << tmpA->getCaps()<<endl;
-	cout << "Can Create Admins " << tmpA->canCreateAdmin() << endl;
+		if (s->transfer(rokaiaaccount->getId(), 1000)) {
+			cout << "Transfer Successfull" << endl;
+		}
+		else
+			cerr << "Transfer failed" << endl;
 
-	cout << endl;
+	}
+	else
+		cerr << "Failed attempt to login" << endl;
 
-	p = db->retrievePerson("amoussa");
-	tmpC = dynamic_cast<Customer*>(p);
-	cout << tmpC->isLocked() << endl;
-	cout << tmpC->getFirstName() << " " << tmpC->getLastName() << endl;
-	cout << tmpC->getCaps()<<endl;
 
-	cout << endl;
 
-	p = db->retrievePerson("fmoussa");
-	tmpA = dynamic_cast<Admin*>(p);
-	cout << dynamic_cast<Admin*>(tmpA)->isLocked() << endl;
-	cout << tmpA->getFirstName() << " " << tmpA->getLastName() << endl;
-	cout << tmpA->getCaps()<<endl;
-	cout << "Can Create Admins " << tmpA->canCreateAdmin() << endl;
 
-	delete acct;
-	delete adm;
-	delete emp;
-	delete adam;
-	delete farida;
 	delete s;
-	delete tmpA;
-	delete tmpE;
-	delete tmpC;
-	delete p;
-	delete db;
-
 
 	return 0;
 }

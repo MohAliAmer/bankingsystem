@@ -37,6 +37,7 @@ public:
 	bool insertAccount(Account *acct);
 	bool deleteAccount(Account *acct);
 	Account* retrieveAccount(const int account_id);
+	Account* retrieveAccountByCustomer(const int customer_id);
 
 	bool insertPerson(Person *p);
 	bool deletePerson(Person *p);

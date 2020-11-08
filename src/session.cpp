@@ -33,14 +33,54 @@ void Session::setUserType() {
 		m_userType = UNKNOWN;
 }
 
-Person* Session::login(const string username, const string password) {
-	return nullptr;
+bool Session::login(const string username, const string password) {
+
+	string unverified_enc_pass = encrypt(password);
+	Person *p = m_db->retrievePerson(username);
+	if (!p)
+		return false;
+
+	if ((p->getPassword() == unverified_enc_pass) && !p->isLocked()) {
+
+		switch (p->getUserType()) {
+		case Session::CUSTOMER: {
+			//m_user = dynamic_cast<Customer*>(p);
+			Account *acct = m_db->retrieveAccountByCustomer(p->getId());
+			if (acct)
+				dynamic_cast<Customer*>(p)->setAccount(acct);
+			break;
+		}
+		case Session::EMPLOYEE:
+			//m_user = dynamic_cast<Employee*>(p);
+			break;
+		case Session::ADMIN:
+			//m_user = dynamic_cast<Admin*>(p);
+			break;
+		default:
+			//m_user = nullptr;
+			return false;
+		}
+
+
+		this->m_user = p;
+		this->bIsLoggedIn = true;
+		return true;
+	}
+
+	return false;
 }
 
 void Session::logout() {
+	this->bIsLoggedIn = false;
+	delete m_user;
 }
 
 bool Session::changePassword(Person *p, const string newpassword) {
+
+	p->setPassword(encrypt(newpassword));
+	if (m_db->insertPerson(p))
+		return true;
+
 	return false;
 }
 
@@ -68,6 +108,7 @@ void Session::setSessionCapabilities() {
 	case CUSTOMER:
 		m_capabilitiesLabels.push_back("Print my customer Information");
 		m_capabilitiesLabels.push_back("Transfer money to another Account");
+		m_capabilitiesLabels.push_back("Print my account Information");
 		break;
 
 	case EMPLOYEE:
@@ -211,176 +252,9 @@ void Session::setSessionCapabilities() {
 
 }
 
-bool Session::withdraw(const int sum) {
-	return false;
-}
 
-bool Session::transfer(Account *acct, const int sum) {
-	return false;
-}
 
-bool Session::printCustomerInfo() {
-	if (!isAuthorized(Session::CUSTOMER_PRINT_INFO))
-		return false;
 
-	return false;
 
-}
 
-bool Session::createAccount(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_CREATE))
-		return false;
-	return false;
-}
 
-bool Session::deleteAccount(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_DELETE))
-		return false;
-	return false;
-}
-
-bool Session::updateAccount(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_UPDATE))
-		return false;
-	return false;
-}
-
-bool Session::deactivateAccount(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_DEACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::activateAccount(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_ACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::createCustomer(Customer *customer) {
-	if (!isAuthorized(Session::CUSTOMER_CREATE))
-		return false;
-	return false;
-}
-
-bool Session::updateCustomer(Customer *customer) {
-	if (!isAuthorized(Session::CUSTOMER_UPDATE))
-		return false;
-	return false;
-}
-
-bool Session::deleteCustomer(Customer *customer) {
-	if (!isAuthorized(Session::CUSTOMER_DELETE))
-		return false;
-	return false;
-}
-
-bool Session::transfer(Account *from, Account *to, const int sum) {
-	return false;
-}
-
-bool Session::deposit(Account *acct, const int sum) {
-	return false;
-}
-
-bool Session::ListAllCustomers() {
-	if (!isAuthorized(Session::CUSTOMER_LIST_ALL))
-		return false;
-	return false;
-}
-
-bool Session::printCustInfo(Customer *cust) {
-	if (!isAuthorized(Session::CUSTOMER_PRINT_INFO))
-		return false;
-	return false;
-}
-
-bool Session::printAcctInfo(Account *acct) {
-	if (!isAuthorized(Session::ACCOUNT_PRINT_INFO))
-		return false;
-	return false;
-}
-
-bool Session::createAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_CREATE))
-		return false;
-	return false;
-}
-
-bool Session::updateAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_UPDATE))
-		return false;
-	return false;
-}
-
-bool Session::deleteAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_DELETE))
-		return false;
-	return false;
-}
-
-bool Session::activateAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_ACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::deactivateAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_DEACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::printAdminInfo(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_PRINT_INFO))
-		return false;
-	return false;
-}
-
-bool Session::createEmployee(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_CREATE))
-		return false;
-	return false;
-}
-
-bool Session::updateEmployee(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_UPDATE))
-		return false;
-	return false;
-}
-
-bool Session::deleteEmployee(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_DELETE))
-		return false;
-	return false;
-}
-
-bool Session::activateEmployee(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_ACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::deactivateEmployee(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_DEACTIVATE))
-		return false;
-	return false;
-}
-
-bool Session::printEmployeeInfo(Employee *emp) {
-	if (!isAuthorized(Session::EMPLOYEE_PRINT_INFO))
-		return false;
-	return false;
-}
-
-bool Session::ListAllAdmins() {
-	if (!isAuthorized(Session::ADMIN_LIST_ALL))
-		return false;
-	return false;
-}
-
-bool Session::ListAllEmployees() {
-	if (!isAuthorized(Session::EMPLOYEE_LIST_ALL))
-		return false;
-	return false;
-}

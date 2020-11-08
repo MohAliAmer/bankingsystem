@@ -16,7 +16,7 @@ class Customer : public Person{
 
 private:
 	Account *m_account;
-	void setAccount(Account *acct) {m_account = acct;}
+
 
 public:
 
@@ -27,8 +27,8 @@ public:
 	bool isLocked(){return Person::bLocked;}
 	bool deposite(const int sum);
 
+	void setAccount(Account *acct) {m_account = acct;}
 	Account* getAccount() {return this->m_account;}
-	void tmpSetAccount(Account *acct) {setAccount(acct);} // TODO: remove me after
 
 };
 

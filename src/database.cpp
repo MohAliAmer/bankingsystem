@@ -26,13 +26,13 @@ using namespace std;
 
 Database::Database() : db(nullptr) {
 	if (initDB()) {
-		if (!createAccountsTable()) {
-			cerr << "Error creating the accounts table" << endl;
+		if (!createPersonsTable()) {
+			cerr << "Error creating the persons table" << endl;
 			exit(-2);
 		}
 
-		if (!createPersonsTable()) {
-			cerr << "Error creating the persons table" << endl;
+		if (!createAccountsTable()) {
+			cerr << "Error creating the accounts table" << endl;
 			exit(-2);
 		}
 	}
@@ -64,9 +64,11 @@ bool Database::createAccountsTable() {
 	string sql;
 
 	sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS(" \
-			"ID 			 INT    PRIMARY KEY NOT NULL,"   \
-			"LOCKED		 BOOLEAN    NOT NULL," \
-			"BALANCE         INT    NOT NULL);";
+			"ID 			 INT        PRIMARY KEY NOT NULL,"   \
+			"LOCKED		     BOOLEAN    NOT NULL," \
+			"OWNER			 INT		NOT NULL," \
+			"BALANCE         INT        NOT NULL," \
+			"FOREIGN KEY(OWNER) REFERENCES PERSONS(ID));";
 
 	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);///////////////////////
 
@@ -119,7 +121,7 @@ bool Database::insertAccount(Account *acct) {
 	string sql;
 	sqlite3_stmt *stmt;
 
-	sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?);";
+	sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?);";
 
 	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
 	assert(rc == SQLITE_OK);
@@ -145,7 +147,14 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 3, acct->getBalance() );
+	rc = sqlite3_bind_int64(stmt, 3, acct->getCustomerId());
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 4, acct->getBalance() );
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
@@ -212,6 +221,7 @@ Account* Database::retrieveAccount(const int account_id) {
 	sqlite3_stmt *stmt = nullptr;
 	int accountid = 0;
 	int lockstatus = 0;
+	int custid = 0;
 	int balance = 0;
 
 	sql = "SELECT * from ACCOUNTS WHERE ID = ?";
@@ -233,12 +243,57 @@ Account* Database::retrieveAccount(const int account_id) {
 	if (step == SQLITE_ROW) {
 		accountid = sqlite3_column_int(stmt, 0);
 		lockstatus = sqlite3_column_int(stmt, 1);
-		balance = sqlite3_column_int(stmt, 2);
+		custid = sqlite3_column_int(stmt, 2);
+		balance = sqlite3_column_int(stmt, 3);
 	}
 
 	Account *acct = new Account();
 	acct->setId(accountid);
 	acct->setBalance(balance);
+	acct->setCustomerId(custid);
+	lockstatus ? acct->lock() : acct->unlock();
+
+	return acct;
+}
+
+Account* Database::retrieveAccountByCustomer(const int customer_id) {
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int accountid = 0;
+	int lockstatus = 0;
+	int custid = 0;
+	int balance = 0;
+
+	sql = "SELECT * from ACCOUNTS WHERE OWNER = ?";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return nullptr;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, customer_id);
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		return nullptr;
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		accountid = sqlite3_column_int(stmt, 0);
+		lockstatus = sqlite3_column_int(stmt, 1);
+		custid = sqlite3_column_int(stmt, 2);
+		balance = sqlite3_column_int(stmt, 3);
+	}
+
+	Account *acct = new Account();
+	acct->setId(accountid);
+	acct->setBalance(balance);
+	acct->setCustomerId(custid);
 	lockstatus ? acct->lock() : acct->unlock();
 
 	return acct;
@@ -530,6 +585,7 @@ int Database::computeUserCaps(Person *p) {
 	case Session::CUSTOMER:
 		allcaps.push_back(Session::CUSTOMER_PRINT_OWN_INFO);
 		allcaps.push_back(Session::CUSTOMER_TRANSFER_TO_ACCOUNT);
+		allcaps.push_back(Session::ACCOUNT_PRINT_OWN_INFO);
 		break;
 
 	case Session::EMPLOYEE: {

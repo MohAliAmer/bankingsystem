@@ -48,32 +48,33 @@ public:
 			ACCOUNT_DEACTIVATE = (1 << 4),
 			ACCOUNT_LIST_ALL = (1 << 5),
 			ACCOUNT_PRINT_INFO = (1 << 6),
+			ACCOUNT_PRINT_OWN_INFO = (1 << 7),
 
-			CUSTOMER_CREATE = (1 << 7),
-			CUSTOMER_UPDATE = (1 << 8),
-			CUSTOMER_DELETE = (1 << 9),
-			CUSTOMER_ACTIVATE = (1 << 10),
-			CUSTOMER_DEACTIVATE = (1 << 11),
-			CUSTOMER_PRINT_INFO = (1 << 12),
-			CUSTOMER_PRINT_OWN_INFO = (1 << 13),
-			CUSTOMER_LIST_ALL = (1 << 14),
-			CUSTOMER_TRANSFER_TO_ACCOUNT = (1 << 15),
+			CUSTOMER_CREATE = (1 << 8),
+			CUSTOMER_UPDATE = (1 << 9),
+			CUSTOMER_DELETE = (1 << 10),
+			CUSTOMER_ACTIVATE = (1 << 11),
+			CUSTOMER_DEACTIVATE = (1 << 12),
+			CUSTOMER_PRINT_INFO = (1 << 13),
+			CUSTOMER_PRINT_OWN_INFO = (1 << 14),
+			CUSTOMER_LIST_ALL = (1 << 15),
+			CUSTOMER_TRANSFER_TO_ACCOUNT = (1 << 16),
 
-			EMPLOYEE_CREATE = (1 << 16),
-			EMPLOYEE_UPDATE = (1 << 17),
-			EMPLOYEE_DELETE = (1 << 18),
-			EMPLOYEE_PRINT_INFO = (1 << 19),
-			EMPLOYEE_LIST_ALL = (1 << 20),
-			EMPLOYEE_ACTIVATE = (1 << 21),
-			EMPLOYEE_DEACTIVATE = (1 << 22),
+			EMPLOYEE_CREATE = (1 << 17),
+			EMPLOYEE_UPDATE = (1 << 18),
+			EMPLOYEE_DELETE = (1 << 19),
+			EMPLOYEE_PRINT_INFO = (1 << 20),
+			EMPLOYEE_LIST_ALL = (1 << 21),
+			EMPLOYEE_ACTIVATE = (1 << 22),
+			EMPLOYEE_DEACTIVATE = (1 << 23),
 
-			ADMIN_CREATE = (1 << 23),
-			ADMIN_UPDATE = (1 << 24),
-			ADMIN_DELETE = (1 << 25),
-			ADMIN_PRINT_INFO = (1 << 26),
-			ADMIN_LIST_ALL = (1 << 27),
-			ADMIN_ACTIVATE = (1 << 28),
-			ADMIN_DEACTIVATE = (1 << 29)
+			ADMIN_CREATE = (1 << 24),
+			ADMIN_UPDATE = (1 << 25),
+			ADMIN_DELETE = (1 << 26),
+			ADMIN_PRINT_INFO = (1 << 27),
+			ADMIN_LIST_ALL = (1 << 28),
+			ADMIN_ACTIVATE = (1 << 29),
+			ADMIN_DEACTIVATE = (1 << 30)
 		};
 
 		enum {
@@ -83,7 +84,8 @@ public:
 			CUSTOMER
 		};
 
-	Person* login(const string username, const string password);
+	bool isLoggedIn() {return bIsLoggedIn;}
+	bool login(const string username, const string password);
 	void logout();
 	bool changePassword(Person *p, const string newpassword);
 	string encrypt(const string word); // TODO: Private me later
@@ -95,8 +97,10 @@ public:
 
 	// Customer methods
 	bool withdraw(const int sum);
-	bool transfer(Account *acct, const int sum);
+	bool transfer(const int to, const int sum);
 	bool printCustomerInfo();
+	bool printAccountInfo();
+	bool deposit(const int sum);
 
 
 	// Employee methods
@@ -111,8 +115,9 @@ public:
 	bool transfer(Account *from, Account *to, const int sum);
 	bool deposit(Account *acct, const int sum);
 	bool ListAllCustomers();
-	bool printCustInfo(Customer *cust);
-	bool printAcctInfo(Account *acct);
+	bool printCustomerInfo(Customer *cust);
+	bool printAccountInfo(Account *acct);
+
 
 	// Admin methods
 	bool createAdmin(Admin *admin);
