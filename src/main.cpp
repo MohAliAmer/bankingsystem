@@ -90,14 +90,11 @@ int main(){
 	s->setSessionUser(adm);
 
 	Database *db = new Database();
-	db->createAccountsTable();
-	db->createPersonsTable();
 	db->insertPerson(adm);
 	db->insertPerson(farida);
 	db->insertPerson(emp);
 	db->insertAccount(acct);
 	db->insertPerson(adam);
-	//db->deleteAccount(acct);
 
 	Person *p;
 	Admin *tmpA;
@@ -107,26 +104,42 @@ int main(){
 	p = db->retrievePerson("amohamed");
 	tmpE = dynamic_cast<Employee*>(p);
 	cout << tmpE->isLocked() << endl;
-	cout << tmpE->getFirstName() << endl;
+	cout << tmpE->getFirstName() << " " << tmpE->getLastName() << endl;
 	cout << tmpE->getCaps()<<endl;
+	cout << "Can Create Customers " << tmpE->canCreateCustomer() << endl;
+
+	cout << endl;
 
 	p = db->retrievePerson("kmoussa");
 	tmpA = dynamic_cast<Admin*>(p);
-	cout << tmpA->isLocked() << tmpA->getUserType() << endl;
-	cout << tmpA->getFirstName() << endl;
+	cout << tmpA->isLocked() << endl;
+	cout << tmpA->getFirstName() << " " << tmpA->getLastName() << endl;
 	cout << tmpA->getCaps()<<endl;
+	cout << "Can Create Admins " << tmpA->canCreateAdmin() << endl;
+
+	cout << endl;
 
 	p = db->retrievePerson("amoussa");
 	tmpC = dynamic_cast<Customer*>(p);
 	cout << tmpC->isLocked() << endl;
-	cout << tmpC->getFirstName() << endl;
+	cout << tmpC->getFirstName() << " " << tmpC->getLastName() << endl;
 	cout << tmpC->getCaps()<<endl;
+
+	cout << endl;
 
 	p = db->retrievePerson("fmoussa");
 	tmpA = dynamic_cast<Admin*>(p);
 	cout << dynamic_cast<Admin*>(tmpA)->isLocked() << endl;
-	cout << tmpA->getFirstName() << endl;
+	cout << tmpA->getFirstName() << " " << tmpA->getLastName() << endl;
 	cout << tmpA->getCaps()<<endl;
+	cout << "Can Create Admins " << tmpA->canCreateAdmin() << endl;
+
+	delete s;
+	delete tmpA;
+	delete tmpE;
+	delete tmpC;
+	delete db;
+
 
 	return 0;
 }

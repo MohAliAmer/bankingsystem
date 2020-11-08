@@ -34,20 +34,37 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 }
 
 Database::Database() : db(nullptr) {
-	initDB();
+	if (initDB()) {
+		if (!createAccountsTable()) {
+			cerr << "Error creating the accounts table" << endl;
+			exit(-2);
+		}
+
+		if (!createPersonsTable()) {
+			cerr << "Error creating the persons table" << endl;
+			exit(-2);
+		}
+	}
+	else {
+		cerr << "Error connecting to the bank database" << endl;
+		exit(-1);
+	}
 }
 
 Database::~Database() {
+	sqlite3_close(db);
 }
 
-void Database::initDB() {
+bool Database::initDB() {
 
 	int rc;
 	rc = sqlite3_open(DBNAME, &db);
 
 	if(rc) {
 		cerr << "Error opening the future bank database: " << sqlite3_errmsg(db) << endl;
+		return false;
 	}
+	return true;
 }
 
 bool Database::createAccountsTable() {

@@ -22,11 +22,15 @@ Person* Session::login(const string username, const string password) {
 	return nullptr;
 }
 
-Person* Session::login(int userid, string password) {
-	return nullptr;
+void Session::logout() {
 }
 
-void Session::logout() {
+Session::~Session() {
+
+}
+
+bool Session::changePassword(Person *p, const string newpassword) {
+	return false;
 }
 
 string Session::encrypt(const string word) {
@@ -46,16 +50,13 @@ string Session::encrypt(const string word) {
 
 void Session::setSessionCapabilities() {
 
-	//int usercaps = 0;
 	setUserType();
-
 	switch (m_userType) {
 
 	case CUSTOMER:
 	{
 		m_capabilitiesLabels.push_back("Print my customer Information");
 		m_capabilitiesLabels.push_back("Transfer money to another Account");
-
 		break;
 	}
 
@@ -102,7 +103,6 @@ void Session::setSessionCapabilities() {
 
 		if (dynamic_cast<Employee*>(m_user)->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print Customer Information");
-
 		break;
 	}
 
@@ -190,7 +190,6 @@ void Session::setSessionCapabilities() {
 
 		if (dynamic_cast<Admin*>(m_user)->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print my customer Information");
-
 		break;
 	}
 	default:
