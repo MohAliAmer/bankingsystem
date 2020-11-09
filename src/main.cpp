@@ -18,26 +18,24 @@
 using namespace std;
 
 int main(){
-	Account *acct = new Account();
-	Admin *adm = new Admin();
+	//Account *acct = new Account();
+	//Admin *adm = new Admin();
 	Session *s = new Session();
+	Database *db = new Database();
 
-	adm->setId(1);
+	/*
+	adm->setId(13);
 	adm->setUserName("kmoussa");
 	adm->setFirstName("Khaled");
 	adm->setLastName("Moussa");
 	adm->setNationalId("45455767878");
 	adm->setPassword(s->encrypt("abc123"));
-	adm->cap_AdminPrintInfo(false);
-	adm->cap_AdminActivate(false);
-	adm->cap_AdminDeactivate(false);
-	adm->cap_AdminDelete(false);
-	adm->cap_AdminCreate(false);
-	adm->cap_AdminUpdate(false);
-	adm->cap_custCreate(false);
-	adm->cap_custDelete(true);
-	adm->cap_acctCreate(true);
-	adm->cap_EmployeeCreate(false);
+	adm->cap_AdminPrintInfo(true);
+	adm->cap_AdminActivate(true);
+	adm->cap_AdminDeactivate(true);
+	adm->cap_AdminDelete(true);
+	adm->cap_AdminCreate(true);
+	adm->cap_AdminUpdate(true);
 	adm->unlock();
 
 	Admin *farida = new Admin();
@@ -103,39 +101,23 @@ int main(){
 	acct->setCustomerId(adam->getId());
 
 	Database *db = new Database();
+	db->insertPerson(adm);
 	db->insertPerson(adam);
 	db->insertAccount(acct);
 	db->insertPerson(rokaia);
 	db->insertAccount(rokaiaaccount);
 
-
 	s->login("amoussa", "mypassword");
 	if (s->isLoggedIn()) {
-		cout << "Successfull login" << endl;
-		if (s->deposit(5600))
-			cout << "Depost success" << endl;
-		else
-			cerr << "Deposit failed" << endl;
-
-		if (s->withdraw(300))
-			cout << "Withdraw success" << endl;
-		else
-			cerr << "Withdraw failed" << endl;
-
-		if (s->transfer(rokaiaaccount->getId(), 1000)) {
-			cout << "Transfer Successfull" << endl;
-		}
-		else
-			cerr << "Transfer failed" << endl;
 
 	}
 	else
 		cerr << "Failed attempt to login" << endl;
+*/
 
+	cout << db->generatePersonNumber() << endl;
 
-
-
-	delete s;
 
 	return 0;
 }
+

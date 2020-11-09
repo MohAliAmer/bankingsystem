@@ -735,3 +735,59 @@ int Database::computeUserCaps(Person *p) {
 
 	return usercaps;
 }
+
+int Database::generateAccountNumber() {
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int maxid = 0;
+
+	sql = "SELECT MAX(ID) from ACCOUNTS;";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if (SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+				<< " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		cerr << "Couldn't generate a valid account number, please contact your administrator!!!" << endl;
+		exit(-1);
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		maxid = sqlite3_column_int(stmt, 0);
+		if (maxid <= 0)
+			return 1;
+	}
+
+	return maxid+1;
+}
+
+int Database::generatePersonNumber() {
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int maxid = 0;
+
+	sql = "SELECT MAX(ID) from PERSONS;";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if (SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+				<< " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		cerr << "Couldn't generate a valid person number, please contact your administrator!!!" << endl;
+		exit(-1);
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		maxid = sqlite3_column_int(stmt, 0);
+		if (maxid <= 0)
+			return 1;
+	}
+
+	return maxid+1;
+}

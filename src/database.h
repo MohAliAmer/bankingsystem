@@ -43,6 +43,8 @@ public:
 	bool deletePerson(Person *p);
 	Person* retrievePerson(const string username);
 
+	int generateAccountNumber();
+	int generatePersonNumber();
 
 
 };

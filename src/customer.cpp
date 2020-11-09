@@ -16,7 +16,6 @@ bool Session::withdraw(const int sum) {
 		return false;
 
 	int oldBalance = cust->getAccount()->getBalance();
-
 	if (cust->getAccount()->getBalance() < sum) {
 		return false;
 	}
@@ -38,22 +37,21 @@ bool Session::transfer(const int to, const int sum) {
 		return false;
 
 	int oldBalance = cust->getAccount()->getBalance();
-
-	if (cust->getAccount()->getBalance() < sum) {
+	if (cust->getAccount()->getBalance() < sum)
 		return false;
-	}
+
 
 	Account *toAccount = m_db->retrieveAccount(to);
 	if (toAccount) {
 		cust->getAccount()->setBalance(oldBalance - sum);
 		int oldAccountBalance = toAccount->getBalance();
 		toAccount->setBalance(oldAccountBalance + sum);
-		// Verify
-		if (toAccount->getBalance() == (oldAccountBalance + sum)) {
+
+		// Stricktly verify since it is user money
+		if (toAccount->getBalance() == (oldAccountBalance + sum))
 			if (m_db->insertAccount(cust->getAccount())
 					&& m_db->insertAccount(toAccount))
 				return true;
-		}
 	}
 	return false;
 }
@@ -65,15 +63,8 @@ bool Session::deposit(const int sum) {
 	if (!cust || !bIsLoggedIn)
 		return false;
 
-	cout << cust->getFirstName() << endl;
-
 	int oldBalance = cust->getAccount()->getBalance();
-
-	cout << "Old Balance = " << oldBalance << endl;
-
 	cust->getAccount()->setBalance(sum + oldBalance);
-
-	cout << cust->getAccount()->getBalance() << endl;
 
 	// Stricktly verify since it is user money
 	if (cust->getAccount()->getBalance() == (oldBalance + sum))
@@ -81,4 +72,14 @@ bool Session::deposit(const int sum) {
 			return true;
 
 	return false;
+}
+
+bool Session::printCustomerInfo() {
+
+	Customer *cust = dynamic_cast<Customer*>(m_user);
+	if (!cust || !bIsLoggedIn)
+		return false;
+
+	return false;
+
 }
