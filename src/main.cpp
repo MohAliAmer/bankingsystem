@@ -112,7 +112,7 @@ int main(){
 
 	s->login("kmoussa", "abc123");
 	if (s->isLoggedIn()) {
-		s->deleteAdmin(farida);
+		s->createAdmin(farida);
 	}
 	else
 		cerr << "Failed attempt to login" << endl;

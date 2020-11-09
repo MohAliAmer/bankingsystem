@@ -18,9 +18,7 @@ bool Session::createAdmin(Admin *admin) {
 	if (!admin || m_db->retrievePerson(admin->getUserName()))
 			return false;
 
-	if (!m_db->insertPerson(admin))
-		return false;
-	else
+	if (m_db->insertPerson(admin))
 		return true;
 
 	return false;
@@ -40,9 +38,7 @@ bool Session::updateAdmin(Admin *admin) {
 			return false;
 	}
 
-	if (!m_db->insertPerson(admin))
-		return false;
-	else
+	if (m_db->insertPerson(admin))
 		return true;
 
 	return false;
@@ -63,9 +59,7 @@ bool Session::deleteAdmin(Admin *admin) {
 			return false;
 	}
 
-	if (!m_db->deletePerson(admin))
-		return false;
-	else
+	if (m_db->deletePerson(admin))
 		return true;
 
 	return false;
@@ -83,9 +77,7 @@ bool Session::deactivateAdmin(Admin *admin) {
 
 	admin->lock();
 
-	if (!m_db->insertPerson(admin))
-		return false;
-	else
+	if (m_db->insertPerson(admin))
 		return true;
 
 	return false;
@@ -102,13 +94,10 @@ bool Session::activateAdmin(Admin *admin) {
 
 	admin->unlock();
 
-	if (!m_db->insertPerson(admin))
-		return false;
-	else
+	if (m_db->insertPerson(admin))
 		return true;
 
 	return false;
-
 }
 
 bool Session::printAdminInfo(Admin *admin) {
@@ -140,13 +129,10 @@ bool Session::createEmployee(Employee *emp) {
 	if (!emp || m_db->retrievePerson(emp->getUserName()))
 		return false;
 
-	if (!m_db->insertPerson(emp))
-		return false;
-	else
+	if (m_db->insertPerson(emp))
 		return true;
 
 	return false;
-
 }
 
 bool Session::updateEmployee(Employee *emp) {
@@ -163,9 +149,7 @@ bool Session::updateEmployee(Employee *emp) {
 			return false;
 	}
 
-	if (!m_db->insertPerson(emp))
-		return false;
-	else
+	if (m_db->insertPerson(emp))
 		return true;
 
 	return false;
@@ -185,9 +169,7 @@ bool Session::deleteEmployee(Employee *emp) {
 			return false;
 	}
 
-	if (!m_db->deletePerson(emp))
-		return false;
-	else
+	if (m_db->deletePerson(emp))
 		return true;
 
 	return false;
@@ -204,9 +186,7 @@ bool Session::activateEmployee(Employee *emp) {
 
 	emp->unlock();
 
-	if (!m_db->insertPerson(emp))
-		return false;
-	else
+	if (m_db->insertPerson(emp))
 		return true;
 
 	return false;
@@ -223,9 +203,7 @@ bool Session::deactivateEmployee(Employee *emp) {
 
 	emp->lock();
 
-	if (!m_db->insertPerson(emp))
-		return false;
-	else
+	if (m_db->insertPerson(emp))
 		return true;
 
 	return false;

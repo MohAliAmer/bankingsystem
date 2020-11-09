@@ -167,7 +167,7 @@ bool Database::insertAccount(Account *acct) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		return false;
 	}
-
+	sqlite3_finalize(stmt);
 	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return true;
@@ -206,9 +206,11 @@ bool Database::deleteAccount(Account *acct) {
 		return false;
 	}
 
+	sqlite3_finalize(stmt);
 	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	delete acct;
+
 
 	return true;
 }
@@ -253,6 +255,8 @@ Account* Database::retrieveAccount(const int account_id) {
 	acct->setCustomerId(custid);
 	lockstatus ? acct->lock() : acct->unlock();
 
+	sqlite3_finalize(stmt);
+
 	return acct;
 }
 
@@ -296,6 +300,8 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) {
 	acct->setCustomerId(custid);
 	lockstatus ? acct->lock() : acct->unlock();
 
+	sqlite3_finalize(stmt);
+
 	return acct;
 }
 
@@ -319,7 +325,7 @@ bool Database::insertPerson(Person *p) {
 	}
 
 
-	rc = sqlite3_bind_int64(stmt, 1, p->getId() );
+	rc = sqlite3_bind_int64(stmt, 1, p->getId());
 	if(SQLITE_OK != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
@@ -390,6 +396,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
+	sqlite3_finalize(stmt);
 	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return true;
@@ -790,4 +797,131 @@ int Database::generatePersonNumber() {
 	}
 
 	return maxid+1;
+}
+
+vector<Person*> Database::getAllPersons(int person_type) {
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int userid = 0;
+	string uname = "";
+	string fname = "";
+	string lname = "";
+	string natid = "";
+	string password = "";
+	int usertype = 0;
+	int lockstatus = 0;
+    int caps = 0;
+    vector<Person*> list;
+
+	sql = "SELECT * from PERSONS WHERE TYPE = ?";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		exit(-1);
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, person_type);
+	if(SQLITE_OK != rc) {
+		cerr <<  "Error binding value in select " << rc << " " <<  sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		exit(-1);
+	}
+
+	int step;
+	for (;;) {
+		step = sqlite3_step(stmt);
+		if (step == SQLITE_DONE)
+			break;
+		else if (step == SQLITE_ROW) {
+			userid = sqlite3_column_int(stmt, USERID);
+			uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,USERNAME)));
+			fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,FIRSTNAME)));
+			lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,LASTNAME)));
+			natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,NATIONALID)));
+			password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,PASSWORD)));
+			usertype = sqlite3_column_int(stmt, USERTYPE);
+			lockstatus = sqlite3_column_int(stmt, USERLOCK);
+			caps = sqlite3_column_int(stmt, USERCAPS);
+
+			if (usertype == person_type) { // Extra check
+				Person *person = new Person();
+				person->setId(userid);
+				person->setUserName(uname);
+				person->setFirstName(fname);
+				person->setLastName(lname);
+				person->setNationalId(natid);
+				person->setPassword(password);
+				person->setUserType(usertype);
+				lockstatus ? person->lock() : person->unlock();
+				person->setCaps(caps);
+				list.push_back(person);
+			}
+		}
+		else {
+			cerr << "Error retrieving users info from the database" << endl;
+			sqlite3_close(db);
+			exit(-1);
+		}
+	}
+	sqlite3_finalize(stmt);
+
+	return list;
+}
+
+vector<Account*> Database::getAllAccounts() {
+
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int accountid = 0;
+	int lockstatus = 0;
+	int custid = 0;
+	int balance = 0;
+	vector<Account*> list;
+
+	sql = "SELECT * from ACCOUNTS;";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		exit(-1);
+	}
+
+	int step;
+	for (;;) {
+		step = sqlite3_step(stmt);
+		if (step == SQLITE_DONE)
+			break;
+		if (step == SQLITE_ROW) {
+			accountid = sqlite3_column_int(stmt, 0);
+			lockstatus = sqlite3_column_int(stmt, 1);
+			custid = sqlite3_column_int(stmt, 2);
+			balance = sqlite3_column_int(stmt, 3);
+
+			Account *acct = new Account();
+			acct->setId(accountid);
+			acct->setBalance(balance);
+			acct->setCustomerId(custid);
+			lockstatus ? acct->lock() : acct->unlock();
+
+			list.push_back(acct);
+		}
+		else{
+			cerr << "Error retrieving accounts info from the database" << endl;
+			sqlite3_close(db);
+			exit(-1);
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+	return list;
+
+
+
 }

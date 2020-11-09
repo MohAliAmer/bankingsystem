@@ -9,6 +9,7 @@
 #define SRC_DATABASE_H_
 
 #include <vector>
+#include <map>
 #include <sqlite3.h>
 #include "account.h"
 #include "person.h"
@@ -24,7 +25,7 @@ class Database {
 
 private:
 	sqlite3 *db;
-	 bool initDB();
+	bool initDB();
 	int setUserType(Person *p);
 	int computeUserCaps(Person *p);
 	bool createAccountsTable();
@@ -46,6 +47,8 @@ public:
 	int generateAccountNumber();
 	int generatePersonNumber();
 
+	vector<Person*> getAllPersons(int person_type);
+	vector<Account*> getAllAccounts();
 
 };
 
