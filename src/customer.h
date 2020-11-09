@@ -25,7 +25,6 @@ public:
 	void lock() {Person::bLocked = true;}
 	void unlock() {Person::bLocked = false;}
 	bool isLocked(){return Person::bLocked;}
-	bool deposite(const int sum);
 
 	void setAccount(Account *acct) {m_account = acct;}
 	Account* getAccount() {return this->m_account;}
