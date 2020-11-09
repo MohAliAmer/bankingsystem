@@ -5,14 +5,20 @@
  *      Author: khaled
  */
 
+#include <assert.h>
+#include <typeinfo>
 #include "session.h"
 
 
 bool Session::createAccount(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_CREATE))
+	if (!isAuthorized(Session::ACCOUNT_CREATE))
 		return false;
 
-	if (!acct || !m_db->insertAccount(acct))
+	assert(typeid(*acct) == typeid(Account));
+	if (!acct || m_db->retrieveAccount(acct->getId()))
+			return false;
+
+	if (!m_db->insertAccount(acct))
 		return false;
 	else
 		return true;
@@ -21,15 +27,26 @@ bool Session::createAccount(Account *acct) {
 }
 
 bool Session::deleteAccount(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_DELETE))
+	if (!isAuthorized(Session::ACCOUNT_DELETE))
 		return false;
+
+	assert(typeid(*acct) == typeid(Account));
+	if (!acct || m_db->retrieveAccount(acct->getId()))
+		return false;
+
+	if (!m_db->deleteAccount(acct))
+		return false;
+	else
+		return true;
+
 	return false;
 }
 
 bool Session::updateAccount(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_UPDATE))
+	if (!isAuthorized(Session::ACCOUNT_UPDATE))
 		return false;
 
+	assert(typeid(*acct) == typeid(Account));
 	if (!acct || !m_db->deleteAccount(acct))
 		return false;
 	else
@@ -39,8 +56,11 @@ bool Session::updateAccount(Account *acct) {
 }
 
 bool Session::deactivateAccount(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_DEACTIVATE))
+	if (!isAuthorized(Session::ACCOUNT_DEACTIVATE))
 		return false;
+
+
+	assert(typeid(*acct) == typeid(Account));
 
 	if (!acct)
 		return false;
@@ -56,9 +76,10 @@ bool Session::deactivateAccount(Account *acct) {
 }
 
 bool Session::activateAccount(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_ACTIVATE))
+	if (!isAuthorized(Session::ACCOUNT_ACTIVATE))
 		return false;
 
+	assert(typeid(*acct) == typeid(Account));
 	if (!acct)
 		return false;
 
@@ -73,9 +94,10 @@ bool Session::activateAccount(Account *acct) {
 }
 
 bool Session::printAccountInfo(Account *acct) {
-	if (!bIsLoggedIn || !isAuthorized(Session::ACCOUNT_PRINT_INFO))
+	if (!isAuthorized(Session::ACCOUNT_PRINT_INFO))
 		return false;
 
+	assert(typeid(*acct) == typeid(Account));
 	if (!acct)
 		return false;
 
@@ -84,12 +106,15 @@ bool Session::printAccountInfo(Account *acct) {
 	return true;
 }
 
-
 bool Session::createCustomer(Customer *customer) {
-	if (!bIsLoggedIn || !isAuthorized(Session::CUSTOMER_CREATE))
+	if (!isAuthorized(Session::CUSTOMER_CREATE))
 		return false;
 
-	if (!customer || !m_db->insertPerson(customer))
+	assert(typeid(*customer) == typeid(Customer));
+	if (!customer || m_db->retrievePerson(customer->getUserName()))
+			return false;
+
+	if (!m_db->insertPerson(customer))
 		return false;
 	else
 		return true;
@@ -98,9 +123,10 @@ bool Session::createCustomer(Customer *customer) {
 }
 
 bool Session::updateCustomer(Customer *customer) {
-	if (!bIsLoggedIn || !isAuthorized(Session::CUSTOMER_UPDATE))
+	if (!isAuthorized(Session::CUSTOMER_UPDATE))
 		return false;
 
+	assert(typeid(*customer) == typeid(Customer));
 	if (!customer)
 		return false;
 	else {
@@ -118,9 +144,10 @@ bool Session::updateCustomer(Customer *customer) {
 }
 
 bool Session::deleteCustomer(Customer *customer) {
-	if (!bIsLoggedIn || !isAuthorized(Session::CUSTOMER_DELETE))
+	if (!isAuthorized(Session::CUSTOMER_DELETE))
 		return false;
 
+	assert(typeid(*customer) == typeid(Customer));
 	if (!customer)
 		return false;
 	else {
@@ -138,9 +165,10 @@ bool Session::deleteCustomer(Customer *customer) {
 }
 
 bool Session::printCustomerInfo(Customer *cust) {
-	if (!bIsLoggedIn || !isAuthorized(Session::CUSTOMER_PRINT_INFO))
+	if (!isAuthorized(Session::CUSTOMER_PRINT_INFO))
 		return false;
 
+	assert(typeid(*cust) == typeid(Customer));
 	if (!cust)
 		return false;
 
@@ -149,13 +177,11 @@ bool Session::printCustomerInfo(Customer *cust) {
 	return true;
 }
 
-
 bool Session::ListAllCustomers() {
-	if (!bIsLoggedIn || !isAuthorized(Session::CUSTOMER_LIST_ALL))
+	if (!isAuthorized(Session::CUSTOMER_LIST_ALL))
 		return false;
 	return false;
 }
-
 
 bool Session::transfer(Account *from, Account *to, const int sum) {
 
@@ -180,9 +206,9 @@ bool Session::transfer(Account *from, Account *to, const int sum) {
 	return true;
 }
 
-
 bool Session::deposit(Account *acct, const int sum) {
 
+	assert(typeid(*acct) == typeid(Account));
 	if (!acct)
 		return false;
 
@@ -194,8 +220,3 @@ bool Session::deposit(Account *acct, const int sum) {
 
 	return true;
 }
-
-
-
-
-

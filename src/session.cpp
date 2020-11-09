@@ -17,6 +17,8 @@ Session::~Session() {
 }
 
 bool Session::isAuthorized(int priv) {
+	if (!bIsLoggedIn)
+		return false;
 	if (m_user->getCaps() & priv)
 		return true;
 	return false;
@@ -60,7 +62,6 @@ bool Session::login(const string username, const string password) {
 			//m_user = nullptr;
 			return false;
 		}
-
 
 		this->m_user = p;
 		this->bIsLoggedIn = true;

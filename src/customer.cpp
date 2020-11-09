@@ -56,7 +56,6 @@ bool Session::transfer(const int to, const int sum) {
 	return false;
 }
 
-
 bool Session::deposit(const int sum) {
 
 	Customer *cust = dynamic_cast<Customer*>(m_user);

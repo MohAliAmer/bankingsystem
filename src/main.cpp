@@ -5,7 +5,6 @@
  *      Author: amira
  */
 
-
 #include <iostream>
 #include "session.h"
 #include "admin.h"
@@ -19,11 +18,11 @@ using namespace std;
 
 int main(){
 	//Account *acct = new Account();
-	//Admin *adm = new Admin();
+	Admin *adm = new Admin();
 	Session *s = new Session();
 	Database *db = new Database();
 
-	/*
+
 	adm->setId(13);
 	adm->setUserName("kmoussa");
 	adm->setFirstName("Khaled");
@@ -38,6 +37,9 @@ int main(){
 	adm->cap_AdminUpdate(true);
 	adm->unlock();
 
+
+	db->insertPerson(adm);
+
 	Admin *farida = new Admin();
 	farida->setId(4);
 	farida->setUserName("fmoussa");
@@ -51,12 +53,12 @@ int main(){
 	farida->cap_AdminDelete(true);
 	farida->cap_AdminCreate(true);
 	farida->cap_AdminUpdate(true);
-	farida->cap_custCreate(true);
+	farida->cap_custCreate(false);
 	farida->cap_custDelete(true);
 	farida->cap_acctCreate(true);
 	farida->cap_EmployeeCreate(true);
-	farida->unlock();
-
+	farida->lock();
+	/*
 	Employee *emp = new Employee();
 	emp->lock();
 	emp->setId(2);
@@ -106,15 +108,14 @@ int main(){
 	db->insertAccount(acct);
 	db->insertPerson(rokaia);
 	db->insertAccount(rokaiaaccount);
+*/
 
-	s->login("amoussa", "mypassword");
+	s->login("kmoussa", "abc123");
 	if (s->isLoggedIn()) {
-
+		s->deleteAdmin(farida);
 	}
 	else
 		cerr << "Failed attempt to login" << endl;
-*/
-
 
 	return 0;
 }
