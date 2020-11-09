@@ -83,3 +83,9 @@ bool Session::printCustomerInfo() {
 	return false;
 
 }
+
+bool Session::printAccountInfo() {
+	if (!bIsLoggedIn)
+		return false;
+	return false;
+}

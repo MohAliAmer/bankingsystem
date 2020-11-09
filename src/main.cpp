@@ -115,8 +115,6 @@ int main(){
 		cerr << "Failed attempt to login" << endl;
 */
 
-	cout << db->generatePersonNumber() << endl;
-
 
 	return 0;
 }
