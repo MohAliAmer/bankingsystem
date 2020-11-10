@@ -53,10 +53,7 @@ bool Session::login(const string username, const string password) {
 			break;
 		}
 		case Session::EMPLOYEE:
-			//m_user = dynamic_cast<Employee*>(p);
-			break;
 		case Session::ADMIN:
-			//m_user = dynamic_cast<Admin*>(p);
 			break;
 		default:
 			//m_user = nullptr;
@@ -96,6 +93,7 @@ bool Session::changePassword(const string newpassword) {
 }
 
 string Session::encrypt(const string word) {
+#ifdef __linux__
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
@@ -107,6 +105,9 @@ string Session::encrypt(const string word) {
     	sstream << hex << (int) hash[i];
     	result = sstream.str();
     }
+#elif _WIN32
+    // TODO: Windows hashing code should go here
+#endif
     return result;
 }
 
@@ -262,9 +263,31 @@ void Session::setSessionCapabilities() {
 
 }
 
+Person* Session::getPerson(const string username) {
 
+	Person *p = m_db->retrievePerson(username);
+	if (!p)
+		return nullptr;
+	return p;
+}
 
+Customer* Session::getCustomer(const string username) {
+	Customer *cust = dynamic_cast<Customer*>(getPerson(username));
+	if (!cust)
+		return nullptr;
+	return cust;
+}
 
+Employee* Session::getEmployee(const string username) {
+	Employee *emp = dynamic_cast<Employee*>(getPerson(username));
+	if (!emp)
+		return nullptr;
+	return emp;
+}
 
-
-
+Admin* Session::getAdmin(const string username) {
+	Admin *admin = dynamic_cast<Admin*>(getPerson(username));
+	if (!admin)
+		return nullptr;
+	return admin;
+}

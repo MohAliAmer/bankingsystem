@@ -13,7 +13,9 @@
 #include <vector>
 #include <typeinfo>
 #include <sstream>
+#ifdef __linux__
 #include "openssl/sha.h"
+#endif
 #include "customer.h"
 #include "employee.h"
 #include "admin.h"
@@ -33,6 +35,7 @@ private:
 	void setUserType();
 	void setSessionCapabilities();
 	bool isAuthorized(int priv);
+	Person* getPerson(const string username);
 
 public:
 	Session();
@@ -95,6 +98,11 @@ public:
 		m_user = p;
 		setSessionCapabilities();
 	}
+
+	Customer* getCustomer(const string username);
+	Employee* getEmployee(const string username);
+	Admin* getAdmin(const string username);
+
 
 	// Customer methods
 	bool withdraw(const int sum);

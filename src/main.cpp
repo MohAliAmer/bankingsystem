@@ -113,11 +113,12 @@ int main(){
 	db->insertAccount(rokaiaaccount);
 */
 
-	s->login("kmoussa", "intruder");
+	s->login("fmoussa", "abc123");
 	if (s->isLoggedIn()) {
 		cout << "Login successfull" << endl;
 #if 0
-		bool x = s->changePassword("intruder");
+		s->activateAdmin(s->getAdmin("fmoussa"));
+		bool x = s->changePassword(s->getAdmin("fmoussa"), "abc123");
 		if (x)
 			cout << "changing password ok" << endl;
 		else
