@@ -293,6 +293,13 @@ void Ui::listWhatToDo() {
 }
 
 void Ui::logout() {
+	cout << endl;
+	cout << "Logging out" << endl;
+	cout << endl;
+
+	delete m_session;
+	m_session = new Session();
+	run();
 }
 
 int Ui::run() {
