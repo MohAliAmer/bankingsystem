@@ -76,15 +76,16 @@ bool Session::deposit(const int sum) {
 bool Session::printCustomerInfo() {
 
 	Customer *cust = dynamic_cast<Customer*>(m_user);
-	if (!cust || !bIsLoggedIn)
+	if (!bIsLoggedIn || !cust)
 		return false;
 
 	return false;
-
 }
 
 bool Session::printAccountInfo() {
-	if (!bIsLoggedIn)
+
+	Customer *cust = dynamic_cast<Customer*>(m_user);
+	if (!bIsLoggedIn || !cust->getAccount())
 		return false;
 	return false;
 }

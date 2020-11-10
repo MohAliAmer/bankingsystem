@@ -92,25 +92,6 @@ bool Session::changePassword(const string newpassword) {
 	return false;
 }
 
-string Session::encrypt(const string word) {
-#ifdef __linux__
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, word.c_str(), word.length());
-    SHA256_Final(hash, &sha256);
-    string result = string();
-    stringstream sstream;
-    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-    	sstream << hex << (int) hash[i];
-    	result = sstream.str();
-    }
-#elif _WIN32
-    // TODO: Windows hashing code should go here
-#endif
-    return result;
-}
-
 void Session::setSessionCapabilities() {
 
 	setUserType();
@@ -263,8 +244,26 @@ void Session::setSessionCapabilities() {
 
 }
 
-Person* Session::getPerson(const string username) {
+string Session::encrypt(const string word) {
+#ifdef __linux__
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, word.c_str(), word.length());
+    SHA256_Final(hash, &sha256);
+    string result = string();
+    stringstream sstream;
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    	sstream << hex << (int) hash[i];
+    	result = sstream.str();
+    }
+#elif _WIN32
+    // TODO: Windows hashing code should go here
+#endif
+    return result;
+}
 
+Person* Session::getPerson(const string username) {
 	Person *p = m_db->retrievePerson(username);
 	if (!p)
 		return nullptr;
