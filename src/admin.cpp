@@ -117,7 +117,18 @@ bool Session::printAdminInfo(Admin *admin) {
 bool Session::ListAllAdmins() {
 	if (!isAuthorized(Session::ADMIN_LIST_ALL))
 		return false;
-	return false;
+
+	vector<Person*> admins = m_db->getAllPersons(Session::ADMIN);
+
+	if (admins.size() == 0) {
+		return false;
+	}
+
+	for (Person *admin : admins) {
+		delete admin; // TODO: prints admin information instead of deleting it
+	}
+
+	return true;
 }
 
 bool Session::createEmployee(Employee *emp) {
@@ -224,6 +235,17 @@ bool Session::printEmployeeInfo(Employee *emp) {
 bool Session::ListAllEmployees() {
 	if (!isAuthorized(Session::EMPLOYEE_LIST_ALL))
 		return false;
-	return false;
+
+	vector<Person*> employees = m_db->getAllPersons(Session::EMPLOYEE);
+
+	if (employees.size() == 0) {
+		return false;
+	}
+
+	for (Person *employee : employees) {
+		delete employee; // TODO: prints employee information instead of deleting it
+	}
+
+	return true;
 }
 

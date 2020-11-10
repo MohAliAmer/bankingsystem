@@ -37,7 +37,6 @@ int main(){
 	adm->cap_AdminUpdate(true);
 	adm->unlock();
 
-
 	db->insertPerson(adm);
 
 	Admin *farida = new Admin();
@@ -112,7 +111,11 @@ int main(){
 
 	s->login("kmoussa", "abc123");
 	if (s->isLoggedIn()) {
-		s->createAdmin(farida);
+		bool x = s->createAdmin(farida);
+		if (x)
+			cout << "Creating farida is ok" << endl;
+		else
+			cerr << "Creating farida failed" << endl;
 	}
 	else
 		cerr << "Failed attempt to login" << endl;

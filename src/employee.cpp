@@ -180,7 +180,18 @@ bool Session::printCustomerInfo(Customer *cust) {
 bool Session::ListAllCustomers() {
 	if (!isAuthorized(Session::CUSTOMER_LIST_ALL))
 		return false;
-	return false;
+
+	vector<Person*> customers = m_db->getAllPersons(Session::CUSTOMER);
+
+	if (customers.size() == 0) {
+		return false;
+	}
+
+	for (Person *customer : customers) {
+		delete customer; // TODO: prints customer information instead of deleting it
+	}
+
+	return true;
 }
 
 bool Session::transfer(Account *from, Account *to, const int sum) {
