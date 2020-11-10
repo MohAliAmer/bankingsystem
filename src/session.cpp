@@ -7,17 +7,19 @@
 
 #include "session.h"
 
-Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN), m_totalUsers(0) {
+Session::Session() : m_user(nullptr), m_db(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN), m_totalUsers(0) {
 	m_db = new Database();
+	m_sessionCapabilities.clear();
 	m_totalUsers = m_db->getUsersCount();
-	if (m_totalUsers == 0) {
+	if (m_totalUsers == 0)
 		m_sessionCapabilities.push_back("First Run");
-	}
 }
 
 Session::~Session() {
 	delete m_db;
 	delete m_user;
+	m_sessionCapabilities.clear();
+	m_totalUsers = 0;
 }
 
 bool Session::isAuthorized(int priv) {
@@ -41,6 +43,7 @@ void Session::setUserType() {
 
 bool Session::login(const string username, const string password) {
 
+	m_sessionCapabilities.clear();
 	string unverified_enc_pass = encrypt(password);
 	Person *p = m_db->retrievePerson(username);
 	if (!p)

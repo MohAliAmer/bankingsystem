@@ -17,6 +17,7 @@
 
 
 Ui::Ui() : m_session(nullptr), m_execute(nullptr){
+	m_capMap.clear();
 	m_session = new Session();
 	showWelcomeScreen();
 	if (m_session->firstRun()) {
@@ -26,6 +27,7 @@ Ui::Ui() : m_session(nullptr), m_execute(nullptr){
 
 Ui::~Ui() {
 	delete m_session;
+	m_capMap.clear();
 }
 
 void Ui::registerSuperAdmin() {
@@ -118,7 +120,6 @@ void Ui::showWelcomeScreen() {
     cout << endl;
     cout << endl;
 }
-
 
 void Ui::ui_create_admin() {
 	cout<< "Bingoooo" << endl;
@@ -321,6 +322,8 @@ void Ui::logout() {
 	cout << endl;
 
 	delete m_session;
+	m_capMap.clear();
+	m_capabilitiesLabels.clear();
 	m_session = new Session();
 	run();
 }

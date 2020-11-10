@@ -63,6 +63,9 @@ bool Database::createAccountsTable() {
 	int rc;
 	string sql;
 
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
 	sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS(" \
 			"ID 			 INT        PRIMARY KEY NOT NULL,"   \
 			"LOCKED		     BOOLEAN    NOT NULL," \
@@ -77,8 +80,10 @@ bool Database::createAccountsTable() {
 		sqlite3_free(zErrMsg);
 		return false;
 	}
-	else
+	else {
+	    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 		return true;
+	}
 
 	return false;
 }
@@ -88,6 +93,9 @@ bool Database::createPersonsTable() {
 	char *zErrMsg = nullptr;
 	int rc;
 	string sql;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "CREATE TABLE IF NOT EXISTS PERSONS(" \
 	      "ID               INT     NOT NULL," \
@@ -108,8 +116,10 @@ bool Database::createPersonsTable() {
 		sqlite3_free(zErrMsg);
 		return false;
 	}
-	else
+	else {
+	    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 		return true;
+	}
 
 	return false;
 }
@@ -120,6 +130,9 @@ bool Database::insertAccount(Account *acct) {
 	int rc;
 	string sql;
 	sqlite3_stmt *stmt;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?);";
 
@@ -180,6 +193,9 @@ bool Database::deleteAccount(Account *acct) {
 	string sql;
 	sqlite3_stmt *stmt;
 
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
 	sql = "DELETE FROM ACCOUNTS WHERE ID = ?;";
 
 	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
@@ -226,6 +242,9 @@ Account* Database::retrieveAccount(const int account_id) {
 	int custid = 0;
 	int balance = 0;
 
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
 	sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if(SQLITE_OK != rc) {
@@ -256,6 +275,7 @@ Account* Database::retrieveAccount(const int account_id) {
 	lockstatus ? acct->lock() : acct->unlock();
 
 	sqlite3_finalize(stmt);
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return acct;
 }
@@ -270,6 +290,9 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) {
 	int lockstatus = 0;
 	int custid = 0;
 	int balance = 0;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "SELECT * from ACCOUNTS WHERE OWNER = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -301,6 +324,7 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) {
 	lockstatus ? acct->lock() : acct->unlock();
 
 	sqlite3_finalize(stmt);
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return acct;
 }
@@ -314,8 +338,8 @@ bool Database::insertPerson(Person *p) {
 
 	sql = "INSERT OR REPLACE INTO PERSONS VALUES (?,?,?,?,?,?,?,?,?);";
 
-	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-	assert(rc == SQLITE_OK);
+	//rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	//assert(rc == SQLITE_OK);
 
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if(SQLITE_OK != rc) {
@@ -436,6 +460,7 @@ bool Database::deletePerson(Person *p) {
 		return false;
 	}
 
+	sqlite3_finalize(stmt);
 	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	delete p;
@@ -469,6 +494,9 @@ Person* Database::retrievePerson(const string username) {
 	int usertype = 0;
 	int lockstatus = 0;
     int caps = 0;
+
+	//rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	//assert(rc == SQLITE_OK);
 
 	sql = "SELECT * from PERSONS WHERE USERNAME = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -751,6 +779,9 @@ int Database::generateAccountNumber() {
 	sqlite3_stmt *stmt = nullptr;
 	int maxid = 0;
 
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
+
 	sql = "SELECT MAX(ID) from ACCOUNTS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
@@ -768,6 +799,8 @@ int Database::generateAccountNumber() {
 			return 1;
 	}
 
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+
 	return maxid+1;
 }
 
@@ -778,6 +811,9 @@ int Database::generatePersonNumber() {
 	string sql;
 	sqlite3_stmt *stmt = nullptr;
 	int maxid = 0;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "SELECT MAX(ID) from PERSONS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -795,6 +831,8 @@ int Database::generatePersonNumber() {
 		if (maxid <= 0)
 			return 1;
 	}
+
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return maxid+1;
 }
@@ -815,6 +853,9 @@ vector<Person*> Database::getAllPersons(int person_type) {
 	int lockstatus = 0;
     int caps = 0;
     vector<Person*> list;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "SELECT * from PERSONS WHERE TYPE = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -868,6 +909,7 @@ vector<Person*> Database::getAllPersons(int person_type) {
 		}
 	}
 	sqlite3_finalize(stmt);
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return list;
 }
@@ -883,6 +925,9 @@ vector<Account*> Database::getAllAccounts() {
 	int custid = 0;
 	int balance = 0;
 	vector<Account*> list;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "SELECT * from ACCOUNTS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -919,6 +964,7 @@ vector<Account*> Database::getAllAccounts() {
 	}
 
 	sqlite3_finalize(stmt);
+    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return list;
 }
@@ -929,6 +975,9 @@ int Database::getUsersCount() {
 	string sql;
 	sqlite3_stmt *stmt = nullptr;
 	int total = 0;
+
+	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+	assert(rc == SQLITE_OK);
 
 	sql = "SELECT COUNT(*) from PERSONS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -949,6 +998,7 @@ int Database::getUsersCount() {
 	}
 
 	sqlite3_finalize(stmt);
+	sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return total;
 }
