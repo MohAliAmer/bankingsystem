@@ -29,7 +29,7 @@ private:
 
 
 
-	bool registerSuperAdmin();
+	void registerSuperAdmin();
 	void showWelcomeScreen();
 	void listWhatToDo();
 	void logout();

@@ -28,7 +28,7 @@ Ui::~Ui() {
 	delete m_session;
 }
 
-bool Ui::registerSuperAdmin() {
+void Ui::registerSuperAdmin() {
 
 	string username;
 	string firstname;
@@ -89,13 +89,36 @@ bool Ui::registerSuperAdmin() {
 		delete super;
 		run();
 	}
-
-	return false;
 }
 
 void Ui::showWelcomeScreen() {
-	cout << "<<<<<<<<<<<<<<< Welcome To Future Bank >>>>>>>>>>>>>>>>" << endl;
+
+    vector<string> b;
+
+    b.push_back("8888888888       888                                  888888b.                     888");
+    b.push_back("888              888                                  888  \"88b                    888");
+    b.push_back("888              888                                  888  .88P                    888");
+    b.push_back( "8888888 888  888 888888 888  888 888d888 .d88b.       8888888K.   8888b.  88888b.  888  888");
+    b.push_back("888     888  888 888    888  888 888P\"  d8P  Y8b      888  \"Y88b     \"88b 888 \"88b 888 .88P");
+    b.push_back("888     888  888 888    888  888 888    88888888      888    888 .d888888 888  888 888888K");
+    b.push_back("888     Y88b 888 Y88b.  Y88b 888 888    Y8b.          888   d88P 888  888 888  888 888 \"88b");
+    b.push_back("888      \"Y88888  \"Y888  \"Y88888 888     \"Y8888       8888888P\"  \"Y888888 888  888 888  888");
+
+    for (vector<string>::iterator it = b.begin() ; it != b.end() ; ++it){
+            cout << *it << endl;
+            usleep(100000);
+    }
+
+    cout << endl;
+    cout << endl;
+
+    cout << "Version 1.0  ";
+    cout << "Copyright: Amira and my lovely group of developers" << endl;
+
+    cout << endl;
+    cout << endl;
 }
+
 
 void Ui::ui_create_admin() {
 	cout<< "Bingoooo" << endl;
