@@ -16,7 +16,7 @@
 #include "userinterface.h"
 
 
-Ui::Ui() : m_session(nullptr) {
+Ui::Ui() : m_session(nullptr), m_execute(nullptr){
 	m_session = new Session();
 	showWelcomeScreen();
 	if (m_session->firstRun()) {
@@ -98,10 +98,11 @@ void Ui::showWelcomeScreen() {
 }
 
 void Ui::ui_create_admin() {
-	cout << "Bingooooooooooooooo" << endl;
+
 }
 
 void Ui::ui_update_admin() {
+
 }
 
 void Ui::ui_delete_admin() {
@@ -182,6 +183,102 @@ void Ui::ui_print_account() {
 void Ui::ui_listall_account() {
 }
 
+void Ui::ui_transfer() {
+}
+
+void Ui::ui_transfer_own() {
+}
+
+void Ui::ui_deposit() {
+}
+
+void Ui::ui_deposit_own() {
+}
+
+void Ui::ui_withdraw() {
+}
+
+void Ui::ui_print_own_customer() {
+}
+
+void Ui::getCallBack(const string desc) {
+
+	if ("Create Administrator" == desc)
+		m_execute = std::bind(&Ui::ui_create_admin, this);
+	if ("Update Administrator" == desc)
+		m_execute = std::bind(&Ui::ui_update_admin, this);
+	if ("Delete Administrator" == desc)
+		m_execute = std::bind(&Ui::ui_delete_admin, this);
+	if ("Activate Administrator" == desc)
+		m_execute = std::bind(&Ui::ui_activate_admin, this);
+	if ("Deactivate Administrator" == desc)
+		m_execute = std::bind(&Ui::ui_deactivate_admin, this);
+	if ("Print Administrator Information" == desc)
+		m_execute = std::bind(&Ui::ui_print_admin, this);
+	if ("List All Administrators" == desc)
+		m_execute = std::bind(&Ui::ui_listall_admin, this);
+
+	if ("Create Employee" == desc)
+		m_execute = std::bind(&Ui::ui_create_employee, this);
+	if ("Update Employee" == desc)
+		m_execute = std::bind(&Ui::ui_update_employee, this);
+	if ("Delete Employee" == desc)
+		m_execute = std::bind(&Ui::ui_delete_employee, this);
+	if ("Activate Employee" == desc)
+		m_execute = std::bind(&Ui::ui_activate_employee, this);
+	if ("Deactivate Employee" == desc)
+		m_execute = std::bind(&Ui::ui_deactivate_employee, this);
+	if ("Print Employee Information" == desc)
+		m_execute = std::bind(&Ui::ui_print_employee, this);
+	if ("List All Employees" == desc)
+		m_execute = std::bind(&Ui::ui_listall_employee, this);
+
+	if ("Create Account" == desc)
+		m_execute = std::bind(&Ui::ui_create_account, this);
+	if ("Update Account" == desc)
+		m_execute = std::bind(&Ui::ui_update_account, this);
+	if ("Delete Account" == desc)
+		m_execute = std::bind(&Ui::ui_delete_account, this);
+	if ("Activate Account" == desc)
+		m_execute = std::bind(&Ui::ui_activate_account, this);
+	if ("Deactivate Account" == desc)
+		m_execute = std::bind(&Ui::ui_deactivate_account, this);
+	if ("Print Account Information" == desc)
+		m_execute = std::bind(&Ui::ui_print_account, this);
+	if ("List All Accounts" == desc)
+		m_execute = std::bind(&Ui::ui_listall_account, this);
+	if ("Transfer Money between accounts" == desc)
+		m_execute = std::bind(&Ui::ui_transfer, this);
+	if ("Deposit Money to Customer" == desc)
+		m_execute = std::bind(&Ui::ui_deposit, this);
+
+	if ("Create a new Customer" == desc)
+		m_execute = std::bind(&Ui::ui_create_customer, this);
+	if ("Update Existing Customer" == desc)
+		m_execute = std::bind(&Ui::ui_update_customer, this);
+	if ("Delete Customer" == desc)
+		m_execute = std::bind(&Ui::ui_delete_customer, this);
+	if ("Activate Customer" == desc)
+		m_execute = std::bind(&Ui::ui_activate_customer, this);
+	if ("Deactivate customer" == desc)
+		m_execute = std::bind(&Ui::ui_deactivate_customer, this);
+	if ("Print my Customer Information" == desc)
+		m_execute = std::bind(&Ui::ui_print_customer, this);
+	if ("List All Customers" == desc)
+		m_execute = std::bind(&Ui::ui_listall_customer, this);
+
+	if ("Print my customer Information" == desc)
+		m_execute = std::bind(&Ui::ui_print_own_customer, this);
+	if ("Transfer money to another Account" == desc)
+		m_execute = std::bind(&Ui::ui_transfer_own, this);
+	if ("Deposit" == desc)
+		m_execute = std::bind(&Ui::ui_deposit_own, this);
+	if ("Withdraw" == desc)
+		m_execute = std::bind(&Ui::ui_withdraw, this);
+}
+
+
+
 int Ui::run() {
 
 	string username, password;
@@ -219,9 +316,9 @@ int Ui::run() {
 
 	for (string &cap : m_capabilitiesLabels) cout << cap << endl;
 
-	m_function = std::bind(&Ui::ui_create_admin, this);
+	getCallBack("Update Administrator");
+	m_execute();
 
-	m_function();
 
 	return 0;
 }

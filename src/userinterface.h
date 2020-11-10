@@ -23,8 +23,11 @@ class Ui {
 private:
 	Session *m_session;
 	vector<string> m_capabilitiesLabels;
-	std::function<void(void)> m_function;
+	std::function<void(void)> m_execute;
+	void getCallBack(const string desc);
 	map<int,string> m_capMap;
+
+
 
 	bool registerSuperAdmin();
 	void showWelcomeScreen();
@@ -66,6 +69,8 @@ private:
 	void ui_deposit();
 	void ui_deposit_own();
 	void ui_withdraw();
+
+	void ui_print_own_customer();
 
 public:
 	Ui() ;

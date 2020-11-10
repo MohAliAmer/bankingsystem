@@ -104,10 +104,15 @@ void Session::setSessionCapabilities() {
 	case CUSTOMER:
 		m_sessionCapabilities.push_back("Print my customer Information");
 		m_sessionCapabilities.push_back("Transfer money to another Account");
+		m_sessionCapabilities.push_back("Deposit");
+		m_sessionCapabilities.push_back("Withdraw");
 		m_sessionCapabilities.push_back("Print my account Information");
+
 		break;
 
 	case EMPLOYEE: {
+		m_sessionCapabilities.push_back("Transfer Money between accounts");
+		m_sessionCapabilities.push_back("Deposit Money to Customer");
 		Employee *tmpemp = dynamic_cast<Employee*>(m_user);
 		if (tmpemp->canCreateAccount())
 			m_sessionCapabilities.push_back("Create Account");
@@ -228,7 +233,7 @@ void Session::setSessionCapabilities() {
 			m_sessionCapabilities.push_back("Delete Customer");
 
 		if (tmpadmin->canActivateCustomer())
-			m_sessionCapabilities.push_back("Delete Customer");
+			m_sessionCapabilities.push_back("Activate Customer");
 
 		if (tmpadmin->canDeactivateCustomer())
 			m_sessionCapabilities.push_back("Deactivate Customer");
