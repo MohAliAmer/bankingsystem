@@ -7,10 +7,10 @@
 
 #include "session.h"
 
-Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {
+Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN), m_totalUsers(0) {
 	m_db = new Database();
-	int newsetup = m_db->getUsersCount();
-	if (newsetup > 0) {
+	m_totalUsers = m_db->getUsersCount();
+	if (m_totalUsers == 0) {
 		m_capabilitiesLabels.push_back("First Run");
 	}
 }
@@ -296,7 +296,7 @@ Admin* Session::getAdmin(const string username) {
 }
 
 bool Session::firstRun() {
-	if (m_db->getUsersCount() > 0)
+	if (m_totalUsers > 0)
 		return false;
 	return true;
 }

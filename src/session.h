@@ -31,6 +31,7 @@ private:
 	Database *m_db;
 	bool bIsLoggedIn;
 	int m_userType;
+	int m_totalUsers;
 	vector<string> m_capabilitiesLabels;
 	void setUserType();
 	void setSessionCapabilities();

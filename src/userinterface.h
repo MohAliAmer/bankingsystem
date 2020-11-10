@@ -25,6 +25,7 @@ private:
 public:
 	Ui() ;
 	~Ui();
+	int run();
 };
 
 
