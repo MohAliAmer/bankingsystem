@@ -122,144 +122,143 @@ void Session::setSessionCapabilities() {
 		m_capabilitiesLabels.push_back("Print my account Information");
 		break;
 
-	case EMPLOYEE:
-		if (dynamic_cast<Employee*>(m_user)->canCreateAccount())
+	case EMPLOYEE: {
+		Employee *tmpemp = dynamic_cast<Employee*>(m_user);
+		if (tmpemp->canCreateAccount())
 			m_capabilitiesLabels.push_back("Create Account");
 
-		if (dynamic_cast<Employee*>(m_user)->canUpdateAccount())
+		if (tmpemp->canUpdateAccount())
 			m_capabilitiesLabels.push_back("Update Account");
 
-		if (dynamic_cast<Employee*>(m_user)->canDeleteAccount())
+		if (tmpemp->canDeleteAccount())
 			m_capabilitiesLabels.push_back("Delete Account");
 
-		if (dynamic_cast<Employee*>(m_user)->canActivateAccount())
+		if (tmpemp->canActivateAccount())
 			m_capabilitiesLabels.push_back("Activate Account");
 
-		if (dynamic_cast<Employee*>(m_user)->canDeactivateAccount())
+		if (tmpemp->canDeactivateAccount())
 			m_capabilitiesLabels.push_back("Deactivate Account");
 
-		if (dynamic_cast<Employee*>(m_user)->canListAllAccounts())
+		if (tmpemp->canListAllAccounts())
 			m_capabilitiesLabels.push_back("List All Accounts");
 
-		if (dynamic_cast<Employee*>(m_user)->canPrintAccountInfo())
+		if (tmpemp->canPrintAccountInfo())
 			m_capabilitiesLabels.push_back("Print Account Information");
 
-		if (dynamic_cast<Employee*>(m_user)->canCreateCustomer())
+		if (tmpemp->canCreateCustomer())
 			m_capabilitiesLabels.push_back("Create a new Customer");
 
-		if (dynamic_cast<Employee*>(m_user)->canUpdateCustomer())
+		if (tmpemp->canUpdateCustomer())
 			m_capabilitiesLabels.push_back("Update Existing Customer");
 
-		if (dynamic_cast<Employee*>(m_user)->canDeleteCustomer())
+		if (tmpemp->canDeleteCustomer())
 			m_capabilitiesLabels.push_back("Delete Customer");
 
-		if (dynamic_cast<Employee*>(m_user)->canActivateCustomer())
+		if (tmpemp->canActivateCustomer())
 			m_capabilitiesLabels.push_back("Activate Customer");
 
-		if (dynamic_cast<Employee*>(m_user)->canDeactivateCustomer())
+		if (tmpemp->canDeactivateCustomer())
 			m_capabilitiesLabels.push_back("Deactivate Customer");
 
-		if (dynamic_cast<Employee*>(m_user)->canListAllCustomers())
+		if (tmpemp->canListAllCustomers())
 			m_capabilitiesLabels.push_back("List All Customers");
 
-		if (dynamic_cast<Employee*>(m_user)->canPrintCustomerInfo())
+		if (tmpemp->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print Customer Information");
 		break;
+	}
 
-	case ADMIN:
-		if (dynamic_cast<Admin*>(m_user)->canCreateAdmin())
+	case ADMIN: {
+		Admin *tmpadmin = dynamic_cast<Admin*>(m_user);
+		if (tmpadmin->canCreateAdmin())
 			m_capabilitiesLabels.push_back("Create Administrator");
 
-		if (dynamic_cast<Admin*>(m_user)->canUpdateAdmin())
+		if (tmpadmin->canUpdateAdmin())
 			m_capabilitiesLabels.push_back("Update Administrator");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeleteAdmin())
+		if (tmpadmin->canDeleteAdmin())
 			m_capabilitiesLabels.push_back("Delete Administrator");
 
-		if (dynamic_cast<Admin*>(m_user)->canActivateAdmin())
+		if (tmpadmin->canActivateAdmin())
 			m_capabilitiesLabels.push_back("Activate Administrator");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeactivateAdmin())
+		if (tmpadmin->canDeactivateAdmin())
 			m_capabilitiesLabels.push_back("Deactivate Administrator");
 
-		if (dynamic_cast<Admin*>(m_user)->canPrintAdminInfo())
+		if (tmpadmin->canPrintAdminInfo())
 			m_capabilitiesLabels.push_back("Print Administrator Information");
 
-		if (dynamic_cast<Admin*>(m_user)->canListAllAdmin())
+		if (tmpadmin->canListAllAdmin())
 			m_capabilitiesLabels.push_back("List All Administrators");
 
-		if (dynamic_cast<Admin*>(m_user)->canCreateEmployee())
+		if (tmpadmin->canCreateEmployee())
 			m_capabilitiesLabels.push_back("Create Employee");
 
-		if (dynamic_cast<Admin*>(m_user)->canUpdateEmployee())
+		if (tmpadmin->canUpdateEmployee())
 			m_capabilitiesLabels.push_back("Update Employee");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeleteEmployee())
+		if (tmpadmin->canDeleteEmployee())
 			m_capabilitiesLabels.push_back("Delete Employee");
 
-		if (dynamic_cast<Admin*>(m_user)->canActivateEmployee())
+		if (tmpadmin->canActivateEmployee())
 			m_capabilitiesLabels.push_back("Activate Employee");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeactivateEmployee())
+		if (tmpadmin->canDeactivateEmployee())
 			m_capabilitiesLabels.push_back("Deactivate Employee");
 
-		if (dynamic_cast<Admin*>(m_user)->canPrintEmployeeInfo())
+		if (tmpadmin->canPrintEmployeeInfo())
 			m_capabilitiesLabels.push_back("Print Employee Information");
 
-		if (dynamic_cast<Admin*>(m_user)->canListAllEmployee())
+		if (tmpadmin->canListAllEmployee())
 			m_capabilitiesLabels.push_back("List All Employees");
 
-		if (dynamic_cast<Admin*>(m_user)->canCreateAccount())
+		if (tmpadmin->canCreateAccount())
 			m_capabilitiesLabels.push_back("Create Account");
 
-		if (dynamic_cast<Admin*>(m_user)->canUpdateAccount())
+		if (tmpadmin->canUpdateAccount())
 			m_capabilitiesLabels.push_back("Update Account");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeleteAccount())
+		if (tmpadmin->canDeleteAccount())
 			m_capabilitiesLabels.push_back("Delete Account");
 
-		if (dynamic_cast<Admin*>(m_user)->canActivateAccount())
+		if (tmpadmin->canActivateAccount())
 			m_capabilitiesLabels.push_back("Activate Account");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeactivateAccount())
+		if (tmpadmin->canDeactivateAccount())
 			m_capabilitiesLabels.push_back("Deactivate Account");
 
-		if (dynamic_cast<Admin*>(m_user)->canListAllAccounts())
+		if (tmpadmin->canListAllAccounts())
 			m_capabilitiesLabels.push_back("List All Accounts");
 
-		if (dynamic_cast<Admin*>(m_user)->canPrintAccountInfo())
+		if (tmpadmin->canPrintAccountInfo())
 			m_capabilitiesLabels.push_back("Print Account Information");
 
-		if (dynamic_cast<Admin*>(m_user)->canCreateCustomer())
+		if (tmpadmin->canCreateCustomer())
 			m_capabilitiesLabels.push_back("Create a new Customer");
 
-		if (dynamic_cast<Admin*>(m_user)->canUpdateCustomer())
+		if (tmpadmin->canUpdateCustomer())
 			m_capabilitiesLabels.push_back("Update Existing Customer");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeleteCustomer())
+		if (tmpadmin->canDeleteCustomer())
 			m_capabilitiesLabels.push_back("Delete Customer");
 
-		if (dynamic_cast<Admin*>(m_user)->canActivateCustomer())
+		if (tmpadmin->canActivateCustomer())
 			m_capabilitiesLabels.push_back("Delete Customer");
 
-		if (dynamic_cast<Admin*>(m_user)->canDeactivateCustomer())
+		if (tmpadmin->canDeactivateCustomer())
 			m_capabilitiesLabels.push_back("Deactivate Customer");
 
-		if (dynamic_cast<Admin*>(m_user)->canListAllCustomers())
+		if (tmpadmin->canListAllCustomers())
 			m_capabilitiesLabels.push_back("List All Customers");
 
-		if (dynamic_cast<Admin*>(m_user)->canPrintCustomerInfo())
+		if (tmpadmin->canPrintCustomerInfo())
 			m_capabilitiesLabels.push_back("Print my customer Information");
 		break;
+	}
 
 	default:
 		break;
 	}
-	/*
-	 for (vector<string>::iterator it = m_capabilitiesLabels.begin(); it != m_capabilitiesLabels.end(); ++it){ // TODO: remove me after
-	 cout << *it << endl;
-	 }
-	 */
 
 }
 
