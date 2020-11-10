@@ -110,6 +110,8 @@ public:
 	Employee* getEmployee(const string username);
 	Admin* getAdmin(const string username);
 
+	int genUserId();
+	int genAccountId();
 
 	// Customer methods
 	bool withdraw(const int sum);

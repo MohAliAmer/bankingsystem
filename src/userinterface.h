@@ -23,6 +23,8 @@ class Ui {
 private:
 	Session *m_session;
 	vector<string> m_capabilitiesLabels;
+	bool registerSuperAdmin();
+	void showWelcomeScreen();
 	
 public:
 	Ui() ;

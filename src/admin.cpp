@@ -10,7 +10,7 @@
 #include "session.h"
 
 bool Session::createAdmin(Admin *admin) {
-	if (!isAuthorized(Session::ADMIN_CREATE))
+	if (!isAuthorized(Session::ADMIN_CREATE) && m_totalUsers > 0)
 		return false;
 
 	assert(typeid(*admin) == typeid(Admin));

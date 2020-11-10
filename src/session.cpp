@@ -296,3 +296,11 @@ bool Session::firstRun() {
 		return false;
 	return true;
 }
+
+int Session::genUserId() {
+	return m_db->generatePersonNumber();
+}
+
+int Session::genAccountId() {
+	return m_db->generateAccountNumber();
+}
