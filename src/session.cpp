@@ -65,6 +65,7 @@ bool Session::login(const string username, const string password) {
 
 		this->m_user = p;
 		this->bIsLoggedIn = true;
+
 		return true;
 	}
 
@@ -80,6 +81,15 @@ bool Session::changePassword(Person *p, const string newpassword) {
 
 	p->setPassword(encrypt(newpassword));
 	if (m_db->insertPerson(p))
+		return true;
+
+	return false;
+}
+
+bool Session::changePassword(const string newpassword) {
+
+	m_user->setPassword(encrypt(newpassword));
+	if (m_db->insertPerson(m_user))
 		return true;
 
 	return false;

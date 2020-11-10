@@ -18,11 +18,13 @@ using namespace std;
 
 int main(){
 	//Account *acct = new Account();
-	Admin *adm = new Admin();
 	Session *s = new Session();
+
+
+#if 0
 	Database *db = new Database();
 
-
+	Admin *adm = new Admin();
 	adm->setId(13);
 	adm->setUserName("kmoussa");
 	adm->setFirstName("Khaled");
@@ -39,6 +41,8 @@ int main(){
 
 	db->insertPerson(adm);
 
+#endif
+/*
 	Admin *farida = new Admin();
 	farida->setId(4);
 	farida->setUserName("fmoussa");
@@ -57,7 +61,7 @@ int main(){
 	farida->cap_acctCreate(true);
 	farida->cap_EmployeeCreate(true);
 	farida->lock();
-	/*
+
 	Employee *emp = new Employee();
 	emp->lock();
 	emp->setId(2);
@@ -109,13 +113,17 @@ int main(){
 	db->insertAccount(rokaiaaccount);
 */
 
-	s->login("kmoussa", "abc123");
+	s->login("kmoussa", "intruder");
 	if (s->isLoggedIn()) {
-		bool x = s->createAdmin(farida);
+		cout << "Login successfull" << endl;
+#if 0
+		bool x = s->changePassword("intruder");
 		if (x)
-			cout << "Creating farida is ok" << endl;
+			cout << "changing password ok" << endl;
 		else
-			cerr << "Creating farida failed" << endl;
+			cerr << "changing password failed" << endl;
+
+#endif
 	}
 	else
 		cerr << "Failed attempt to login" << endl;

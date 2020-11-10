@@ -88,6 +88,7 @@ public:
 	bool login(const string username, const string password);
 	void logout();
 	bool changePassword(Person *p, const string newpassword);
+	bool changePassword(const string newpassword);
 	string encrypt(const string word); // TODO: Private me later
 
 	void setSessionUser(Person *p) {
