@@ -28,9 +28,8 @@ int Ui::run() {
 
 	m_capabilitiesLabels = m_session->getSessionCapabilities();
 
-	for (vector<string>::iterator it = m_capabilitiesLabels.begin() ; it != m_capabilitiesLabels.end() ; ++it){
-		cout << *it << endl;
-	}
+	for (string &cap : m_capabilitiesLabels)
+		cout << cap << endl;
 
 	return 0;
 }

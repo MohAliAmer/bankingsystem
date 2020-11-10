@@ -236,8 +236,6 @@ void Session::setSessionCapabilities() {
 		if (tmpadmin->canListAllCustomers())
 			m_sessionCapabilities.push_back("List All Customers");
 
-		if (tmpadmin->canPrintCustomerInfo())
-			m_sessionCapabilities.push_back("Print my customer Information");
 		break;
 	}
 
