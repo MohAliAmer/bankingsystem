@@ -79,7 +79,15 @@ bool Session::printCustomerInfo() {
 	if (!bIsLoggedIn || !cust)
 		return false;
 
-	return false;
+	string status = cust->isLocked() ? "LOCKED" : "UNLOCKED";
+	cout << "Customer Id = " << cust->getId() << endl;
+	cout << "Customer username = " << cust->getUserName() << endl;
+	cout << "Customer First Name = " << cust->getFirstName() << endl;
+	cout << "Customer Last Name = " << cust->getLastName() << endl;
+	cout << "Customer National ID = " << cust->getNationalId() << endl;
+	cout << "Customer Last Name = " << cust->getLastName() << endl;
+
+	return true;
 }
 
 bool Session::printAccountInfo() {
@@ -87,5 +95,12 @@ bool Session::printAccountInfo() {
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!bIsLoggedIn || !cust->getAccount())
 		return false;
-	return false;
+
+	Account *acct = cust->getAccount();
+	string status = acct->isLocked() ? "LOCKED" : "UNLOCKED";
+	cout << "Account Number: " << acct->getId()
+			<< ",  Account Balance: " << acct->getBalance()
+			<< ", Status: " << status <<endl;
+
+	return true;
 }

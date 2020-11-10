@@ -114,6 +114,21 @@ bool Session::printAdminInfo(Admin *admin) {
 	return true;
 }
 
+bool Session::printAdminInfo() {
+	Admin *admin = dynamic_cast<Admin*>(m_user);
+	if (!bIsLoggedIn || !admin)
+		return false;
+
+	cout << "Admin Id = " << admin->getId() << endl;
+	cout << "Admin username = " << admin->getUserName() << endl;
+	cout << "Admin First Name = " << admin->getFirstName() << endl;
+	cout << "Admin Last Name = " << admin->getLastName() << endl;
+	cout << "Admin National ID = " << admin->getNationalId() << endl;
+	cout << "Admin Last Name = " << admin->getLastName() << endl;
+
+	return true;
+}
+
 bool Session::ListAllAdmins() {
 	if (!isAuthorized(Session::ADMIN_LIST_ALL))
 		return false;

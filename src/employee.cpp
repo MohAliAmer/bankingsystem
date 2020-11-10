@@ -194,6 +194,21 @@ bool Session::ListAllCustomers() {
 	return true;
 }
 
+bool Session::printEmployeeInfo() {
+	Employee *emp = dynamic_cast<Employee*>(m_user);
+	if (!bIsLoggedIn || !emp)
+		return false;
+
+	cout << "Employee Id = " << emp->getId() << endl;
+	cout << "Employee username = " << emp->getUserName() << endl;
+	cout << "Employee First Name = " << emp->getFirstName() << endl;
+	cout << "Employee Last Name = " << emp->getLastName() << endl;
+	cout << "Employee National ID = " << emp->getNationalId() << endl;
+	cout << "Employee Last Name = " << emp->getLastName() << endl;
+
+	return true;
+}
+
 bool Session::transfer(Account *from, Account *to, const int sum) {
 
 	if (!from || !to || sum > from->getBalance())

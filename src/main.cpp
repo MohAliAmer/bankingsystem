@@ -104,25 +104,33 @@ int main(){
 	acct->unlock();
 	acct->setBalance(10000);
 	acct->setCustomerId(adam->getId());
-
-	Database *db = new Database();
-	db->insertPerson(adm);
-	db->insertPerson(adam);
-	db->insertAccount(acct);
-	db->insertPerson(rokaia);
-	db->insertAccount(rokaiaaccount);
 */
 
-	s->login("fmoussa", "abc123");
+
+/*
+	Customer *rokaia = new Customer();
+	rokaia->unlock();
+	rokaia->setId(4);
+	rokaia->setUserName("rmoussa");
+	rokaia->setFirstName("Rokaia");
+	rokaia->setLastName("Moussa");
+	rokaia->setNationalId("222233333444");
+	rokaia->setPassword(s->encrypt("testpass"));
+	Account *rokaiaaccount = new Account();
+	rokaiaaccount->setId(123);
+	rokaiaaccount->setBalance(0);
+	rokaiaaccount->setCustomerId(rokaia->getId());
+	rokaiaaccount->unlock();
+	rokaia->setAccount(rokaiaaccount);
+*/
+
+
+	s->login("rmoussa", "testpass");
 	if (s->isLoggedIn()) {
 		cout << "Login successfull" << endl;
-#if 0
-		s->activateAdmin(s->getAdmin("fmoussa"));
-		bool x = s->changePassword(s->getAdmin("fmoussa"), "abc123");
-		if (x)
-			cout << "changing password ok" << endl;
-		else
-			cerr << "changing password failed" << endl;
+#if 1
+
+		s->printCustomerInfo();
 
 #endif
 	}

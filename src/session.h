@@ -126,6 +126,7 @@ public:
 	bool ListAllCustomers();
 	bool printCustomerInfo(Customer *cust);
 	bool printAccountInfo(Account *acct);
+	bool printEmployeeInfo();
 
 
 	// Admin methods
@@ -135,6 +136,7 @@ public:
 	bool activateAdmin(Admin *admin);
 	bool deactivateAdmin(Admin *admin);
 	bool printAdminInfo(Admin *admin);
+	bool printAdminInfo();
 	bool createEmployee(Employee *emp);
 	bool updateEmployee(Employee *emp);
 	bool deleteEmployee(Employee *emp);
