@@ -25,6 +25,7 @@ Ui::Ui() : m_session(nullptr) {
 }
 
 Ui::~Ui() {
+	delete m_session;
 }
 
 bool Ui::registerSuperAdmin() {
@@ -97,6 +98,7 @@ void Ui::showWelcomeScreen() {
 }
 
 void Ui::ui_create_admin() {
+	cout << "Bingooooooooooooooo" << endl;
 }
 
 void Ui::ui_update_admin() {
@@ -216,6 +218,10 @@ int Ui::run() {
 	m_capabilitiesLabels = m_session->getSessionCapabilities();
 
 	for (string &cap : m_capabilitiesLabels) cout << cap << endl;
+
+	m_function = std::bind(&Ui::ui_create_admin, this);
+
+	m_function();
 
 	return 0;
 }

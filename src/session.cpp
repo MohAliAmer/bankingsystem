@@ -238,7 +238,6 @@ void Session::setSessionCapabilities() {
 
 		break;
 	}
-
 	default:
 		break;
 	}

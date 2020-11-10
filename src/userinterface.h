@@ -10,6 +10,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <functional>
 #include "session.h"
 #include "person.h"
 #include "customer.h"
@@ -21,6 +23,9 @@ class Ui {
 private:
 	Session *m_session;
 	vector<string> m_capabilitiesLabels;
+	std::function<void(void)> m_function;
+	map<int,string> m_capMap;
+
 	bool registerSuperAdmin();
 	void showWelcomeScreen();
 	
@@ -56,6 +61,11 @@ private:
 	void ui_print_account();
 	void ui_listall_account();
 
+	void ui_transfer();
+	void ui_transfer_own();
+	void ui_deposit();
+	void ui_deposit_own();
+	void ui_withdraw();
 
 public:
 	Ui() ;
