@@ -98,11 +98,11 @@ void Ui::showWelcomeScreen() {
 }
 
 void Ui::ui_create_admin() {
-
+	cout<< "Bingoooo" << endl;
 }
 
 void Ui::ui_update_admin() {
-
+	cout<< "Tangoooo" << endl;
 }
 
 void Ui::ui_delete_admin() {
@@ -275,9 +275,25 @@ void Ui::getCallBack(const string desc) {
 		m_execute = std::bind(&Ui::ui_deposit_own, this);
 	if ("Withdraw" == desc)
 		m_execute = std::bind(&Ui::ui_withdraw, this);
+
+	if ("Logout" == desc)
+		m_execute = std::bind(&Ui::logout, this);
+
+	if ("Exit" == desc) {
+		cout << "Bye Bye" <<endl;
+		exit(0);
+	}
+
 }
 
+void Ui::listWhatToDo() {
+	for (map<int, string>::iterator it = m_capMap.begin() ; it != m_capMap.end() ; ++it) {
+		cout << it->first << " " << it->second << endl;
+	}
+}
 
+void Ui::logout() {
+}
 
 int Ui::run() {
 
@@ -313,12 +329,37 @@ int Ui::run() {
 	}
 
 	m_capabilitiesLabels = m_session->getSessionCapabilities();
+	m_capabilitiesLabels.push_back("Logout");
+	m_capabilitiesLabels.push_back("Exit");
 
-	for (string &cap : m_capabilitiesLabels) cout << cap << endl;
+	int counter = 1;
+	for (string &capability : m_capabilitiesLabels) {
+		m_capMap.insert(pair<int,string>(counter, capability));
+		counter++;
+	}
+	counter = 0;
 
-	getCallBack("Update Administrator");
-	m_execute();
+	cout << endl;
 
+	listWhatToDo();
+
+	cout << endl;
+	cout << endl;
+
+	for (;;) {
+		int operation = 0;
+		map<int, string>::iterator it;
+		do {
+			cout << "Select Operation: ";
+			cin >> operation;
+			it = m_capMap.find(operation);
+			if (it == m_capMap.end())
+				cerr << "Please select a valid operation" << endl;
+		} while (it == m_capMap.end());
+
+		getCallBack(m_capMap.find(operation)->second);
+		m_execute();
+	}
 
 	return 0;
 }

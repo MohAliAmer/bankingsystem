@@ -31,6 +31,9 @@ private:
 
 	bool registerSuperAdmin();
 	void showWelcomeScreen();
+	void listWhatToDo();
+	void logout();
+
 	
 	void ui_create_admin();
 	void ui_update_admin();
