@@ -8,5 +8,10 @@
 
 #include "userinterface.h"
 
+Ui::Ui() : m_session(nullptr) {
+	m_session = new Session();
 
+}
 
+Ui::~Ui() {
+}

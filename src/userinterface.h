@@ -20,9 +20,11 @@
 class Ui {
 	
 private:
+	Session *m_session;
 	
 public:
-	
+	Ui() ;
+	~Ui();
 };
 
 

@@ -17,6 +17,7 @@
 #include "employee.h"
 #include "admin.h"
 
+
 using namespace std;
 
 #define DBNAME "future_bank.db"
@@ -30,7 +31,7 @@ private:
 	int computeUserCaps(Person *p);
 	bool createAccountsTable();
 	bool createPersonsTable();
-	int getUsersCount();
+
 
 public:
 	Database();
@@ -47,10 +48,10 @@ public:
 
 	int generateAccountNumber();
 	int generatePersonNumber();
+	int getUsersCount();
 
 	vector<Person*> getAllPersons(int person_type);
 	vector<Account*> getAllAccounts();
-
 
 };
 

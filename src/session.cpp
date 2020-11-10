@@ -9,6 +9,10 @@
 
 Session::Session() : m_user(nullptr), bIsLoggedIn(false), m_userType(UNKNOWN) {
 	m_db = new Database();
+	int newsetup = m_db->getUsersCount();
+	if (newsetup > 0) {
+		m_capabilitiesLabels.push_back("First Run");
+	}
 }
 
 Session::~Session() {
@@ -289,4 +293,10 @@ Admin* Session::getAdmin(const string username) {
 	if (!admin)
 		return nullptr;
 	return admin;
+}
+
+bool Session::firstRun() {
+	if (m_db->getUsersCount() > 0)
+		return false;
+	return true;
 }

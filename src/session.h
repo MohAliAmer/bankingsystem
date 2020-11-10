@@ -87,6 +87,7 @@ public:
 			CUSTOMER
 		};
 
+	bool firstRun();
 	bool isLoggedIn() {return bIsLoggedIn;}
 	bool login(const string username, const string password);
 	void logout();
@@ -97,6 +98,10 @@ public:
 	void setSessionUser(Person *p) {
 		m_user = p;
 		setSessionCapabilities();
+	}
+
+	vector<string> getSessionCapabilities() {
+		return m_capabilitiesLabels;
 	}
 
 	Customer* getCustomer(const string username);
