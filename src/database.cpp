@@ -70,7 +70,7 @@ bool Database::createAccountsTable() {
 			"BALANCE         INT        NOT NULL," \
 			"FOREIGN KEY(OWNER) REFERENCES PERSONS(ID));";
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);///////////////////////
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
 
 	if (rc != SQLITE_OK) {
 		cerr <<  "SQL error: " << zErrMsg << endl;
@@ -921,7 +921,35 @@ vector<Account*> Database::getAllAccounts() {
 	sqlite3_finalize(stmt);
 
 	return list;
+}
 
 
+int Database::getUsersCount() {
+	const char *zErrMsg = nullptr;
+	int rc;
+	string sql;
+	sqlite3_stmt *stmt = nullptr;
+	int total = 0;
 
+	sql = "SELECT COUNT(*) from PERSONS;";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if(SQLITE_OK != rc) {
+		cerr << "Can't prepare select statment " << sql.c_str() << " "  << rc << " " << sqlite3_errmsg(db) << endl;
+		sqlite3_close(db);
+		exit(-1);
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		total = sqlite3_column_int(stmt, 0);
+
+	} else {
+		cerr << "Error retrieving persons count from the database" << endl;
+		sqlite3_close(db);
+		exit(-1);
+	}
+
+	sqlite3_finalize(stmt);
+
+	return total;
 }

@@ -104,33 +104,37 @@ int main(){
 	acct->unlock();
 	acct->setBalance(10000);
 	acct->setCustomerId(adam->getId());
+
+
+	Admin *farida = new Admin();
+	farida->setId(4);
+	farida->setUserName("fmoussa");
+	farida->setFirstName("Farida");
+	farida->setLastName("Moussa");
+	farida->setNationalId("908908324");
+	farida->setPassword(s->encrypt("xyz123"));
+	farida->cap_AdminPrintInfo(true);
+	farida->cap_AdminActivate(true);
+	farida->cap_AdminDeactivate(true);
+	farida->cap_AdminDelete(true);
+	farida->cap_AdminCreate(true);
+	farida->cap_AdminUpdate(true);
+	farida->cap_custCreate(false);
+	farida->cap_custDelete(true);
+	farida->cap_acctCreate(true);
+	farida->cap_EmployeeCreate(true);
+	farida->unlock();
 */
 
 
-/*
-	Customer *rokaia = new Customer();
-	rokaia->unlock();
-	rokaia->setId(4);
-	rokaia->setUserName("rmoussa");
-	rokaia->setFirstName("Rokaia");
-	rokaia->setLastName("Moussa");
-	rokaia->setNationalId("222233333444");
-	rokaia->setPassword(s->encrypt("testpass"));
-	Account *rokaiaaccount = new Account();
-	rokaiaaccount->setId(123);
-	rokaiaaccount->setBalance(0);
-	rokaiaaccount->setCustomerId(rokaia->getId());
-	rokaiaaccount->unlock();
-	rokaia->setAccount(rokaiaaccount);
-*/
-
-
-	s->login("rmoussa", "testpass");
+	s->login("kmoussa", "abc123");
 	if (s->isLoggedIn()) {
 		cout << "Login successfull" << endl;
 #if 1
-
-		s->printCustomerInfo();
+		//s->deleteAdmin(farida);
+		//bool (Session::*f)(Admin *admin) = &Session::createAdmin;
+		//(s->*f)(farida);
+		//(s->*s->Session::execute)(farida);
 
 #endif
 	}

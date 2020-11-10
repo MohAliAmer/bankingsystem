@@ -30,6 +30,7 @@ private:
 	int computeUserCaps(Person *p);
 	bool createAccountsTable();
 	bool createPersonsTable();
+	int getUsersCount();
 
 public:
 	Database();
@@ -49,6 +50,7 @@ public:
 
 	vector<Person*> getAllPersons(int person_type);
 	vector<Account*> getAllAccounts();
+
 
 };
 
