@@ -9,6 +9,7 @@
 #define SRC_USERINTERFACE_H_
 
 #include <string>
+#include <vector>
 #include "session.h"
 #include "person.h"
 #include "customer.h"
@@ -21,6 +22,7 @@ class Ui {
 	
 private:
 	Session *m_session;
+	vector<string> m_capabilitiesLabels;
 	
 public:
 	Ui() ;

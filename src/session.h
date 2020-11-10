@@ -32,7 +32,7 @@ private:
 	bool bIsLoggedIn;
 	int m_userType;
 	int m_totalUsers;
-	vector<string> m_capabilitiesLabels;
+	vector<string> m_sessionCapabilities;
 	void setUserType();
 	void setSessionCapabilities();
 	bool isAuthorized(int priv);
@@ -99,10 +99,11 @@ public:
 	void setSessionUser(Person *p) {
 		m_user = p;
 		setSessionCapabilities();
+		this->bIsLoggedIn = true;
 	}
 
 	vector<string> getSessionCapabilities() {
-		return m_capabilitiesLabels;
+		return m_sessionCapabilities;
 	}
 
 	Customer* getCustomer(const string username);
