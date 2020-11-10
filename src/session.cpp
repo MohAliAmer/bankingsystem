@@ -258,7 +258,7 @@ string Session::encrypt(const string word) {
     	result = sstream.str();
     }
 #elif _WIN32
-    // TODO: Windows hashing code should go here
+    // TODO: Windows hashing code should go here, important to modify string called "result"
 #endif
     return result;
 }

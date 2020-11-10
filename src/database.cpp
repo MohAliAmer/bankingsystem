@@ -923,7 +923,6 @@ vector<Account*> Database::getAllAccounts() {
 	return list;
 }
 
-
 int Database::getUsersCount() {
 	const char *zErrMsg = nullptr;
 	int rc;

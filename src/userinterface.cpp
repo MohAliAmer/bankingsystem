@@ -96,14 +96,99 @@ void Ui::showWelcomeScreen() {
 	cout << "<<<<<<<<<<<<<<< Welcome To Future Bank >>>>>>>>>>>>>>>>" << endl;
 }
 
+void Ui::ui_create_admin() {
+}
+
+void Ui::ui_update_admin() {
+}
+
+void Ui::ui_delete_admin() {
+}
+
+void Ui::ui_activate_admin() {
+}
+
+void Ui::ui_deactivate_admin() {
+}
+
+void Ui::ui_print_admin() {
+}
+
+void Ui::ui_listall_admin() {
+}
+
+void Ui::ui_create_employee() {
+}
+
+void Ui::ui_update_employee() {
+}
+
+void Ui::ui_delete_employee() {
+}
+
+void Ui::ui_activate_employee() {
+}
+
+void Ui::ui_deactivate_employee() {
+}
+
+void Ui::ui_print_employee() {
+}
+
+void Ui::ui_listall_employee() {
+}
+
+void Ui::ui_create_customer() {
+}
+
+void Ui::ui_update_customer() {
+}
+
+void Ui::ui_delete_customer() {
+}
+
+void Ui::ui_activate_customer() {
+}
+
+void Ui::ui_deactivate_customer() {
+}
+
+void Ui::ui_print_customer() {
+}
+
+void Ui::ui_listall_customer() {
+}
+
+void Ui::ui_create_account() {
+}
+
+void Ui::ui_update_account() {
+}
+
+void Ui::ui_delete_account() {
+}
+
+void Ui::ui_activate_account() {
+}
+
+void Ui::ui_deactivate_account() {
+}
+
+void Ui::ui_print_account() {
+}
+
+void Ui::ui_listall_account() {
+}
+
 int Ui::run() {
 
 	string username, password;
 	cout << "User: ";
 	cin >> username;
 	cout << "Password: ";
-#ifdef __linux__
+
 #if 0
+#ifdef __linux__
     termios oldt;
     tcgetattr(STDIN_FILENO, &oldt);
     termios newt = oldt;
@@ -120,8 +205,8 @@ int Ui::run() {
 #endif
 #endif
 
-    cin >> password;
-    //cout << password << endl;
+    cin >> password; // TODO: should be replaced with non echoed password input
+
 	bool loggedIn = m_session->login(username, password);
 	if (!loggedIn) {
 		cerr << "Login Failed" << endl;
@@ -130,8 +215,7 @@ int Ui::run() {
 
 	m_capabilitiesLabels = m_session->getSessionCapabilities();
 
-	for (string &cap : m_capabilitiesLabels)
-		cout << cap << endl;
+	for (string &cap : m_capabilitiesLabels) cout << cap << endl;
 
 	return 0;
 }

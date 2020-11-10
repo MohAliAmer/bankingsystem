@@ -55,5 +55,4 @@ public:
 
 };
 
-
 #endif /* SRC_DATABASE_H_ */

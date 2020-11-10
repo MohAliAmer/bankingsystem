@@ -16,8 +16,6 @@
 #include "employee.h"
 #include "admin.h"
 
-
-
 class Ui {
 	
 private:
@@ -26,12 +24,44 @@ private:
 	bool registerSuperAdmin();
 	void showWelcomeScreen();
 	
+	void ui_create_admin();
+	void ui_update_admin();
+	void ui_delete_admin();
+	void ui_activate_admin();
+	void ui_deactivate_admin();
+	void ui_print_admin();
+	void ui_listall_admin();
+
+	void ui_create_employee();
+	void ui_update_employee();
+	void ui_delete_employee();
+	void ui_activate_employee();
+	void ui_deactivate_employee();
+	void ui_print_employee();
+	void ui_listall_employee();
+
+	void ui_create_customer();
+	void ui_update_customer();
+	void ui_delete_customer();
+	void ui_activate_customer();
+	void ui_deactivate_customer();
+	void ui_print_customer();
+	void ui_listall_customer();
+
+	void ui_create_account();
+	void ui_update_account();
+	void ui_delete_account();
+	void ui_activate_account();
+	void ui_deactivate_account();
+	void ui_print_account();
+	void ui_listall_account();
+
+
 public:
 	Ui() ;
 	~Ui();
 	int run();
 };
-
 
 
 #endif /* SRC_USERINTERFACE_H_ */
