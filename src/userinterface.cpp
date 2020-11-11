@@ -46,13 +46,11 @@ void Ui::registerSuperAdmin() {
 	super->setId(m_session->genUserId());
 	cout << "User name: ";
 	cin >> username;
-	cout <<  endl;
 	cout << "First name: ";
 	cin >> firstname;
-	cout <<  endl;
-	cout << "last name: ";
+	cout << "Last name: ";
 	cin >> lastname;
-	cout <<  endl;
+
 	cout << "National ID: ";
 	cin >> nationalid;
 	cout <<  endl;
@@ -115,14 +113,150 @@ void Ui::showWelcomeScreen() {
     cout << endl;
 
     cout << "Version 1.0  ";
-    cout << "Copyright: Amira and my lovely group of developers" << endl;
+    cout << "Copyright: Amira and my lovely group of fellow developers" << endl;
 
     cout << endl;
     cout << endl;
 }
 
 void Ui::ui_create_admin() {
-	cout<< "Bingoooo" << endl;
+
+	string username;
+	string firstname;
+	string lastname;
+	string nationalid;
+	string password;
+	string password_confirm;
+
+	cout << "Registering an administrator" << endl;
+	cout << endl;
+
+	Admin *tmp = new Admin();
+	tmp->setId(m_session->genUserId());
+
+	cout << "User name: ";
+	cin >> username;
+	cout << "First name: ";
+	cin >> firstname;
+	cout << "Last name: ";
+	cin >> lastname;
+
+	cout << "National ID: ";
+	cin >> nationalid;
+	cout <<  endl;
+
+	do {
+		cout << "Password: ";
+		cin >> password;
+		cout <<  endl;
+		cout << "Confirm password: ";
+		cin >> password_confirm;
+		if (password != password_confirm)
+			cerr << "Password mismatch, Please try again" << endl;
+	}
+	while (password != password_confirm);
+
+	tmp->setUserName(username);
+	tmp->setFirstName(firstname);
+	tmp->setLastName(lastname);
+	tmp->setNationalId(nationalid);
+	tmp->setPassword(m_session->encrypt(password));
+
+	tmp->unlock();
+
+	string answer= "";
+
+	do {
+		cout << "Can create other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminCreate(true);
+	else
+		tmp->cap_AdminCreate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Update other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminUpdate(true);
+	else
+		tmp->cap_AdminUpdate(false);
+	answer = "";
+
+	do {
+		cout << "Can Delete other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDelete(true);
+	else
+		tmp->cap_AdminDelete(false);
+	answer = "";
+
+	do {
+		cout << "Can Activate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminActivate(true);
+	else
+		tmp->cap_AdminActivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Deactivate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDeactivate(true);
+	else
+		tmp->cap_AdminDeactivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can list all other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminListAll(true);
+	else
+		tmp->cap_AdminListAll(false);
+	answer = "";
+
+
+	do {
+		cout << "Can print Administrators info? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminPrintInfo(true);
+	else
+		tmp->cap_AdminPrintInfo(false);
+	answer = "";
+
+
+	if(!m_session->createAdmin(tmp)) {
+		cerr << "Error creating the administrator please contact the super admin" << endl;
+		exit(-1);
+	}
+	else {
+		cout << "Bank super administrator created successfully, please login to setup more users" << endl;
+		delete tmp;
+	}
+
 }
 
 void Ui::ui_update_admin() {
