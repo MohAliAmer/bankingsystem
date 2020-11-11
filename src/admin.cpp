@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <typeinfo>
 #include "session.h"
+#include "userinterface.h"
 
 bool Session::createAdmin(Admin *admin) {
 	if (!isAuthorized(Session::ADMIN_CREATE) && m_totalUsers > 0)
@@ -264,3 +265,211 @@ bool Session::ListAllEmployees() {
 	return true;
 }
 
+
+void Ui::ui_create_admin() {
+
+	string username;
+	string firstname;
+	string lastname;
+	string nationalid;
+	string password;
+	string password_confirm;
+
+	cout << "Registering an administrator" << endl;
+	cout << endl;
+
+	Admin *tmp = new Admin();
+	tmp->setId(m_session->genUserId());
+
+	cout << "User name: ";
+	cin >> username;
+	cout << "First name: ";
+	cin >> firstname;
+	cout << "Last name: ";
+	cin >> lastname;
+
+	cout << "National ID: ";
+	cin >> nationalid;
+	cout <<  endl;
+
+	do {
+		cout << "Password: ";
+		cin >> password;
+		cout <<  endl;
+		cout << "Confirm password: ";
+		cin >> password_confirm;
+		if (password != password_confirm)
+			cerr << "Password mismatch, Please try again" << endl;
+	}
+	while (password != password_confirm);
+
+	tmp->setUserName(username);
+	tmp->setFirstName(firstname);
+	tmp->setLastName(lastname);
+	tmp->setNationalId(nationalid);
+	tmp->setPassword(m_session->encrypt(password));
+
+	tmp->lock();
+
+	string answer = "";
+
+	do {
+		cout << "Can create other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminCreate(true);
+	else
+		tmp->cap_AdminCreate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Update other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminUpdate(true);
+	else
+		tmp->cap_AdminUpdate(false);
+	answer = "";
+
+	do {
+		cout << "Can Delete other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDelete(true);
+	else
+		tmp->cap_AdminDelete(false);
+	answer = "";
+
+	do {
+		cout << "Can Activate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminActivate(true);
+	else
+		tmp->cap_AdminActivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Deactivate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDeactivate(true);
+	else
+		tmp->cap_AdminDeactivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can list all other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminListAll(true);
+	else
+		tmp->cap_AdminListAll(false);
+	answer = "";
+
+
+	do {
+		cout << "Can print Administrators info? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminPrintInfo(true);
+	else
+		tmp->cap_AdminPrintInfo(false);
+	answer = "";
+
+
+	if(!m_session->createAdmin(tmp)) {
+		cerr << "Error creating the administrator please contact the super admin" << endl;
+		exit(-1);
+	}
+	else {
+		cout << "Administrator was created successfully, please login to continue working" << endl;
+		delete tmp;
+	}
+}
+
+void Ui::ui_update_admin() {
+	cout<< "Tangoooo" << endl;
+}
+
+void Ui::ui_delete_admin() {
+
+	string username = "";
+	Admin *tmp;
+	cout << "Enter administrator's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getAdmin(username);
+	if (tmp) {
+		if (!m_session->deleteAdmin(tmp))
+			cerr << "Failed to delete admin acount: " << username << endl;
+		else
+			cout << "Deleted admin account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Admin: " << username << endl;
+}
+
+void Ui::ui_activate_admin() {
+}
+
+void Ui::ui_deactivate_admin() {
+}
+
+void Ui::ui_print_admin() {
+}
+
+void Ui::ui_listall_admin() {
+}
+
+void Ui::ui_create_employee() {
+}
+
+void Ui::ui_update_employee() {
+}
+
+void Ui::ui_delete_employee() {
+
+	string username = "";
+	Employee *tmp;
+	cout << "Enter Emplyee's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getEmployee(username);
+	if (tmp) {
+		if (!m_session->deleteEmployee(tmp))
+			cerr << "Failed to delete employee acount: " << username << endl;
+		else
+			cout << "Deleted employee account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Employee: " << username << endl;
+
+}
+
+void Ui::ui_activate_employee() {
+}
+
+void Ui::ui_deactivate_employee() {
+}
+
+void Ui::ui_print_employee() {
+}
+
+void Ui::ui_listall_employee() {
+}

@@ -252,7 +252,7 @@ void Session::setSessionCapabilities() {
 	}
 }
 
-string Session::encrypt(const string word) {
+string Session::encrypt(const string word) const {
 #ifdef __linux__
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;

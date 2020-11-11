@@ -7,7 +7,7 @@
 
 
 #include "session.h"
-
+#include "userinterface.h"
 
 bool Session::withdraw(const int sum) {
 
@@ -103,4 +103,17 @@ bool Session::printAccountInfo() {
 			<< ", Status: " << status <<endl;
 
 	return true;
+}
+
+
+void Ui::ui_transfer_own() {
+}
+
+void Ui::ui_deposit_own() {
+}
+
+void Ui::ui_withdraw() {
+}
+
+void Ui::ui_print_own_customer() {
 }

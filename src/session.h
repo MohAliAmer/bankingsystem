@@ -94,7 +94,7 @@ public:
 	void logout();
 	bool changePassword(Person *p, const string newpassword);
 	bool changePassword(const string newpassword);
-	string encrypt(const string word); // TODO: Private me later
+	string encrypt(const string word) const;
 
 	void setSessionUser(Person *p) {
 		m_user = p;

@@ -44,7 +44,7 @@ public:
 
 	bool insertPerson(Person *p);
 	bool deletePerson(Person *p);
-	Person* retrievePerson(const string username);
+	Person* retrievePerson(const string username) const;
 
 	int generateAccountNumber();
 	int generatePersonNumber();

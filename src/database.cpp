@@ -479,7 +479,7 @@ int Database::setUserType(Person *p) {
 		return Session::UNKNOWN;
 }
 
-Person* Database::retrievePerson(const string username) {
+Person* Database::retrievePerson(const string username) const {
 
 	const char *zErrMsg = nullptr;
 	int rc;
@@ -692,7 +692,6 @@ int Database::computeUserCaps(Person *p) {
 		if (adm->canListAllAdmin()) {
 			allcaps.push_back(Session::ADMIN_LIST_ALL);
 		}
-
 		if (adm->canCreateEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_CREATE);
 		}
@@ -714,7 +713,6 @@ int Database::computeUserCaps(Person *p) {
 		if (adm->canListAllEmployee()) {
 			allcaps.push_back(Session::EMPLOYEE_LIST_ALL);
 		}
-
 		if (adm->canCreateAccount()) {
 			allcaps.push_back(Session::ACCOUNT_CREATE);
 		}
@@ -736,7 +734,6 @@ int Database::computeUserCaps(Person *p) {
 		if (adm->canPrintAccountInfo()) {
 			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
 		}
-
 		if (adm->canCreateCustomer()) {
 			allcaps.push_back(Session::CUSTOMER_CREATE);
 		}
@@ -764,9 +761,8 @@ int Database::computeUserCaps(Person *p) {
 		break;
 	}
 
-	for (vector<int>::iterator it = allcaps.begin() ; it != allcaps.end() ; ++it) {
+	for (vector<int>::iterator it = allcaps.begin() ; it != allcaps.end() ; ++it)
 		usercaps |= *it;
-	}
 
 	return usercaps;
 }

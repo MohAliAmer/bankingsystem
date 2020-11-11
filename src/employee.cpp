@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <typeinfo>
 #include "session.h"
-
+#include "userinterface.h"
 
 bool Session::createAccount(Account *acct) {
 	if (!isAuthorized(Session::ACCOUNT_CREATE))
@@ -246,3 +246,67 @@ bool Session::deposit(Account *acct, const int sum) {
 
 	return true;
 }
+
+
+void Ui::ui_create_customer() {
+}
+
+void Ui::ui_update_customer() {
+}
+
+void Ui::ui_delete_customer() {
+
+	string username = "";
+	Customer *tmp;
+	cout << "Enter Customer's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getCustomer(username);
+	if (tmp) {
+		if (!m_session->deleteCustomer(tmp))
+			cerr << "Failed to delete customer acount: " << username << endl;
+		else
+			cout << "Deleted customer account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Customer: " << username << endl;
+}
+
+void Ui::ui_activate_customer() {
+}
+
+void Ui::ui_deactivate_customer() {
+}
+
+void Ui::ui_print_customer() {
+}
+
+void Ui::ui_listall_customer() {
+}
+
+void Ui::ui_create_account() {
+}
+
+void Ui::ui_update_account() {
+}
+
+void Ui::ui_delete_account() {
+}
+
+void Ui::ui_activate_account() {
+}
+
+void Ui::ui_deactivate_account() {
+}
+
+void Ui::ui_print_account() {
+}
+
+void Ui::ui_listall_account() {
+}
+
+void Ui::ui_transfer() {
+}
+
+void Ui::ui_deposit() {
+}
+
