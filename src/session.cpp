@@ -53,7 +53,6 @@ bool Session::login(const string username, const string password) {
 
 		switch (p->getUserType()) {
 		case Session::CUSTOMER: {
-			//m_user = dynamic_cast<Customer*>(p);
 			Account *acct = m_db->retrieveAccountByCustomer(p->getId());
 			if (acct)
 				dynamic_cast<Customer*>(p)->setAccount(acct);
@@ -68,10 +67,8 @@ bool Session::login(const string username, const string password) {
 		}
 
 		setSessionUser(p);
-
 		return true;
 	}
-
 	return false;
 }
 
@@ -110,10 +107,12 @@ void Session::setSessionCapabilities() {
 		m_sessionCapabilities.push_back("Deposit");
 		m_sessionCapabilities.push_back("Withdraw");
 		m_sessionCapabilities.push_back("Print my account Information");
+		m_sessionCapabilities.push_back("Change Password");
 
 		break;
 
 	case EMPLOYEE: {
+		m_sessionCapabilities.push_back("Change Password");
 		m_sessionCapabilities.push_back("Transfer Money between accounts");
 		m_sessionCapabilities.push_back("Deposit Money to Customer");
 		Employee *tmpemp = dynamic_cast<Employee*>(m_user);
@@ -243,6 +242,8 @@ void Session::setSessionCapabilities() {
 
 		if (tmpadmin->canListAllCustomers())
 			m_sessionCapabilities.push_back("List All Customers");
+
+		m_sessionCapabilities.push_back("Change Password");
 
 		break;
 	}

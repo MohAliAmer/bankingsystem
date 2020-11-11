@@ -475,6 +475,8 @@ void Ui::getCallBack(const string desc) {
 		m_execute = std::bind(&Ui::ui_deposit_own, this);
 	if ("Withdraw" == desc)
 		m_execute = std::bind(&Ui::ui_withdraw, this);
+	if ("Change Password" == desc)
+		m_execute = std::bind(&Ui::ui_change_password, this);
 
 	if ("Logout" == desc)
 		m_execute = std::bind(&Ui::logout, this);
@@ -483,7 +485,6 @@ void Ui::getCallBack(const string desc) {
 		cout << "Bye Bye" <<endl;
 		exit(0);
 	}
-
 }
 
 void Ui::listWhatToDo() {
@@ -502,6 +503,9 @@ void Ui::logout() {
 	m_capabilitiesLabels.clear();
 	m_session = new Session();
 	run();
+}
+
+void Ui::ui_change_password() {
 }
 
 int Ui::run() {
@@ -547,11 +551,8 @@ int Ui::run() {
 		counter++;
 	}
 	counter = 0;
-
 	cout << endl;
-
 	listWhatToDo();
-
 	cout << endl;
 	cout << endl;
 
