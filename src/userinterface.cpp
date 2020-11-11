@@ -298,6 +298,21 @@ void Ui::ui_update_employee() {
 }
 
 void Ui::ui_delete_employee() {
+
+	string username = "";
+	Employee *tmp;
+	cout << "Enter Emplyee's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getEmployee(username);
+	if (tmp) {
+		if (!m_session->deleteEmployee(tmp))
+			cerr << "Failed to delete employee acount: " << username << endl;
+		else
+			cout << "Deleted employee account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Employee: " << username << endl;
+
 }
 
 void Ui::ui_activate_employee() {
@@ -319,6 +334,20 @@ void Ui::ui_update_customer() {
 }
 
 void Ui::ui_delete_customer() {
+
+	string username = "";
+	Customer *tmp;
+	cout << "Enter Customer's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getCustomer(username);
+	if (tmp) {
+		if (!m_session->deleteCustomer(tmp))
+			cerr << "Failed to delete customer acount: " << username << endl;
+		else
+			cout << "Deleted customer account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Customer: " << username << endl;
 }
 
 void Ui::ui_activate_customer() {
