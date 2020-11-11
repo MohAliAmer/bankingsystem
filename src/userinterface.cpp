@@ -162,9 +162,9 @@ void Ui::ui_create_admin() {
 	tmp->setNationalId(nationalid);
 	tmp->setPassword(m_session->encrypt(password));
 
-	tmp->unlock();
+	tmp->lock();
 
-	string answer= "";
+	string answer = "";
 
 	do {
 		cout << "Can create other Administrators? (y/N): ";
@@ -253,10 +253,9 @@ void Ui::ui_create_admin() {
 		exit(-1);
 	}
 	else {
-		cout << "Bank super administrator created successfully, please login to setup more users" << endl;
+		cout << "Administrator was created successfully, please login to continue working" << endl;
 		delete tmp;
 	}
-
 }
 
 void Ui::ui_update_admin() {
@@ -264,6 +263,20 @@ void Ui::ui_update_admin() {
 }
 
 void Ui::ui_delete_admin() {
+
+	string username = "";
+	Admin *tmp;
+	cout << "Enter administrator's user name to delete: ";
+	cin >> username;
+	tmp = m_session->getAdmin(username);
+	if (tmp) {
+		if (!m_session->deleteAdmin(tmp))
+			cerr << "Failed to delete admin acount: " << username << endl;
+		else
+			cout << "Deleted admin account: " << username << endl;
+	}
+	else
+		cout << "Failed to query the deleting desired Admin: " << username << endl;
 }
 
 void Ui::ui_activate_admin() {
