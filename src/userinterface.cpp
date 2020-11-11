@@ -401,6 +401,9 @@ void Ui::ui_withdraw() {
 void Ui::ui_print_own_customer() {
 }
 
+void Ui::ui_change_password() {
+}
+
 void Ui::getCallBack(const string desc) {
 
 	if ("Create Administrator" == desc)
@@ -503,9 +506,6 @@ void Ui::logout() {
 	m_capabilitiesLabels.clear();
 	m_session = new Session();
 	run();
-}
-
-void Ui::ui_change_password() {
 }
 
 int Ui::run() {
