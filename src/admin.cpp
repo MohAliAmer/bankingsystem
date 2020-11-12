@@ -407,7 +407,131 @@ void Ui::ui_create_admin() {
 }
 
 void Ui::ui_update_admin() {
-	cout<< "Tangoooo" << endl;
+
+	string username;
+	string firstname;
+	string lastname;
+	string nationalid;
+	string password;
+	string password_confirm;
+	string answer = "";
+	Admin *tmp;
+
+	cout << "Updating an administrator" << endl;
+	cout << endl;
+
+	do {
+		cout << "Admin user name: ";
+		cin >> username;
+		tmp = m_session->getAdmin(username);
+		if (!tmp)
+			cerr << "Admin account doesn't exit" << endl;
+	} while (!tmp);
+
+
+	cout << "First name: ";
+	cin >> firstname;
+	cout << "Last name: ";
+	cin >> lastname;
+	cout << "National ID: ";
+	cin >> nationalid;
+	cout <<  endl;
+
+	tmp->setFirstName(firstname);
+	tmp->setLastName(lastname);
+	tmp->setNationalId(nationalid);
+
+	tmp->isLocked() ? tmp->lock() : tmp->unlock();
+
+	do {
+		cout << "Can create other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminCreate(true);
+	else
+		tmp->cap_AdminCreate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Update other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminUpdate(true);
+	else
+		tmp->cap_AdminUpdate(false);
+	answer = "";
+
+	do {
+		cout << "Can Delete other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDelete(true);
+	else
+		tmp->cap_AdminDelete(false);
+	answer = "";
+
+	do {
+		cout << "Can Activate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminActivate(true);
+	else
+		tmp->cap_AdminActivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can Deactivate other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminDeactivate(true);
+	else
+		tmp->cap_AdminDeactivate(false);
+	answer = "";
+
+
+	do {
+		cout << "Can list all other Administrators? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminListAll(true);
+	else
+		tmp->cap_AdminListAll(false);
+	answer = "";
+
+
+	do {
+		cout << "Can print Administrators info? (y/N): ";
+		cin >> answer;
+	} while(!cin.fail() && (answer!="y" && answer!="n" && answer!="Y" &&answer != "N"));
+
+	if (answer == "y" || answer == "Y")
+		tmp->cap_AdminPrintInfo(true);
+	else
+		tmp->cap_AdminPrintInfo(false);
+	answer = "";
+
+
+	if(!m_session->updateAdmin(tmp)) {
+		cerr << "Error updating " << username <<  " please contact the super admin" << endl;
+		exit(-1);
+	}
+	else {
+		cout << "Administrator was updated successfully, please login to continue working" << endl;
+	}
 }
 
 void Ui::ui_delete_admin() {
@@ -428,9 +552,47 @@ void Ui::ui_delete_admin() {
 }
 
 void Ui::ui_activate_admin() {
+	string username;
+	Admin *tmp;
+
+	do {
+		cout << "Admin username: ";
+		cin >> username;
+		tmp = m_session->getAdmin(username);
+		if (!tmp)
+			cerr << "Admin account doesn't exit" << endl;
+	} while (!tmp);
+
+	tmp->unlock();
+
+	if (!m_session->updateAdmin(tmp)){
+		cerr << "Error activating " << username <<  " please contact the super admin" << endl;
+		exit(-1);
+	}
+	else
+		cout << "Administrator was activated successfully, please login to continue working" << endl;
 }
 
 void Ui::ui_deactivate_admin() {
+	string username;
+	Admin *tmp;
+
+	do {
+		cout << "Admin username: ";
+		cin >> username;
+		tmp = m_session->getAdmin(username);
+		if (!tmp)
+			cerr << "Admin account doesn't exit" << endl;
+	} while (!tmp);
+
+	tmp->lock();
+
+	if (!m_session->updateAdmin(tmp)){
+		cerr << "Error deactivating " << username <<  " administrator please contact the super admin" << endl;
+		exit(-1);
+	}
+	else
+		cout << "Administrator was deactivated successfully" << endl;
 }
 
 void Ui::ui_print_admin() {

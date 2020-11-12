@@ -55,6 +55,11 @@ bool Database::initDB() {
 		cerr << "Error opening the future bank database: " << sqlite3_errmsg(db) << endl;
 		return false;
 	}
+
+	rc = sqlite3_busy_timeout(db, 0);
+	if(rc)
+		cerr << "Error setting busy handler for the future bank database: " << sqlite3_errmsg(db) << endl;
+
 	return true;
 }
 
@@ -412,7 +417,6 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-
 	rc = sqlite3_step(stmt);
 	if(SQLITE_DONE != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
@@ -536,6 +540,7 @@ Person* Database::retrievePerson(const string username) const {
 		person->setUserType(usertype);
 		lockstatus ? person->lock() : person->unlock();
 		person->setCaps(caps);
+		sqlite3_finalize(stmt);
 		return person;
 	}
 
@@ -564,7 +569,7 @@ Person* Database::retrievePerson(const string username) const {
 		person->cap_custDeactivate(caps & Session::CUSTOMER_DEACTIVATE);
 		person->cap_custPrintInfo(caps & Session::CUSTOMER_PRINT_INFO);
 		person->cap_custListAll(caps & Session::CUSTOMER_LIST_ALL);
-
+		sqlite3_finalize(stmt);
 		return person;
 	}
 
@@ -602,7 +607,7 @@ Person* Database::retrievePerson(const string username) const {
 		person->cap_AdminDeactivate(caps & Session::ADMIN_DEACTIVATE);
 		person->cap_AdminPrintInfo(caps & Session::ADMIN_PRINT_INFO);
 		person->cap_AdminListAll(caps & Session::ADMIN_LIST_ALL);
-
+		sqlite3_finalize(stmt);
 		return person;
 	}
 
@@ -794,6 +799,7 @@ int Database::generateAccountNumber() {
 			return 1;
 	}
 
+	sqlite3_finalize(stmt);
     sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return maxid+1;
@@ -827,6 +833,7 @@ int Database::generatePersonNumber() {
 			return 1;
 	}
 
+	sqlite3_finalize(stmt);
     sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 
 	return maxid+1;

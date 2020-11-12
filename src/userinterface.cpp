@@ -13,6 +13,7 @@
 #endif
 #include <string>
 #include "userinterface.h"
+#include <limits>
 
 Ui::Ui() : m_session(nullptr), m_execute(nullptr){
 	m_capMap.clear();
@@ -227,6 +228,8 @@ void Ui::logout() {
 int Ui::run() {
 
 	string username, password;
+	int operation;
+
 	cout << "User: ";
 	cin >> username;
 	password = string(getpass("Password: "));
@@ -253,15 +256,15 @@ int Ui::run() {
 	cout << endl;
 
 	for (;;) {
-		int operation = 0;
+		operation = 0;
 		map<int, string>::iterator it;
-		do {
+
+		do { //FIXME: Infinit loop or crash when string is entered
 			cout << "Select Operation: ";
 			cin >> operation;
 			it = m_capMap.find(operation);
-			if (it == m_capMap.end())
-				cerr << "Please select a valid operation" << endl;
-		} while (it == m_capMap.end());
+		} while (cin.fail() && it != m_capMap.end());
+
 
 		getCallBack(m_capMap.find(operation)->second);
 		m_execute();

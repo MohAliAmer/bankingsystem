@@ -18,8 +18,6 @@ Session::Session() : m_user(nullptr), m_db(nullptr), bIsLoggedIn(false), m_userT
 Session::~Session() {
 	delete m_db;
 	delete m_user;
-	m_sessionCapabilities.clear();
-	m_totalUsers = 0;
 }
 
 bool Session::isAuthorized(int priv) {
