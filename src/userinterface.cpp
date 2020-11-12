@@ -55,11 +55,9 @@ void Ui::registerSuperAdmin() {
 	cout <<  endl;
 
 	do {
-		cout << "Password: ";
-		cin >> password;
+		password = string(getpass("Password: "));
 		cout <<  endl;
-		cout << "Confirm password: ";
-		cin >> password_confirm;
+		password_confirm = string(getpass("Confirm Password: "));
 		if (password != password_confirm)
 			cerr << "Password mismatch, Please try again" << endl;
 	}
