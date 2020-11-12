@@ -14,12 +14,19 @@
 #include "customer.h"
 #include "database.h"
 #include <typeinfo>
+#include <csignal>
 
 using namespace std;
 
+
+void signalHandler( int signum ) {
+   exit(signum);
+}
+
 int main(){
 
-		Ui *interface = new Ui();
+	std::signal(SIGINT, signalHandler);
+	Ui *interface = new Ui();
 
 	return interface->run();
 }

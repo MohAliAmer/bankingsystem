@@ -10,6 +10,10 @@
 #include "session.h"
 #include "userinterface.h"
 
+/*
+ * Session methods
+ * */
+
 bool Session::createAccount(Account *acct) {
 	if (!isAuthorized(Session::ACCOUNT_CREATE))
 		return false;
@@ -101,7 +105,7 @@ bool Session::printAccountInfo(Account *acct) {
 	if (!acct)
 		return false;
 
-	// TODO: Implement the printing here
+	// TODO: Implement the printing here or create a string and send it to Ui
 
 	return true;
 }
@@ -247,6 +251,11 @@ bool Session::deposit(Account *acct, const int sum) {
 	return true;
 }
 
+
+
+/*
+ * User interface methods
+ * */
 
 void Ui::ui_create_customer() {
 }

@@ -174,7 +174,6 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-
 	rc = sqlite3_step(stmt);
 	if(SQLITE_DONE != rc) {
 		cerr <<  "Error binding value in insert " << rc << " " <<  sqlite3_errmsg(db) << endl;
