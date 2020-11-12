@@ -9,6 +9,9 @@
 #include <typeinfo>
 #include "session.h"
 #include "userinterface.h"
+#ifdef __linux__
+#include <unistd.h>
+#endif
 
 bool Session::createAdmin(Admin *admin) {
 	if (!isAuthorized(Session::ADMIN_CREATE) && m_totalUsers > 0)
@@ -293,11 +296,9 @@ void Ui::ui_create_admin() {
 	cout <<  endl;
 
 	do {
-		cout << "Password: ";
-		cin >> password;
+		password = string(getpass("Password: "));
 		cout <<  endl;
-		cout << "Confirm password: ";
-		cin >> password_confirm;
+		password_confirm = string(getpass("Confirm Password: "));
 		if (password != password_confirm)
 			cerr << "Password mismatch, Please try again" << endl;
 	}

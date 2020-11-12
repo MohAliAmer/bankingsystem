@@ -229,27 +229,7 @@ int Ui::run() {
 	string username, password;
 	cout << "User: ";
 	cin >> username;
-	cout << "Password: ";
-
-#if 0
-#ifdef __linux__
-    termios oldt;
-    tcgetattr(STDIN_FILENO, &oldt);
-    termios newt = oldt;
-    newt.c_lflag &= ~ECHO;
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    getline(cin, password);
-    tcgetattr(STDIN_FILENO, &oldt);
-#elif _WIN32
-    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
-    DWORD mode = 0;
-    GetConsoleMode(hStdin, &mode);
-    SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
-    getline(cin, password);
-#endif
-#endif
-
-    cin >> password; // TODO: should be replaced with non echoed password input
+	password = string(getpass("Password: "));
 
 	bool loggedIn = m_session->login(username, password);
 	if (!loggedIn) {
